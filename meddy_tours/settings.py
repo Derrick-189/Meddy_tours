@@ -30,6 +30,7 @@ ALLOWED_HOSTS = [
     'meddy-tours-2.onrender.com',
     'localhost',
     '127.0.0.1',
+    'meddy tours',
 ]
 
 
