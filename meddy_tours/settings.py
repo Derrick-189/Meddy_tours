@@ -26,7 +26,10 @@ SECRET_KEY = 'django-insecure-v85kn=*)u$wpo(2c0ky52)iq4xg-*qw7b4xfqn&eo-jet&gxl3
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = [
+    meddy-tours-2.onrender.com,
+    meddy tours
+]
 
 
 # Application definition
