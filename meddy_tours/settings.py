@@ -27,8 +27,9 @@ SECRET_KEY = 'django-insecure-v85kn=*)u$wpo(2c0ky52)iq4xg-*qw7b4xfqn&eo-jet&gxl3
 DEBUG = True
 
 ALLOWED_HOSTS = [
-    meddy-tours-2.onrender.com,
-    meddy tours
+    'meddy-tours-2.onrender.com',
+    'localhost',
+    '127.0.0.1',
 ]
 
 
