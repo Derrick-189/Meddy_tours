@@ -46,7 +46,7 @@
         <div class="row align-items-center">
           
           <div class="col-6 col-xl-2">
-            <h1 class="mb-0"><a href="index" class="text-black h2 mb-0">Travelers</a></h1>
+            <h1 class="mb-0"><a href="index" class="text-black h2 mb-0">Meddy tours</a></h1>
           </div>
           <div class="col-10 col-md-8 d-none d-xl-block">
             <nav class="site-navigation position-relative text-right text-lg-center" role="navigation">
@@ -56,7 +56,7 @@
                   <a href="{% url 'index' %}">Home</a>
                 </li>
                 <li class="has-children">
-                  <a href="destination.html">Destinations</a>
+                  <a href="{% url 'destination' %}">Destinations</a>
                   <ul class="dropdown">
                     <li><a href="#">Bunyonyi</a></li>
                     <li><a href="#">Bwindi</a></li>
@@ -65,11 +65,11 @@
                   </ul>
                 </li>
                 
-                <li class="active"><a href="discount.html">Discount</a></li>
-                <li><a href="about.html">About</a></li>
-                <li><a href="blog.html">Blog</a></li>
+                <li class="active"><a href="{% url 'discount' %}">Discount</a></li>
+                <li><a href="{% url 'about' %}">About</a></li>
+                <li><a href="{% url 'blog' %}">Blog</a></li>
                 
-                <li><a href="contact.html">Contact</a></li>
+                <li><a href="{% url 'contact' %}">Contact</a></li>
                 <!-- <li><a href="booking.html">Book Online</a></li> -->
               </ul>
             </nav>
@@ -128,80 +128,29 @@
       <div class="container">
         
         <div class="row">
-          <div class="col-md-6 col-lg-6 mb-4 mb-lg-4">
-            <a href="#" class="unit-1 text-center">
-              <img src="{% static 'images/01-greece.jpg' %}" alt="Image" class="img-fluid">
-              <div class="unit-1-text">
-                <strong class="text-primary mb-2 d-block"><del class="text-white">$590</del> <span class="mx-1 text-white ">&mdash;</span> $120</strong>
-                <h3 class="unit-1-heading">Santorini, Greece</h3>
-              </div>
-            </a>
-          </div>
-          <div class="col-md-6 col-lg-6 mb-4 mb-lg-4">
-            <a href="#" class="unit-1 text-center">
-              <img src="{% static 'images/02-rome.jpg' %}" alt="Image" class="img-fluid">
-              <div class="unit-1-text">
-                <strong class="text-primary mb-2 d-block"><del class="text-white">$390</del> <span class="mx-1 text-white ">&mdash;</span> $100</strong>
-                <h3 class="unit-1-heading">Rome, Italy</h3>
-              </div>
-            </a>
-          </div>
-
+          {% for tour in discounted_tours %}
           <div class="col-md-6 col-lg-4 mb-4 mb-lg-4">
             <a href="#" class="unit-1 text-center">
-              <img src="{% static 'images/01-greece.jpg' %}" alt="Image" class="img-fluid">
+              <img src="{{ tour.image.url }}" alt="Image" class="img-fluid">
               <div class="unit-1-text">
-                <strong class="text-primary mb-2 d-block"><del class="text-white">$590</del> <span class="mx-1 text-white ">&mdash;</span> $120</strong>
-                <h3 class="unit-1-heading">Santorini, Greece</h3>
+                <strong class="text-primary mb-2 d-block">
+                  <del class="text-white">${{ tour.original_price }}</del> 
+                  <span class="mx-1 text-white">&mdash;</span> 
+                  ${{ tour.discounted_price }}
+                  <span class="badge badge-danger ml-2">{{ tour.discount_percentage }}% OFF</span>
+                </strong>
+                <h3 class="unit-1-heading">{{ tour.name }}</h3>
+                {% if tour.description %}
+                <p class="text-white-50">{{ tour.description|truncatewords:15 }}</p>
+                {% endif %}
               </div>
             </a>
           </div>
-          <div class="col-md-6 col-lg-4 mb-4 mb-lg-4">
-            <a href="#" class="unit-1 text-center">
-              <img src="{% static 'images/02-rome.jpg' %}" alt="Image" class="img-fluid">
-              <div class="unit-1-text">
-                <strong class="text-primary mb-2 d-block"><del class="text-white">$390</del> <span class="mx-1 text-white ">&mdash;</span> $100</strong>
-                <h3 class="unit-1-heading">Rome, Italy</h3>
-              </div>
-            </a>
+          {% empty %}
+          <div class="col-12 text-center">
+            <p class="text-white">No discounted tours available at the moment.</p>
           </div>
-          <div class="col-md-6 col-lg-4 mb-4 mb-lg-4">
-            <a href="#" class="unit-1 text-center">
-              <img src="{% static 'images/03-japan.jpg' %}" alt="Image" class="img-fluid">
-              <div class="unit-1-text">
-                <strong class="text-primary mb-2 d-block"><del class="text-white">$490</del> <span class="mx-1 text-white ">&mdash;</span> $110</strong>
-                <h3 class="unit-1-heading">Mount Fuji, Japan</h3>
-              </div>
-            </a>
-          </div>
-
-          <div class="col-md-6 col-lg-4 mb-4 mb-lg-4">
-            <a href="#" class="unit-1 text-center">
-              <img src="{% static 'images/04-dubai.jpg' %}" alt="Image" class="img-fluid">
-              <div class="unit-1-text">
-                <strong class="text-primary mb-2 d-block"><del class="text-white">$320</del> <span class="mx-1 text-white ">&mdash;</span> $70</strong>
-                <h3 class="unit-1-heading">Camels, Dubai</h3>
-              </div>
-            </a>
-          </div>
-          <div class="col-md-6 col-lg-4 mb-4 mb-lg-4">
-            <a href="#" class="unit-1 text-center">
-              <img src="{% static 'images/05-london.jpg' %}" alt="Image" class="img-fluid">
-              <div class="unit-1-text">
-                <strong class="text-primary mb-2 d-block"><del class="text-white">$290</del> <span class="mx-1 text-white ">&mdash;</span> $50</strong>
-                <h3 class="unit-1-heading">Elizabeth Tower, London</h3>
-              </div>
-            </a>
-          </div>
-          <div class="col-md-6 col-lg-4 mb-4 mb-lg-4">
-            <a href="#" class="unit-1 text-center">
-              <img src="{% static 'images/06-australia.jpg' %}" alt="Image" class="img-fluid">
-              <div class="unit-1-text">
-                <strong class="text-primary mb-2 d-block"><del class="text-white">$2,500</del> <span class="mx-1 text-white ">&mdash;</span> $500</strong>
-                <h3 class="unit-1-heading">Opera House, Australia</h3>
-              </div>
-            </a>
-          </div>
+          {% endfor %}
         </div>
       </div>
     
@@ -346,7 +295,7 @@
         <div class="row">
           <div class="col-lg-4">
             <div class="mb-5">
-              <h3 class="footer-heading mb-4">About Travelers</h3>
+              <h3 class="footer-heading mb-4">About Meddy tours</h3>
               <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Saepe pariatur reprehenderit vero atque, consequatur id ratione, et non dignissimos culpa? Ut veritatis, quos illum totam quis blanditiis, minima minus odio!</p>
             </div>
 
@@ -412,7 +361,7 @@
 
             <p>
             <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
-            Copyright &copy;<script>document.write(new Date().getFullYear());</script> All rights reserved | This template is made with <i class="icon-heart-o" aria-hidden="true"></i> by <a href="https://colorlib.com" target="_blank" >Colorlib</a>
+            Copyright &copy;<script>document.write(new Date().getFullYear());</script> All rights reserved | This template is made with <i class="icon-heart-o" aria-hidden="true"></i> by <a href="https://x.com/SladePhantom7?t=1JYpg5QBnk8i2AKyLJK-_g&s=09" target="_blank" >Slade</a>
             <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
             </p>
           </div>
@@ -431,7 +380,7 @@
   <script src="{% static 'js/jquery.stellar.min.js' %}"></script>
   <script src="{% static 'js/jquery.countdown.min.js' %}"></script>
   <script src="{% static 'js/jquery.magnific-popup.min.js' %}"></script>
-  <script src="{% static 'js/bootstrap-datepicker.min.js' %)"></script>
+  <script src="{% static 'js/bootstrap-datepicker.min.js' %}"></script>
   <script src="{% static 'js/aos.js' %}"></script>
 
   <script src="{% static 'js/main.js' %}"></script>

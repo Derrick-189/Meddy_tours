@@ -19,7 +19,7 @@
 
     <link rel="stylesheet" href="{% static 'fonts/flaticon/font/flaticon.css' %}">
 
-    <link rel="stylesheet" href="{% static 'https://cdn.jsdelivr.net/npm/mediaelement@4.2.7/build/mediaelementplayer.min.css' %}">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/mediaelement@4.2.7/build/mediaelementplayer.min.css">
 
 
     <link rel="stylesheet" href="{% static 'css/aos.css' %}">
@@ -46,7 +46,7 @@
         <div class="row align-items-center">
           
           <div class="col-6 col-xl-2">
-            <h1 class="mb-0"><a href="index" class="text-black h2 mb-0">Travelers</a></h1>
+            <h1 class="mb-0"><a href="index" class="text-black h2 mb-0">Meddy tours</a></h1>
           </div>
           <div class="col-10 col-md-8 d-none d-xl-block">
             <nav class="site-navigation position-relative text-right text-lg-center" role="navigation">
@@ -56,7 +56,7 @@
                   <a href="{% url 'index' %}">Home</a>
                 </li>
                 <li class="has-children">
-                  <a href="destination.html">Destinations</a>
+                  <a href="{% url 'destination' %}">Destinations</a>
                   <ul class="dropdown">
                     <li><a href="#">Bunyonyi</a></li>
                     <li><a href="#">Bwindi</a></li>
@@ -65,11 +65,11 @@
                   </ul>
                 </li>
                 
-                <li><a href="discount.html">Discount</a></li>
-                <li><a href="about.html">About</a></li>
-                <li class="active"><a href="blog.html">Blog</a></li>
+                <li><a href="{% url 'discount' %}">Discount</a></li>
+                <li><a href="{% url 'about' %}">About</a></li>
+                <li class="active"><a href="{% url 'blog' %}">Blog</a></li>
                 
-                <li><a href="contact.html">Contact</a></li>
+                <li><a href="{% url 'contact' %}">Contact</a></li>
                 <!-- <li><a href="booking.html">Book Online</a></li> -->
               </ul>
             </nav>
@@ -124,64 +124,21 @@
     
     <div class="site-section">
       <div class="container">
-        
         <div class="row mb-3 align-items-stretch">
+          {% for post in blog_posts %}
           <div class="col-md-6 col-lg-6 mb-4 mb-lg-4">
             <div class="h-entry">
-              <img src="{% static 'images/hero_bg_1.jpg' %}" alt="Image" class="img-fluid">
-              <h2 class="font-size-regular"><a href="#">How to Plan Your Vacation</a></h2>
-              <div class="meta mb-4">by Theresa Winston <span class="mx-2">&bullet;</span> Jan 18, 2019 at 2:00 pm <span class="mx-2">&bullet;</span> <a href="#">News</a></div>
-              <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Natus eligendi nobis ea maiores sapiente veritatis reprehenderit suscipit quaerat rerum voluptatibus a eius.</p>
-            </div> 
-          </div>
-          <div class="col-md-6 col-lg-6 mb-4 mb-lg-4">
-            <div class="h-entry">
-              <img src="{% static 'images/hero_bg_2.jpg' %}" alt="Image" class="img-fluid">
-              <h2 class="font-size-regular"><a href="#">How to Plan Your Vacation</a></h2>
-              <div class="meta mb-4">by Theresa Winston <span class="mx-2">&bullet;</span> Jan 18, 2019 at 2:00 pm <span class="mx-2">&bullet;</span> <a href="#">News</a></div>
-              <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Natus eligendi nobis ea maiores sapiente veritatis reprehenderit suscipit quaerat rerum voluptatibus a eius.</p>
+              <img src="{{ post.image.url }}" alt="Image" class="img-fluid">
+              <h2 class="font-size-regular"><a href="#">{{ post.title }}</a></h2>
+              <div class="meta mb-4">by {{ post.author.get_full_name|default:post.author.username }} <span class="mx-2">&bullet;</span> {{ post.created_at|date:"M d, Y" }} <span class="mx-2">&bullet;</span> <a href="#">News</a></div>
+              <p>{{ post.content|truncatewords:30 }}</p>
             </div>
           </div>
-
-          <div class="col-md-6 col-lg-6 mb-4 mb-lg-4">
-            <div class="h-entry">
-              <img src="{% static 'images/hero_bg_2.jpg' %}" alt="Image" class="img-fluid">
-              <h2 class="font-size-regular"><a href="#">How to Plan Your Vacation</a></h2>
-              <div class="meta mb-4">by Theresa Winston <span class="mx-2">&bullet;</span> Jan 18, 2019 at 2:00 pm <span class="mx-2">&bullet;</span> <a href="#">News</a></div>
-              <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Natus eligendi nobis ea maiores sapiente veritatis reprehenderit suscipit quaerat rerum voluptatibus a eius.</p>
-            </div> 
-          </div>
-          <div class="col-md-6 col-lg-6 mb-4 mb-lg-4">
-            <div class="h-entry">
-              <img src="{% static 'images/hero_bg_1.jpg' %}" alt="Image" class="img-fluid">
-              <h2 class="font-size-regular"><a href="#">How to Plan Your Vacation</a></h2>
-              <div class="meta mb-4">by Theresa Winston <span class="mx-2">&bullet;</span> Jan 18, 2019 at 2:00 pm <span class="mx-2">&bullet;</span> <a href="#">News</a></div>
-              <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Natus eligendi nobis ea maiores sapiente veritatis reprehenderit suscipit quaerat rerum voluptatibus a eius.</p>
-            </div>
-          </div>
-          
-          <div class="col-md-6 col-lg-6 mb-4 mb-lg-4">
-            <div class="h-entry">
-              <img src="{% static 'images/hero_bg_1.jpg' %}" alt="Image" class="img-fluid">
-              <h2 class="font-size-regular"><a href="#">How to Plan Your Vacation</a></h2>
-              <div class="meta mb-4">by Theresa Winston <span class="mx-2">&bullet;</span> Jan 18, 2019 at 2:00 pm <span class="mx-2">&bullet;</span> <a href="#">News</a></div>
-              <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Natus eligendi nobis ea maiores sapiente veritatis reprehenderit suscipit quaerat rerum voluptatibus a eius.</p>
-            </div> 
-          </div>
-          <div class="col-md-6 col-lg-6 mb-4 mb-lg-4">
-            <div class="h-entry">
-              <img src="{% static 'images/hero_bg_2.jpg' %}" alt="Image" class="img-fluid">
-              <h2 class="font-size-regular"><a href="#">How to Plan Your Vacation</a></h2>
-              <div class="meta mb-4">by Theresa Winston <span class="mx-2">&bullet;</span> Jan 18, 2019 at 2:00 pm <span class="mx-2">&bullet;</span> <a href="#">News</a></div>
-              <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Natus eligendi nobis ea maiores sapiente veritatis reprehenderit suscipit quaerat rerum voluptatibus a eius.</p>
-            </div>
-          </div>
-
-        </div>
-        <div class="row">
+          {% empty %}
           <div class="col-12 text-center">
-            <a href="#" class="btn btn-outline-primary border-2 py-3 px-5">Load More Posts...</a>
+            <p>No blog posts yet.</p>
           </div>
+          {% endfor %}
         </div>
       </div>
     </div>
@@ -192,7 +149,7 @@
         <div class="row">
           <div class="col-lg-4">
             <div class="mb-5">
-              <h3 class="footer-heading mb-4">About Travelers</h3>
+              <h3 class="footer-heading mb-4">About Meddy tours</h3>
               <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Saepe pariatur reprehenderit vero atque, consequatur id ratione, et non dignissimos culpa? Ut veritatis, quos illum totam quis blanditiis, minima minus odio!</p>
             </div>
 
@@ -258,7 +215,7 @@
 
             <p>
             <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
-            Copyright &copy;<script>document.write(new Date().getFullYear());</script> All rights reserved | This template is made with <i class="icon-heart-o" aria-hidden="true"></i> by <a href="https://colorlib.com" target="_blank" >Colorlib</a>
+            Copyright &copy;<script>document.write(new Date().getFullYear());</script> All rights reserved | This template is made with <i class="icon-heart-o" aria-hidden="true"></i> by <a href="https://x.com/SladePhantom7?t=1JYpg5QBnk8i2AKyLJK-_g&s=09" target="_blank" >Slade</a>
             <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
             </p>
           </div>

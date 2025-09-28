@@ -1,0 +1,101 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Videos - Meddy Tours</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Poppins:200,300,400,700,900|Display+Playfair:200,300,400,700"> 
+    <link rel="stylesheet" href="{% static 'fonts/icomoon/style.css' %}">
+    <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}">
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+  </head>
+  <body>
+    <div class="site-wrap">
+      <header class="site-navbar py-1" role="banner">
+        <div class="container">
+          <div class="row align-items-center">
+            <div class="col-6 col-xl-2">
+              <h1 class="mb-0"><a href="{% url 'index' %}" class="text-black h2 mb-0">Meddy tours</a></h1>
+            </div>
+            <div class="col-10 col-md-8 d-none d-xl-block">
+              <nav class="site-navigation position-relative text-right text-lg-center" role="navigation">
+                <ul class="site-menu js-clone-nav mx-auto d-none d-lg-block">
+                  <li><a href="{% url 'index' %}">Home</a></li>
+                  <li><a href="{% url 'destination' %}">Destinations</a></li>
+                  <li><a href="{% url 'discount' %}">Discount</a></li>
+                  <li><a href="{% url 'about' %}">About</a></li>
+                  <li><a href="{% url 'blog' %}">Blog</a></li>
+                  <li class="active"><a href="{% url 'videos' %}">Videos</a></li>
+                  <li><a href="{% url 'contact' %}">Contact</a></li>
+                </ul>
+              </nav>
+            </div>
+            <div class="col-6 col-xl-2 text-right">
+              <div class="d-inline-block d-xl-none ml-md-0 mr-auto py-3" style="position: relative; top: 3px;"><a href="#" class="site-menu-toggle js-menu-toggle text-black"><span class="icon-menu h3"></span></a></div>
+            </div>
+          </div>
+        </div>
+      </header>
+
+      <div class="site-section">
+        <div class="container">
+          <div class="row justify-content-center mb-5">
+            <div class="col-md-7 text-center">
+              <h2 class="font-weight-light text-black">Video Gallery</h2>
+              <p class="color-black-opacity-5">Watch our tours and experiences</p>
+            </div>
+          </div>
+
+          <div class="row">
+            {% for v in videos %}
+            <div class="col-md-6 col-lg-4 mb-4">
+              <div class="card h-100">
+                {% if v.thumbnail %}
+                  <img src="{{ v.thumbnail.url }}" class="card-img-top" alt="{{ v.title }} thumbnail">
+                {% endif %}
+                <div class="card-body">
+                  <h5 class="card-title">{{ v.title }}</h5>
+                  {% if v.description %}<p class="card-text">{{ v.description|truncatewords:25 }}</p>{% endif %}
+                  <video controls preload="metadata" style="width:100%;height:auto;">
+                    <source src="{{ v.video_file.url }}" type="video/mp4">
+                    Your browser does not support the video tag.
+                  </video>
+                </div>
+              </div>
+            </div>
+            {% empty %}
+            <div class="col-12 text-center">
+              <p>No videos uploaded yet.</p>
+            </div>
+            {% endfor %}
+          </div>
+        </div>
+      </div>
+
+      <footer class="site-footer">
+        <div class="container">
+          <div class="row">
+            <div class="col-12 text-center">
+              <p>&copy; <script>document.write(new Date().getFullYear());</script> Meddy Tours</p>
+            </div>
+          </div>
+        </div>
+      </footer>
+    </div>
+
+    <div class="site-mobile-menu">
+      <div class="site-mobile-menu-header">
+        <div class="site-mobile-menu-close mt-3">
+          <span class="icon-close2 js-menu-toggle"></span>
+        </div>
+      </div>
+      <div class="site-mobile-menu-body"></div>
+    </div>
+
+    <script src="{% static 'js/jquery-3.3.1.min.js' %}"></script>
+    <script src="{% static 'js/bootstrap.min.js' %}"></script>
+    <script src="{% static 'js/main.js' %}"></script>
+  </body>
+</html>
