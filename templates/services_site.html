@@ -36,7 +36,11 @@
     a, .btn{ transition: color .2s ease, background-color .2s ease, border-color .2s ease, box-shadow .2s ease, transform .2s ease; }
     .btn-primary:hover{ transform: translateY(-1px); box-shadow: 0 8px 18px rgba(255,122,26,.25); }
     .service-item { position: relative; }
-    .service-item .service-img img { display:block; width:100%; height:auto; }
+    /* Equalize service grid images with a fixed responsive height */
+    .service-item .service-img{ width:100%; height:300px; overflow:hidden; border-radius:14px; }
+    @media (max-width: 1199.98px){ .service-item .service-img{ height:260px; } }
+    @media (max-width: 767.98px){ .service-item .service-img{ height:240px; } }
+    .service-item .service-img img{ display:block; width:100%; height:100%; object-fit:cover; }
     .service-item .service-content{
       position:absolute; top:16px; left:16px; right:16px; bottom:16px;
       background: rgba(15,72,97,.96);
@@ -97,6 +101,20 @@
     }
     /* Ensure content paints above the watermark */
     .site-wrap, .container-fluid, .container { position: relative; z-index: 1; }
+  </style>
+  <style>
+    /* Equalize Training section image cards */
+    .training-item .training-inner{ border-radius: 14px; overflow: hidden; }
+    .training-item .training-inner img{
+      width: 100%;
+      height: auto;
+      display: block;
+      aspect-ratio: 4 / 3;       /* uniform card ratio */
+      object-fit: cover;          /* crop to fill equally */
+    }
+    @media (min-width: 1200px){
+      .training-item .training-inner img{ aspect-ratio: 16 / 10; }
+    }
   </style>
   <!-- Header/Breadcrumb Start -->
   <div class="container-fluid bg-breadcrumb">

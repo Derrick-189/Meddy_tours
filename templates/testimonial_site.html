@@ -33,6 +33,45 @@
           autoplayHoverPause: true,
           responsive: { 0:{items:2}, 576:{items:3}, 992:{items:5} }
         });
+
+        // Equalize all logo image sizes to match joy.jpg's displayed size
+        function applyEqualLogoSize(){
+          var $wrap = $('.equal-logos');
+          if(!$wrap.length){ return; }
+          var $joy = $wrap.find('img[src*="joy.jpg"]').first();
+          var w = 0, h = 0;
+          if ($joy.length && $joy[0].naturalWidth > 0) {
+            // Get current displayed size inside carousel
+            w = Math.round($joy.outerWidth());
+            h = Math.round($joy.outerHeight());
+          } else {
+            // Fallback to first image's displayed size
+            var $first = $wrap.find('img').first();
+            if ($first.length) {
+              w = Math.round($first.outerWidth());
+              h = Math.round($first.outerHeight());
+            }
+          }
+          if (w && h) {
+            $wrap.get(0).style.setProperty('--eqw', w + 'px');
+            $wrap.get(0).style.setProperty('--eqh', h + 'px');
+          }
+        }
+
+        // Run after images load and after carousel renders
+        $logos.on('initialized.owl.carousel resized.owl.carousel refreshed.owl.carousel', function(){
+          // defer to ensure DOM sizes are final
+          setTimeout(applyEqualLogoSize, 0);
+        });
+
+        // Also run once images have loaded
+        $(window).on('load', applyEqualLogoSize);
+        // And on window resize
+        $(window).on('resize', function(){
+          // debounce minimal
+          clearTimeout(window.__eqLogoT);
+          window.__eqLogoT = setTimeout(applyEqualLogoSize, 100);
+        });
       }
     });
   })(jQuery);
@@ -66,7 +105,7 @@
       <div class="owl-carousel testimonial-carousel wow zoomInDown" data-wow-delay="0.2s">
         <div class="testimonial-item">
           <div class="testimonial-content p-4 mb-5">
-            <p class="fs-5 mb-0">The best tour Guides for instance Mandela Salim and others who are good listeners, tolerant and hospitable enough to make you feel comfortable.</p>
+            <p class="fs-5 mb-0">The best tour Guides for instance Mandela Salim and others who are good listeners, tolerant and hospitable enough to make you feel very comfortable.</p>
             <div class="d-flex justify-content-end">
               <i class="fas fa-star text-secondary"></i>
               <i class="fas fa-star text-secondary"></i>
@@ -134,7 +173,19 @@
 
   <!-- Partners/Logos horizontal slideshow -->
   <div class="container py-5">
-    <div class="owl-carousel testimonial-logos">
+    <style>
+      /* Scope: equalize all images inside the logos carousel to match joy.jpg */
+      .equal-logos .owl-item { display: flex; justify-content: center; }
+      .equal-logos img {
+        width: var(--eqw, 200px) !important;
+        height: var(--eqh, 200px) !important;
+        object-fit: cover;
+        object-position: center;
+        border-radius: 12px;
+        display: block;
+      }
+    </style>
+    <div class="owl-carousel testimonial-logos equal-logos">
       <img src="{% static 'images/img_1.jpg' %}" class="img-fluid" alt="logo1">
       <img src="{% static 'images/img_2.jpg' %}" class="img-fluid" alt="logo2">
       <img src="{% static 'images/joy.jpg' %}" class="img-fluid" alt="logo3">

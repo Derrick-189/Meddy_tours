@@ -26,6 +26,12 @@
     <link rel="stylesheet" href="{% static 'css/aos.css' %}">
 
     <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <style>
+      /* Uniform circular team avatars */
+      .team-avatar{ width: 180px; height: 180px; border-radius: 50%; overflow: hidden; margin: 0 auto 1rem; }
+      .team-avatar .avatar-img{ width: 100%; height: 100%; object-fit: cover; display: block; }
+      @media (max-width: 575.98px){ .team-avatar{ width: 150px; height: 150px; } }
+    </style>
 
   </head>
   <body>
@@ -155,7 +161,9 @@
         <div class="row">
           {% for member in team_members %}
           <div class="col-md-6 col-lg-4 text-center mb-5" data-aos="fade-up">
-            <img src="{{ member.image.url }}" alt="Image" class="img-fluid w-50 rounded-circle mb-4">
+            <div class="team-avatar">
+              <img src="{{ member.image.url }}" alt="Image" class="avatar-img">
+            </div>
             <h2 class="text-black font-weight-light mb-4">{{ member.name }}</h2>
             <p class="mb-1">{{ member.position }}</p>
             <p class="mb-4">{{ member.bio|truncatewords:35 }}</p>
