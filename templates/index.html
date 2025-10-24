@@ -24,6 +24,37 @@
 
     <link rel="stylesheet" href="{% static 'css/aos.css' %}">
     <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <style>
+      /* Equalize testimonial carousel images and soften edges */
+      .block-13 .nonloop-block-13 .item .col-lg-6.mb-5 img,
+      .nonloop-block-13 .item .col-lg-6.mb-5 img,
+      .nonloop-block-13 .owl-item img.img-md-fluid{
+        width: 100%;
+        height: 420px;          /* desktop default (increased) */
+        object-fit: cover;      /* crop consistently */
+        border-radius: 14px;    /* soften edges */
+        display: block;
+      }
+      @media (max-width: 1199.98px){
+        .nonloop-block-13 .item .col-lg-6.mb-5 img{ height: 300px; }
+      }
+      @media (max-width: 767.98px){
+        .nonloop-block-13 .item .col-lg-6.mb-5 img{ height: 240px; }
+      }
+      /* Equalize feature images in overlap-section regardless of source image */
+      .overlap-section .unit-1 img{
+        width: 100%;
+        height: auto;
+        display: block;
+        aspect-ratio: 4/5;   /* consistent card ratio */
+        object-fit: cover;        /* crop to fill */
+        border-radius: 14px;      /* soften edges to match */
+      }
+      @media (max-width: 767.98px){
+        .overlap-section .unit-1 img{ aspect-ratio: 4 / 3; }
+      }
+      /* Footer uses global .site-footer styles from style.css like other pages */
+    </style>
   </head>
   <body>
   
@@ -274,11 +305,13 @@
           </div>
         </div>
         
-        <div class="row">
+        <div class="row equal-height-cards">
           {% for dest in dests %}
           <div class="col-md-6 col-lg-4 mb-4 mb-lg-4">
             <a href="#" class="unit-1 text-center">
-              <img src="{{ dest.img.url }}" alt="Image" class="img-fluid"> 
+              <div class="unit-1-img-container">
+                <img src="{{ dest.img.url }}" alt="Image"> 
+              </div>
               <div class="unit-1-text">
                 <strong class="text-primary mb-2 d-block">${{ dest.price }}</strong>
                 <h3 class="unit-1-heading">{{ dest.name }}</h3>
@@ -436,6 +469,7 @@
       </div>
     </div>
     
+    <div class="footer-bleed">
     <footer class="site-footer">
       <div class="container">
         <div class="row">
@@ -455,18 +489,20 @@
               </div>
               <div class="col-md-6 col-lg-6">
                 <ul class="list-unstyled">
-                  <li><a href="#">Home</a></li>
-                  <li><a href="#">Destination</a></li>
-                  <li><a href="#">Services</a></li>
-                  <li><a href="#">About</a></li>
+                  <li><a href="{% url 'index' %}">Home</a></li>
+                  <li><a href="{% url 'packages' %}">Packages</a></li>
+                  <li><a href="{% url 'services' %}">Services</a></li>
+                  <li><a href="{% url 'about' %}">About</a></li>
+                  <li><a href="{% url 'accomodation' %}">Accomodation</a></li>
                 </ul>
               </div>
               <div class="col-md-6 col-lg-6">
                 <ul class="list-unstyled">
-                  <li><a href="#">About Us</a></li>
+                  <li><a href="{% url 'about' %}">About Us</a></li>
                   <li><a href="#">Privacy Policy</a></li>
-                  <li><a href="#">Contact Us</a></li>
-                  <li><a href="#">Discounts</a></li>
+                  <li><a href="{% url 'contact' %}">Contact Us</a></li>
+                  <li><a href="{% url 'discount' %}">Discounts</a></li>
+                  <li><a href="{% url 'accomodation' %}">Accomodation</a></li>
                 </ul>
               </div>
             </div>
@@ -506,15 +542,14 @@
             </div>
 
             <p>
-            <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
             Copyright &copy;<script>document.write(new Date().getFullYear());</script> All rights reserved | This template is made with <i class="icon-heart-o" aria-hidden="true"></i> by <a href="https://x.com/SladePhantom7?t=1JYpg5QBnk8i2AKyLJK-_g&s=09" target="_blank" >Slade</a>
-            <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
             </p>
           </div>
           
         </div>
       </div>
     </footer>
+    </div>
   </div>
 
     <!-- Make sure to update all image paths with {% static 'travelers/images/filename.jpg' %} -->

@@ -109,6 +109,19 @@
           .counter-facts .counter-content h3{ text-transform: uppercase; font-size: 18px; letter-spacing:.04em; margin-bottom: 8px; color: #0f4861; }
           .counter-facts .counter-value{ font-weight: 800; font-size: 30px; color: var(--brand-pink, #ff2f6d); }
           .counter-facts .counter-content h4{ display:none; }
+
+          /* Equalize Training section image cards */
+          .training-item .training-inner{ border-radius: 14px; overflow: hidden; }
+          .training-item .training-inner img{
+            width: 100%;
+            height: auto;
+            display: block;
+            aspect-ratio: 4 / 3;       /* uniform card ratio */
+            object-fit: cover;          /* crop to fill equally */
+          }
+          @media (min-width: 1200px){
+            .training-item .training-inner img{ aspect-ratio: 16 / 10; }
+          }
         </style>
     </head>
 

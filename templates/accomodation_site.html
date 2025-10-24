@@ -3,6 +3,18 @@
 {% block title %}Meddy Tours — Accommodation{% endblock %}
 
 {% block content %}
+  <style>
+    /* Equalize accommodation images on this page */
+    .bg-light.rounded{ overflow: hidden; }
+    .bg-light.rounded > img.border-bottom{
+      width: 100%;
+      height: 340px;           /* desktop */
+      object-fit: cover;
+      display: block;
+    }
+    @media (max-width: 1199.98px){ .bg-light.rounded > img.border-bottom{ height: 300px; } }
+    @media (max-width: 767.98px){  .bg-light.rounded > img.border-bottom{ height: 240px; } }
+  </style>
   <!-- Header/Breadcrumb Start -->
   <div class="container-fluid bg-breadcrumb">
     <div class="container text-center py-5" style="max-width: 900px;">
