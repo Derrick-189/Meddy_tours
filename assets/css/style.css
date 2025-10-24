@@ -18,7 +18,8 @@ body {
   line-height: 1.7;
   color: #4d4d4d;
   font-weight: 300;
-  font-size: 1rem; }
+  font-size: 1rem;
+  background: var(--page-bg, #fff7f0); }
 
 ::-moz-selection {
   background: #000;
@@ -595,7 +596,7 @@ h1, h2, h3, h4, h5,
     font-style: italic; }
 
 .bg-light {
-  background: #ccc; }
+  background: #ffffff; }
 
 .team-member {
   position: relative;
@@ -1022,7 +1023,7 @@ h1, h2, h3, h4, h5,
   color: #999999; }
 
 .block-25 ul li a .meta {
-  color: #ef6c57; }
+  color: var(--accent, #ef6c57); }
 
 .block-25 ul li a:hover img {
   opacity: .5; }
@@ -1051,7 +1052,7 @@ h1, h2, h3, h4, h5,
     position: absolute;
     width: 30px;
     height: 30px;
-    background: #ef6c57;
+    background: var(--accent, #ef6c57);
     border-radius: 50%;
     color: #fff; }
     .player .team-number > span {
@@ -1086,7 +1087,7 @@ h1, h2, h3, h4, h5,
     border-radius: 50%;
     border: 1px solid #ccc; }
   .site-block-27 ul li.active a, .site-block-27 ul li.active span {
-    background: #ef6c57;
+    background: var(--accent, #ef6c57);
     color: #fff;
     border: 1px solid transparent; }
 
@@ -1176,4 +1177,48 @@ h1, h2, h3, h4, h5,
   margin-left: -100px; }
   @media (max-width: 991.98px) {
     .overlap-left {
-      margin-left: 0px; } }
+      margin-left: 0px; }
+  }
+
+/* ===================== */
+/* Theme Overrides       */
+/* Sunset Orange Accent  */
+/* ===================== */
+:root {
+  --accent: #ff7a1a;        /* sunset orange */
+  --accent-600: #ff6a00;
+  --accent-bg: #fff3e8;     /* soft orange */
+  --page-bg: #fff7f0;       /* page background tint */
+}
+
+/* Links */
+a:hover { color: var(--accent) !important; }
+
+/* Buttons */
+.btn.btn-primary { background-color: var(--accent); border-color: var(--accent); }
+.btn.btn-primary:hover { background-color: var(--accent-600); border-color: var(--accent-600); }
+.btn { transition: color .2s, background-color .2s, border-color .2s, box-shadow .2s, transform .2s; }
+.btn.btn-primary:hover { transform: translateY(-1px); box-shadow: 0 8px 18px rgba(255,122,26,.25); }
+
+/* Navbar colors */
+.site-navbar .site-navigation .site-menu .active > a { color: var(--accent); }
+.site-navbar .site-navigation .site-menu > li > a:hover { color: var(--accent); }
+
+/* Section heading underline */
+.site-section-heading:after,
+.site-section-heading.text-center:after { background: var(--accent); }
+
+/* Tabs */
+.site-block-tab .nav-item > a:hover,
+.site-block-tab .nav-item > a.active { border-bottom: 2px solid var(--accent); color: #000; }
+
+/* Content accents */
+.block-12 .text .text-inner:before { background: var(--accent); }
+
+/* Dropdown cleanup */
+.site-navbar .site-navigation .site-menu .has-children .dropdown { background: #fff; }
+.site-navbar .site-navigation .site-menu .has-children .dropdown > li > a:hover { background: var(--accent-bg); color: #25262a; }
+
+/* Card motions */
+.post-entry, .match-entry, .team-member, .podcast-entry, .feature-blocks-1 .feature-block-1 { transition: transform .2s ease, box-shadow .2s ease; }
+.post-entry:hover, .match-entry:hover, .team-member:hover, .podcast-entry:hover, .feature-blocks-1 .feature-block-1:hover { transform: translateY(-4px); box-shadow: 0 16px 32px rgba(15,23,42,.12); }

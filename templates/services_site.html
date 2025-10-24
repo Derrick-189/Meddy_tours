@@ -1,0 +1,492 @@
+{% extends 'base_site.html' %}
+{% load static %}
+{% block title %}Meddy Tours — Services{% endblock %}
+{% block extra_js %}
+<script>
+  (function(){
+    function setupServiceOverlays(root){
+      var items = root.querySelectorAll('.service-item');
+      items.forEach(function(item){
+        var btns = item.querySelectorAll('.service-title-name a.btn, .service-content a.btn');
+        btns.forEach(function(btn){
+          btn.addEventListener('mouseenter', function(){ item.classList.add('is-overlay-active'); });
+          btn.addEventListener('focus', function(){ item.classList.add('is-overlay-active'); });
+          btn.addEventListener('mouseleave', function(){ item.classList.remove('is-overlay-active'); });
+          btn.addEventListener('blur', function(){ item.classList.remove('is-overlay-active'); });
+        });
+        item.addEventListener('mouseleave', function(){ item.classList.remove('is-overlay-active'); });
+      });
+    }
+    document.addEventListener('DOMContentLoaded', function(){ setupServiceOverlays(document); });
+  })();
+</script>
+{% endblock %}
+
+{% block content %}
+  <style>
+    /* Global accent: Sunset Orange */
+    :root{ --brand-pink: #ff7a1a; --accent: #ff7a1a; --accent-600:#ff6a00; }
+    /* Map Bootstrap-like utilities to accent */
+    .text-primary{ color: var(--accent) !important; }
+    .bg-primary{ background-color: var(--accent) !important; }
+    .border-primary{ border-color: var(--accent) !important; }
+    .btn-primary{ background-color: var(--accent); border-color: var(--accent); }
+    .btn-primary:hover{ background-color: var(--accent-600); border-color: var(--accent-600); }
+    /* Motion polish */
+    a, .btn{ transition: color .2s ease, background-color .2s ease, border-color .2s ease, box-shadow .2s ease, transform .2s ease; }
+    .btn-primary:hover{ transform: translateY(-1px); box-shadow: 0 8px 18px rgba(255,122,26,.25); }
+    .service-item { position: relative; }
+    .service-item .service-img img { display:block; width:100%; height:auto; }
+    .service-item .service-content{
+      position:absolute; top:16px; left:16px; right:16px; bottom:16px;
+      background: rgba(15,72,97,.96);
+      -webkit-backdrop-filter: blur(2px);
+              backdrop-filter: blur(2px);
+      border-radius:14px; box-shadow:0 16px 30px rgba(0,0,0,.25);
+      color:#fff; display:flex; flex-direction:column; justify-content:center; padding:16px;
+      opacity:0; transform:translateY(10px); pointer-events:none;
+      transition: opacity .25s ease, transform .25s ease; z-index:10;
+    }
+    .service-item .service-content h4{ color:#fff !important; font-weight:700; text-shadow:0 1px 2px rgba(0,0,0,.4); }
+    .service-item .service-content p{ color:#e8f3f7; font-size:.98rem; line-height:1.65; margin-bottom:1rem; }
+    .service-item .service-content .btn{ background: var(--brand-pink, #ff2f6d); border-color: var(--brand-pink, #ff2f6d); color:#fff !important; }
+    .service-item .service-content .btn:hover{ background: var(--accent-600); border-color: var(--accent-600); }
+    .service-item.is-overlay-active .service-content,
+    .service-item:hover .service-content{ opacity:1; transform:translateY(0); pointer-events:auto; }
+    .service-item .service-title-name{ position:relative; z-index:1; }
+
+    /* Tour operators card styles */
+    .country-item{ position:relative; border-radius:16px; overflow:visible; background:#fff; box-shadow:0 8px 18px rgba(15,23,42,.08); transition: transform .2s ease, box-shadow .2s ease; margin-top:44px; }
+    .country-item:hover{ transform: translateY(-4px); box-shadow:0 16px 32px rgba(15,23,42,.12); }
+    .country-item .rounded.overflow-hidden{ border-radius:16px; overflow:hidden; }
+    .country-item .rounded.overflow-hidden img{ width:100%; height:320px; object-fit:cover; display:block; }
+    /* Top-centered circular avatar overlapping the card */
+    .country-item .country-flag{ position:absolute; top:-36px; left:50%; transform:translateX(-50%); width:80px; height:80px; border-radius:50%; border:4px solid #fff; box-shadow:0 6px 14px rgba(0,0,0,.15); z-index:3; display:flex; align-items:center; justify-content:center; overflow:hidden; background:#fff; }
+    .country-item .country-flag img{ width:100%; height:100%; object-fit:cover; border-radius:50%; }
+    /* Rotate avatar once on hover/focus to "settle" */
+    @keyframes spinOnce { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+    .country-item:hover .country-flag img,
+    .country-item:focus-within .country-flag img{ animation: spinOnce .7s ease-in-out 1; }
+    /* Gradient overlay to improve text readability */
+    .country-item::before{ content:""; position:absolute; inset:0; background:linear-gradient(180deg, rgba(0,0,0,0) 45%, rgba(0,0,0,.55) 100%); z-index:1; pointer-events:none; }
+    /* Name overlay on image */
+    .country-item .country-name{ position:absolute; left:16px; right:16px; bottom:16px; z-index:2; text-align:center; }
+    .country-item .country-name a{ color:#fff !important; font-weight:700; font-size:1.1rem; text-shadow:0 2px 4px rgba(0,0,0,.35); display:block; }
+
+    /* Counter facts redesign */
+    .counter-facts{ position: relative; }
+    /* Watermark behind counters */
+    .counter-facts::before{ content:""; position:absolute; inset:0; background: url('{% static "images/hero_bg_1.jpg" %}') center/cover no-repeat; opacity: .08; pointer-events:none; }
+    .counter-facts .counter{ position: relative; max-width: 260px; margin: 0 auto; border-radius: 18px; box-shadow: 0 10px 24px rgba(15,23,42,.08); overflow: visible; background: transparent; }
+    .counter-facts .counter-icon{ position: relative; background: #0f4861; color:#fff; border-radius: 16px 16px 0 0; padding: 20px; font-size: 28px; display:flex; align-items:center; justify-content:center; }
+    .counter-facts .counter-icon::after{ content:""; position:absolute; top:6px; left:50%; transform:translateX(-50%); width:60%; height:6px; background:#0c3b50; border-radius: 6px; opacity:.6; }
+    .counter-facts .counter-content{ background: #fff; text-align:center; padding: 18px 12px 28px; border-radius: 0 0 120px 120px; box-shadow: 0 8px 18px rgba(15,23,42,.06); position: relative; }
+    .counter-facts .counter-content h3{ text-transform: uppercase; font-size: 18px; letter-spacing:.04em; margin-bottom: 8px; color: #0f4861; }
+    .counter-facts .counter-value{ font-weight: 800; font-size: 30px; color: var(--brand-pink, #ff2f6d); }
+    .counter-facts .counter-content h4{ display:none; }
+
+    /* Page-wide subtle watermark (this page only) */
+    body::before{
+      content: "";
+      position: fixed;
+      inset: 0;
+      background: url('{% static "images/hero_bg_1.jpg" %}') center/cover no-repeat;
+      opacity: .035; /* very light */
+      pointer-events: none;
+      z-index: 0;
+    }
+    /* Ensure content paints above the watermark */
+    .site-wrap, .container-fluid, .container { position: relative; z-index: 1; }
+  </style>
+  <!-- Header/Breadcrumb Start -->
+  <div class="container-fluid bg-breadcrumb">
+    <div class="container text-center py-5" style="max-width: 900px;">
+      <h3 class="text-white display-3 mb-4 wow fadeInDown" data-wow-delay="0.1s">Our Services</h3>
+      <ol class="breadcrumb justify-content-center text-white mb-0 wow fadeInDown" data-wow-delay="0.3s">
+        <li class="breadcrumb-item"><a href="{% url 'index' %}" class="text-white">Home</a></li>
+        <li class="breadcrumb-item"><a href="{% url 'about' %}" class="text-white">About</a></li>
+        <li class="breadcrumb-item active text-secondary">Services</li>
+      </ol>
+    </div>
+  </div>
+  <!-- Header/Breadcrumb End -->
+
+  <!-- Services Start -->
+  <div class="container-fluid service overflow-hidden pt-5">
+    <div class="container py-5">
+      <div class="section-title text-center mb-5 wow fadeInUp" data-wow-delay="0.1s">
+        <div class="sub-style">
+          <h5 class="sub-title text-primary px-3">Service Categories</h5>
+        </div>
+        <h1 class="display-5 mb-4">Special Services For Meddy tours Clients</h1>
+        <p class="mb-0">We offer tailored, high-quality tour packages that cater to diverse interests and preferences besides, ensuring exceptional customer service, exceeding client expectations and encouraging repeat business and referrals.</p>
+      </div>
+      <div class="row g-4">
+        <div class="col-lg-6 col-xl-4 wow fadeInUp" data-wow-delay="0.1s">
+          <div class="service-item">
+            <div class="service-inner">
+              <div class="service-img">
+                <img src="{% static 'images/img_5.jpg' %}" class="img-fluid w-100 rounded" alt="Image">
+              </div>
+              <div class="service-title">
+                <div class="service-title-name">
+                  <div class="bg-primary text-center rounded p-3 mx-5 mb-4">
+                    <a href="#" class="h4 text-white mb-0">Hotel Booking</a>
+                  </div>
+                  <a class="btn bg-light text-secondary rounded-pill py-3 px-5 mb-4" href="#">Explore More</a>
+                </div>
+                <div class="service-content pb-4">
+                  <a href="#"><h4 class="text-white mb-4 py-3">Hotel Booking</h4></a>
+                  <div class="px-4">
+                    <p class="mb-4">Managing bookings and Reservations for flights, hotels, tours, activities, and transportation.Creating unique and tailored travel plans based on customer preferences, budgets, and interests..</p>
+                    <a class="btn btn-primary border-secondary rounded-pill py-3 px-5" href="#">Explore More</a>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-lg-6 col-xl-4 wow fadeInUp" data-wow-delay="0.3s">
+          <div class="service-item">
+            <div class="service-inner">
+              <div class="service-img">
+                <img src="{% static 'images/img_2.jpg' %}" class="img-fluid w-100 rounded" alt="Image">
+              </div>
+              <div class="service-title">
+                <div class="service-title-name">
+                  <div class="bg-primary text-center rounded p-3 mx-5 mb-4">
+                    <a href="#" class="h4 text-white mb-0">Tour Guiding</a>
+                  </div>
+                  <a class="btn bg-light text-secondary rounded-pill py-3 px-5 mb-4" href="#">Explore More</a>
+                </div>
+                <div class="service-content pb-4">
+                  <a href="#"><h4 class="text-white mb-4 py-3">Tour Guiding Services</h4></a>
+                  <div class="px-4">
+                    <p class="mb-4">Providing knowledgeable and engaging guides who can offer insights into destinations, cultures, and history, enhancing the overall tour experience.</p>
+                    <a class="btn btn-primary border-secondary rounded-pill text-white py-3 px-5" href="#">Explore More</a>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-lg-6 col-xl-4 wow fadeInUp" data-wow-delay="0.5s">
+          <div class="service-item">
+            <div class="service-inner">
+              <div class="service-img">
+                <img src="{% static 'images/child.jpg' %}" class="img-fluid w-100 rounded" alt="Image">
+              </div>
+              <div class="service-title">
+                <div class="service-title-name">
+                  <div class="bg-primary text-center rounded p-3 mx-5 mb-4">
+                    <a href="#" class="h4 text-white mb-0">Transportation</a>
+                  </div>
+                  <a class="btn bg-light text-secondary rounded-pill py-3 px-5 mb-4" href="#">Explore More</a>
+                </div>
+                <div class="service-content pb-4">
+                  <a href="#"><h4 class="text-white mb-4 py-3">Transportation</h4></a>
+                  <div class="px-4">
+                    <p class="mb-4">Organizing various modes of transport, including airport transfers, local transportation, car rentals, and train or ferry tickets.</p>
+                    <a class="btn btn-primary border-secondary rounded-pill text-white py-3 px-5" href="#">Explore More</a>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-lg-6 col-xl-4 wow fadeInUp" data-wow-delay="0.1s">
+          <div class="service-item">
+            <div class="service-inner">
+              <div class="service-img">
+                <img src="{% static 'images/img_1.jpg' %}" class="img-fluid w-100 rounded" alt="Image">
+              </div>
+              <div class="service-title">
+                <div class="service-title-name">
+                  <div class="bg-primary text-center rounded p-3 mx-5 mb-4">
+                    <a href="#" class="h4 text-white mb-0">Accommodation:</a>
+                  </div>
+                  <a class="btn bg-light text-secondary rounded-pill py-3 px-5 mb-4" href="#">Explore More</a>
+                </div>
+                <div class="service-content pb-4">
+                  <a href="#"><h4 class="text-white mb-4 py-3">Accommodation:</h4></a>
+                  <div class="px-4">
+                    <p class="mb-4">Sourcing and booking suitable lodging options, from budget-friendly hostels to luxury resorts, based on client needs.</p>
+                    <a class="btn btn-primary border-secondary rounded-pill text-white py-3 px-5" href="#">Explore More</a>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-lg-6 col-xl-4 wow fadeInUp" data-wow-delay="0.3s">
+          <div class="service-item">
+            <div class="service-inner">
+              <div class="service-img">
+                <img src="{% static 'images/peak.jpg' %}" class="img-fluid w-100 rounded" alt="Image">
+              </div>
+              <div class="service-title">
+                <div class="service-title-name">
+                  <div class="bg-primary text-center rounded p-3 mx-5 mb-4">
+                    <a href="#" class="h4 text-white mb-0">Itinerary:</a>
+                  </div>
+                  <a class="btn bg-light text-secondary rounded-pill py-3 px-5 mb-4" href="#">Explore More</a>
+                </div>
+                <div class="service-content pb-4">
+                  <a href="#"><h4 class="text-white mb-4 py-3">Itinerary:</h4></a>
+                  <div class="px-4">
+                    <p class="mb-4">Creating unique and tailored travel plans based on customer preferences, budgets, and interests.</p>
+                    <a class="btn btn-primary border-secondary rounded-pill text-white py-3 px-5" href="#">Explore More</a>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-lg-6 col-xl-4 wow fadeInUp" data-wow-delay="0.5s">
+          <div class="service-item">
+            <div class="service-inner">
+              <div class="service-img">
+                <img src="{% static 'images/world.jpg' %}" class="img-fluid w-100 rounded" alt="Image">
+              </div>
+              <div class="service-title">
+                <div class="service-title-name">
+                  <div class="bg-primary text-center rounded p-3 mx-5 mb-4">
+                    <a href="#" class="h4 text-white mb-0">Visa Services</a>
+                  </div>
+                  <a class="btn bg-light text-secondary rounded-pill py-3 px-5 mb-4" href="#">Explore More</a>
+                </div>
+                <div class="service-content pb-4">
+                  <a href="#"><h4 class="text-white mb-4 py-3">Visa and Passport Assistance</h4></a>
+                  <div class="px-4">
+                    <p class="mb-4">Guiding clients through the often complex processes of obtaining necessary travel documents.</p>
+                    <a class="btn btn-primary border-secondary rounded-pill text-white py-3 px-5" href="#">Explore More</a>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- Services End -->
+
+  <!-- Counter Facts Start -->
+  <div class="container-fluid counter-facts py-5">
+    <div class="container py-5">
+      <div class="row g-4">
+        <div class="col-12 col-sm-6 col-md-6 col-xl-3 wow fadeInUp" data-wow-delay="0.1s">
+          <div class="counter">
+            <div class="counter-icon">
+              <i class="fas fa-passport"></i>
+            </div>
+            <div class="counter-content">
+              <h3>Mountain Experiences</h3>
+              <div class="d-flex align-items-center justify-content-center">
+                <span class="counter-value" data-toggle="counter-up">31</span>
+                <h4 class="text-secondary mb-0" style="font-weight: 600; font-size: 25px;">+</h4>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-12 col-sm-6 col-md-6 col-xl-3 wow fadeInUp" data-wow-delay="0.3s">
+          <div class="counter">
+            <div class="counter-icon">
+              <i class="fas fa-users"></i>
+            </div>
+            <div class="counter-content">
+              <h3>Trips Organised</h3>
+              <div class="d-flex align-items-center justify-content-center">
+                <span class="counter-value" data-toggle="counter-up">77</span>
+                <h4 class="text-secondary mb-0" style="font-weight: 600; font-size: 25px;">+</h4>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-12 col-sm-6 col-md-6 col-xl-3 wow fadeInUp" data-wow-delay="0.5s">
+          <div class="counter">
+            <div class="counter-icon">
+              <i class="fas fa-user-check"></i>
+            </div>
+            <div class="counter-content">
+              <h3>Tour Guides</h3>
+              <div class="d-flex align-items-center justify-content-center">
+                <span class="counter-value" data-toggle="counter-up">20</span>
+                <h4 class="text-secondary mb-0" style="font-weight: 600; font-size: 25px;">K</h4>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-12 col-sm-6 col-md-6 col-xl-3 wow fadeInUp" data-wow-delay="0.7s">
+          <div class="counter">
+            <div class="counter-icon">
+              <i class="fas fa-handshake"></i>
+            </div>
+            <div class="counter-content">
+              <h3>Success Rates</h3>
+              <div class="d-flex align-items-center justify-content-center">
+                <span class="counter-value" data-toggle="counter-up">91</span>
+                <h4 class="text-secondary mb-0" style="font-weight: 600; font-size: 25px;">%</h4>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- Counter Facts End -->
+
+  <!-- Countries We Offer Start -->
+  <div class="container-fluid country overflow-hidden py-5">
+    <div class="container">
+      <div class="section-title text-center wow fadeInUp" data-wow-delay="0.1s" style="margin-bottom: 70px;">
+        <div class="sub-style">
+          <h5 class="sub-title text-primary px-3">Our Trip Organisers </h5>
+        </div>
+        <h1 class="display-5 mb-4">Tour operators</h1>
+        <p class="mb-0">They are responsible for meticulously planning, packaging, and executing journeys for individuals, families, or groups. Essentially, they take the stress out of travel planning, allowing you to focus on the experience itself.</p>
+      </div>
+      <div class="row g-4 text-center">
+        <div class="col-lg-6 col-xl-3 mb-5 mb-xl-0 wow fadeInUp" data-wow-delay="0.1s">
+          <div class="country-item">
+            <div class="rounded overflow-hidden">
+              <img src="{% static 'images/img_1.jpg' %}" class="img-fluid w-100 rounded" alt="Image">
+            </div>
+            <div class="country-flag">
+              <img src="{% static 'images/person_1.jpg' %}" class="img-fluid rounded-circle" alt="Image">
+            </div>
+            <div class="country-name">
+              <a href="#" class="text-white fs-4">Meddy: Trip  Organiser</a>
+            </div>
+          </div>
+        </div>
+        <div class="col-lg-6 col-xl-3 mb-5 mb-xl-0 wow fadeInUp" data-wow-delay="0.3s">
+          <div class="country-item">
+            <div class="rounded overflow-hidden">
+              <img src="{% static 'images/img_2.jpg' %}" class="img-fluid w-100 rounded" alt="Image">
+            </div>
+            <div class="country-flag">
+              <img src="{% static 'images/person_2.jpg' %}" class="img-fluid rounded-circle" alt="Image">
+            </div>
+            <div class="country-name">
+              <a href="#" class="text-white fs-4">Okoth Martin: Trip Organiser</a>
+            </div>
+          </div>
+        </div>
+        <div class="col-lg-6 col-xl-3 mb-5 mb-xl-0 wow fadeInUp" data-wow-delay="0.5s">
+          <div class="country-item">
+            <div class="rounded overflow-hidden">
+              <img src="{% static 'images/img_4.jpg' %}" class="img-fluid w-100 rounded" alt="Image">
+            </div>
+            <div class="country-flag">
+              <img src="{% static 'images/person_3.jpg' %}" class="img-fluid rounded-circle" alt="Image">
+            </div>
+            <div class="country-name">
+              <a href="#" class="text-white fs-4">Thomson Bat: Trip Organiser</a>
+            </div>
+          </div>
+        </div>
+        <div class="col-lg-6 col-xl-3 mb-5 mb-xl-0 wow fadeInUp" data-wow-delay="0.7s">
+          <div class="country-item">
+            <div class="rounded overflow-hidden">
+              <img src="{% static 'images/img_5.jpg' %}" class="img-fluid w-100 rounded" alt="Image">
+            </div>
+            <div class="country-flag">
+              <img src="{% static 'images/person_4.jpg' %}" class="img-fluid rounded-circle" alt="Image">
+            </div>
+            <div class="country-name">
+              <a href="#" class="text-white fs-4">Byaruhanga Walter: Trip Organiser</a>
+            </div>
+          </div>
+        </div>
+        <div class="col-12">
+          <a class="btn btn-primary border-secondary rounded-pill py-3 px-5 wow fadeInUp" data-wow-delay="0.1s" href="#">More Countries</a>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- Countries We Offer End -->
+
+  <!-- Training Start -->
+  <div class="container-fluid training overflow-hidden bg-light py-5">
+    <div class="container py-5">
+      <div class="section-title text-center mb-5 wow fadeInUp" data-wow-delay="0.1s">
+        <div class="sub-style">
+          <h5 class="sub-title text-primary px-3">CHECK OUR GOALS</h5>
+        </div>
+        <h1 class="display-5 mb-4">Why choose Meddy Tours and Travel Company Limited</h1>
+        <p class="mb-0">We can talk for a long time about advantages of selecting us as your best choice but you can read the following facts in order to make sure of all pluses of our company. Our team has extensive experience and knowledge of Uganda's Wildlife, We tailor our services to meet your unique needs and preferences, We prioritize environmentally, friendly and socially responsible practices and We offer competitive rates without compromising on quality or service. </p>
+      </div>
+      <div class="row g-4">
+        <div class="col-lg-6 col-lg-6 col-xl-3 wow fadeInUp" data-wow-delay="0.1s">
+          <div class="training-item">
+            <div class="training-inner">
+              <img src="{% static 'images/joy.jpg' %}" class="img-fluid w-100 rounded" alt="Image">
+              <div class="training-title-name">
+                <a href="#" class="h4 text-white mb-0">Company Mission</a>
+                <a href="#" class="h4 text-white mb-0"></a>
+              </div>
+            </div>
+            <div class="training-content bg-secondary rounded-bottom p-4">
+              <a href="#"><h4 class="text-white"></h4></a>
+              <p class="text-white-50">To provide unique, memorable, and enriching experiences for our clients, while promoting sustainable tourism practices, supporting local communities, and preserving Uganda's natural and cultural resources.</p>
+              <a class="btn btn-secondary rounded-pill text-white p-0" href="#">Read More <i class="fa fa-arrow-right"></i></a>
+            </div>
+          </div>
+        </div>
+        <div class="col-lg-6 col-lg-6 col-xl-3 wow fadeInUp" data-wow-delay="0.3s">
+          <div class="training-item">
+            <div class="training-inner">
+              <img src="{% static 'images/peak.jpg' %}" class="img-fluid w-100 rounded" alt="Image">
+              <div class="training-title-name">
+                <a href="#" class="h4 text-white mb-0">Company Vision</a>
+                <a href="#" class="h4 text-white mb-0"></a>
+              </div>
+            </div>
+            <div class="training-content bg-secondary rounded-bottom p-4">
+              <a href="#"><h4 class="text-white">Company Vision</h4></a>
+              <p class="text-white-50">Becoming the leading tour operator in Uganda, renowned for delivering exceptional, personalized experiences that exceed our clients' expectations.</p>
+              <a class="btn btn-secondary rounded-pill text-white p-0" href="#">Read More <i class="fa fa-arrow-right"></i></a>
+            </div>
+          </div>
+        </div>
+        <div class="col-lg-6 col-lg-6 col-xl-3 wow fadeInUp" data-wow-delay="0.5s">
+          <div class="training-item">
+            <div class="training-inner">
+              <img src="{% static 'images/world.jpg' %}" class="img-fluid w-100 rounded" alt="Image">
+              <div class="training-title-name">
+                <a href="#" class="h4 text-white mb-0">Main Objective</a>
+                <a href="#" class="h4 text-white mb-0"></a>
+              </div>
+            </div>
+            <div class="training-content bg-secondary rounded-bottom p-4">
+              <a href="#"><h4 class="text-white"></h4></a>
+              <p class="text-white-50">To offer tailored, high-quality tour packages that cater to diverse interests and preferences besides, ensuring exceptional customer service, exceeding client expectations and encouraging repeat business and referrals.</p>
+              <a class="btn btn-secondary rounded-pill text-white p-0" href="#">Read More <i class="fa fa-arrow-right"></i></a>
+            </div>
+          </div>
+        </div>
+        <div class="col-lg-6 col-lg-6 col-xl-3 wow fadeInUp" data-wow-delay="0.7s">
+          <div class="training-item">
+            <div class="training-inner">
+              <img src="{% static 'images/child.jpg' %}" class="img-fluid w-100 rounded" alt="Image">
+              <div class="training-title-name">
+                <a href="#" class="h4 text-white mb-0">Security</a>
+                <a href="#" class="h4 text-white mb-0"></a>
+              </div>
+            </div>
+            <div class="training-content bg-secondary rounded-bottom p-4">
+              <a href="#"><h4 class="text-white"></h4></a>
+              <p class="text-white-50">We have the best security that protects our clients for the success of their tours. We provide safety insights about the destinations while enhancing the tourist experience. These ensure a secure, informative adventure for the clients</p>
+              <a class="btn btn-secondary rounded-pill text-white p-0" href="#">Read More <i class="fa fa-arrow-right"></i></a>
+            </div>
+          </div>
+        </div>
+        <div class="col-12 text-center">
+          <a class="btn btn-primary border-secondary rounded-pill py-3 px-5 wow fadeInUp" data-wow-delay="0.1s" href="#">View More</a>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- Training End -->
+{% endblock %}

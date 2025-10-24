@@ -1,0 +1,414 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+    <head>
+        <meta charset="utf-8">
+        <title>Meddy Tours — Packages</title>
+        <meta content="width=device-width, initial-scale=1.0" name="viewport">
+        <meta content="Tours and Travel Company in Uganda, Affordable safaris in Uganda, Cheap travel packages East Africa, Affordable adventures,Budget friendly tours Kampala" name="keywords">
+        <meta content="Tours and Travel Company in Uganda, Affordable safaris in Uganda, Cheap travel packages East Africa, Affordable adventures,Budget friendly tours Kampala" name="description">
+
+        <!-- Fonts and Icons (match index.html) -->
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Poppins:200,300,400,700,900|Display+Playfair:200,300,400,700"> 
+        <link rel="stylesheet" href="{% static 'fonts/icomoon/style.css' %}">
+
+        <!-- Project CSS (match index.html) -->
+        <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}">
+        <link rel="stylesheet" href="{% static 'css/magnific-popup.css' %}">
+        <link rel="stylesheet" href="{% static 'css/jquery-ui.css' %}">
+        <link rel="stylesheet" href="{% static 'css/owl.carousel.min.css' %}">
+        <link rel="stylesheet" href="{% static 'css/owl.theme.default.min.css' %}">
+        <link rel="stylesheet" href="{% static 'css/bootstrap-datepicker.css' %}">
+        <link rel="stylesheet" href="{% static 'fonts/flaticon/font/flaticon.css' %}">
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/mediaelement@4.2.7/build/mediaelementplayer.min.css">
+        <link rel="stylesheet" href="{% static 'css/aos.css' %}">
+        <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    </head>
+
+    <body oncontextmenu="return false;">
+
+        <!-- Spinner Start -->
+        <div id="spinner" class="show bg-white position-fixed translate-middle w-100 vh-100 top-50 start-50 d-flex align-items-center justify-content-center">
+            <div class="spinner-border text-secondary" style="width: 3rem; height: 3rem;" role="status">
+                <span class="sr-only">Loading...</span>
+            </div>
+        </div>
+        <!-- Spinner End -->
+
+        <div class="site-wrap">
+
+        <div class="site-mobile-menu">
+          <div class="site-mobile-menu-header">
+            <div class="site-mobile-menu-close mt-3">
+              <span class="icon-close2 js-menu-toggle"></span>
+            </div>
+          </div>
+          <div class="site-mobile-menu-body"></div>
+        </div>
+        
+        <header class="site-navbar py-1" role="banner">
+          <div class="container">
+            <div class="row align-items-center">
+              <div class="col-8 col-xl-3">
+                <h1 class="mb-0 site-logo"><a href="{% url 'index' %}" class="h2 mb-0 d-flex align-items-center" aria-label="Meddy Tours"><img src="{% static 'images/logo.jpg' %}" class="img-fluid me-2" alt="Meddy Tours Logo" style="height: 40px; width: auto;"><span class="brand-accent">Meddy</span> <span class="brand-primary">Tours</span></a></h1>
+              </div>
+              <div class="col-12 col-xl-7 d-none d-xl-block">
+                <nav class="site-navigation position-relative text-right text-lg-center" role="navigation">
+                  <ul class="site-menu js-clone-nav mx-auto d-none d-lg-block">
+                    <li><a href="{% url 'index' %}">Home</a></li>
+                    <li class="has-children active">
+                      <a href="{% url 'packages' %}">Packages</a>
+                      <ul class="dropdown">
+                        <li><a href="{% url 'discount' %}">Discount</a></li>
+                        <li><a href="{% url 'testimonial' %}">Testimonial</a></li>
+                        <li><a href="{% url 'blog' %}">Blog</a></li>
+                        <li><a href="{% url 'videos' %}">Gallery</a></li>
+                        <li><a href="{% url 'accomodation' %}">Accomodation</a></li>
+                      </ul>
+                    </li>
+                    <li><a href="{% url 'services' %}">Services</a></li>
+                    <li><a href="{% url 'about' %}">About</a></li>
+                    <li><a href="{% url 'contact' %}">Contact</a></li>
+                  </ul>
+                </nav>
+              </div>
+              <div class="col-4 col-xl-2 text-right">
+                <div class="d-none d-xl-inline-block">
+                  <ul class="site-menu js-clone-nav ml-auto list-unstyled d-flex text-right mb-0" data-class="social">
+                    <li><a href="#" class="pl-0 pr-3 text-black"><span class="icon-tripadvisor"></span></a></li>
+                    <li><a href="#" class="pl-3 pr-3 text-black"><span class="icon-twitter"></span></a></li>
+                    <li><a href="#" class="pl-3 pr-3 text-black"><span class="icon-facebook"></span></a></li>
+                    <li><a href="#" class="pl-3 pr-3 text-black"><span class="icon-instagram"></span></a></li>
+                  </ul>
+                </div>
+                <div class="d-inline-block d-xl-none ml-md-0 mr-auto py-3" style="position: relative; top: 3px;"><a href="#" class="site-menu-toggle js-menu-toggle text-black"><span class="icon-menu h3"></span></a></div>
+              </div>
+            </div>
+          </div>
+        </header>
+
+        <!-- Modal Search Start -->
+        <div class="modal fade" id="searchModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-fullscreen">
+                <div class="modal-content rounded-0">
+                    <div class="modal-header">
+                        <h4 class="modal-title text-secondary mb-0" id="exampleModalLabel">Search by keyword</h4>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body d-flex align-items-center">
+                        <div class="input-group w-75 mx-auto d-flex">
+                            <input type="search" class="form-control p-3" placeholder="keywords" aria-describedby="search-icon-1">
+                            <span id="search-icon-1" class="input-group-text p-3"><i class="fa fa-search"></i></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Modal Search End -->
+
+        <!-- Header Start -->
+        <div class="container-fluid bg-breadcrumb">
+            <div class="container text-center py-5" style="max-width: 900px;">
+                <h3 class="text-white display-3 mb-4" data-aos="fade-down" data-aos-delay="100">Our Packages</h1>
+                <ol class="breadcrumb justify-content-center text-white mb-0" data-aos="fade-down" data-aos-delay="300">
+                    <li class="breadcrumb-item"><a href="{% url 'index' %}" class="text-white">Home</a></li>
+                    <li class="breadcrumb-item"><a href="{% url 'services' %}" class="text-white">Services</a></li>
+                    <li class="breadcrumb-item active text-secondary">Packages</li>
+                </ol>    
+            </div>
+        </div>
+        <!-- Header End -->
+        
+        <!-- Page Content (unchanged, images left as-is) -->
+        <!-- About Start -->
+        <div class="container-fluid overflow-hidden py-5">
+            <div class="container py-5">
+                <div class="row g-5">
+                    <div class="col-xl-5" data-aos="fade-right" data-aos-delay="100">
+                        <div class="bg-light rounded">                           
+                            <img src="{% static 'images/img_5.jpg' %}" class="img-fluid w-100 border-bottom border-5 border-primary" style="border-top-right-radius: 300px; border-top-left-radius: 300px;" alt="Image">
+                        </div>
+                    </div>
+                    <div class="col-xl-7" data-aos="fade-left" data-aos-delay="300">
+                        <h5 class="sub-title pe-3">3 Day Uganda Rwanda gorilla trekking safari</h5>                      
+                        <p align="justify" class="mb-4">This 3 Day Gorilla safari will enable you tour two Countries that’s Uganda and Rwanda, if you wish you can as well track Gorillas in both countries, but you will basically visit Lake Ruhondo and Bulera in Rwanda plus some cultural tour and then track gorilla gorillas in Bwindi Impenetrable Forest National Parkin Uganda.
+                                    <b>Safari Highlights</b>
+                                    •	Kigali
+                                    •	Volcanoes national park
+                                    •	Bwindi Impenetrable Forest national park
+                                    •	Gorilla Trekking Activity
+                                    •	Kampala
+                                    •	Big Savanna Game
+                                        </p>
+                                    <p align="justify" class="mb-4">
+                                    <b>Full Safari Itinerary</b><br/>
+                                    
+                                    <b>Day 1: Transfer to Volcanoes National Park – Iby’wachu cultural village</b><br/>
+On arrival at the airport your will be met by your safari guide who will drive you straight to the Volcanoes National Park, some 116km from the Kigali city centre. You will traverse the lush country side dotted with undulating hills that have qualified Rwanda as a land of a thousand hills and arrive in Ruhengeri where you will spend the night. You will have lunch and after a short relaxation visit either the Iby’wachu cultural village for a detailed account of the Kinyarwanda culture dating from the pre-colonial era or go for nature walk to the twin lakes of Ruhondo and Burera for a scenic view. Dinner and overnight at Muhabura Hotel.
+<br/><b>Day 2: Gorilla trekking & crossing to Uganda</b><br/>
+You will have an early breakfast and assemble at the Kinigi Park Headquarters at 08:00am for briefing by the park rangers about the conduct of gorilla trekking activity. You will set off following the set trails to the lush volcanic forest full of birds, abundant flora, fauna including golden monkeys, elusive elephants and buffaloes and scenic sights of the volcanic peaks seen through the forest gaps. The trek involves great hiking through the varying terrain which makes it an attraction in its self. You will spend one hour with the Gorillas after which you will have a picnic lunch and later drive through the Virunga Volcanoes into Uganda. You will spend the night at Wild Olive Lodge.
+<br/><b>Day 3: Gorilla trekking in Bwindi and transfer to Kigali</b><br/>
+You will have an early breakfast and be driven to the Park Headquarters for a briefing about what to do and not do while on a Gorilla trek. After the briefing, you will set for the trekking in very thick vegetation. Trekking gorillas in Bwindi- Uganda is quite challenging as it involves moving over rugged terrain of steep slopes and valleys. The jungle is very lively with rich forest sounds. The trek ranges between 2 – 8 hours and you have one hour to stay with the Gorillas once sited. In the afternoon you will drive to Kigali to catch your departure flight.
+NOTE:
+Any and all tours can be combined or modified to fit your particular needs. Please tell us your specific requirements using the <a href="{% url 'contact' %}">Enquiry Page</a>.
+Prices are subject to change based upon accommodation availability, your tour alterations and other parameters until time of full and final confirmation
+
+
+                        </p>
+                          
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- About End -->
+        <div class="container-fluid overflow-hidden py-5">
+            <div class="container py-5">
+                <div class="row g-5">
+                    <div class="col-xl-5" data-aos="fade-right" data-aos-delay="100">
+                        <div class="bg-light rounded">                           
+                            <img src="{% static 'images/img_2.jpg' %}" class="img-fluid w-100 border-bottom border-5 border-primary" style="border-top-right-radius: 300px; border-top-left-radius: 300px;" alt="Image">
+                        </div>
+                    </div>
+                  
+                    <div class="col-xl-7" data-aos="fade-left" data-aos-delay="300">
+                        <h5 class="sub-title pe-3">9 Days Uganda Safari</h5>                      
+                        <p align="justify" class="mb-4">This 9-days safari takes you to the misty Bwindi Impenetrable forest, which is home to more than half the population of the remaining 1063 Mountain Gorillas in the world. Gorilla tracking is the most enchanting experience in this forest. You will have an experience of a life time as you watch at close range these majestic apes feed, play and relax. It also includes a visit to Queen Elizabeth National Park, Uganda’s second largest national park, with plenty of wildlife, birds and primates. This park also has spectacular scenery including Crater Lakes and rolling savannah plains overlooking the snow-capped Rwenzori Mountain ranges. You will enjoy game drives and a boat cruise on the Kazinga channel. You will conclude this tour with a visit to Kibale Forest National Park with several spectacular crater lakes and swamps which are home to hippo, buffalo and some elephant, and the forested areas are the natural habitat of our chimpanzees, occasionally lion and leopard can be spotted as they sleep through the midday sun, before winding up at Murchison falls National park, Uganda’s spectacular heritage, with breathtaking scenic allure, and landscapes.</p>
+                          <p align="justify" class="mb-4">
+                          Full Safari Itinerary
+<br/><b>Day 1:  – Transfer from Entebbe/Kampala to Lake Bunyonyi:</b><br/>
+After an early breakfast, you will set off for an 8-9 hour drive to the south western part of the country. You will have a stopover at the Equator where you will have an opportunity to stand in 2 hemispheres at the same time and take some photos. You will make another stopover for lunch en-route, with a last stopover at Lake Bunyonyi. This lake is said to be one of the most beautiful places in western Uganda. It is the second deepest lake in Africa [900 meters deep] and also one of the few places in the country where it is considered safe to swim as it is bilharzias free. The landscape around the lake is made up of terraced hills protruding from the water's edge. Bunyonyi means "place of little birds" and as the name suggests, there is plenty of birdlife around the lake. Check in you' room for Dinner and overnight at :
+Accommodation –
+Mid-range – Bunyonyi Safari Resort /Bunyonyi Eco Resort
+<br/><b>Day 2:  –  Boat ride and transfer to Bwindi Impenetrable National Park :</b><br/>
+After an early breakfast, you will set out for a Boat ride at Lake Bunyonyi this takes 2 hours, The landscape around the lake is made up of terraced hills protruding from the water's edge. Bunyonyi means "place of little birds" and as the name suggests, there is plenty of birdlife around the lake. You will in the afternoon transfer to Bwindi where you will do some nature walk or Batwa cultural experience, You will go through their villages to have an experience of how they go about their daily routine activities and be amazed by the way they skillfully cultivate the hill sides and how they care for their animals (cows) that are a prime source of pride later return for Dinner and overnight at :
+Accommodation –
+Mid-range – Rushaga Gorilla Havens Lodge/ Broadbill Forest Camp.
+<br/><b>Day 3:  –  Gorilla Tracking in Bwindi Impenetrable National Park and transfer to Ishasha :</b><br/>
+After an early breakfast, you will head to the park headquarters where you will be briefed by the guides before you begin the search in the thick Bwindi forest for the giant gorillas. Bwindi National Park is renowned for its impressive mountain gorillas, although it is unpredictable for how long you will track before finding them since it all depends on their movement. Though the time spent to track down these Gorillas is unpredictable, the thrill of spending time and observing these gentle giant gorillas is a rare, moving, awesome and exciting adventure that will leave you with long lasting memories of a truly unique experience. Return for lunch you will transfer to Ishasha sector of Queen Elizabeth National Park where you will reach late evening Dinner and overnight at :
+Accommodation –
+Mid-range – Enjojo Lodge.
+<br/><b>Day 4:  –  Game drive and boat cruise in Queen Elizabeth National Park :</b><br/>
+After your breakfast you will be taken to Ishasha, famous for the tree climbing lions lounging in the tree branches while keeping a close eye on herds of Uganda kob, their favorite prey. You could have a chance to spot some tree climbing lions after proceed to you' lodge, In the afternoon you will take a launch cruise along the amazing Kazinga channel to see, at close range, the water animals to include Hippos, Buffalos, Crocodiles and elephants bathing on the channel banks. There is also a variety of bird species on the water banks especially the famous Shoebill, pelican and Jacana. Dinner and overnight at :
+Mid-range – Bush Lodge/Elephant Hub Lodge.
+<br/><b>Day 5:  –  Morning game drive and transfer to Kibale National Park :</b><br/>
+After breakfast you will go for a brief morning game drive in Queen Elizabeth then head to the scenic Explosion Craters and Explosion Crater Lakes along the Western Ugandan Explosion Crater Lake Trail are one of the Pearls in the Pearl of Africa, have you' lunch en-routes after transfer to Kibale National Park check in at your lodge for some rest in the evening go for the nature walks at Bigodi swamp where you will do birding there you will spot some bird species, butterflies are abundant and some women cultural group's activities which are also adventurous to attend it can take you 2/3 hours, after get back to your respective hotel for dinner and overnight at :
+Accommodation –
+Mid-range – Kibale Forest Camp/Chimpanzee Forest Guest House
+<br/><b>Day 6:  –  Chimpanzee Habituation Experience in Kibale National Park :</b><br/>
+You will, after breakfast, head to Kibale Forest with our packed lunch to view the primates. The activity begins at 8.00am with a briefing of the rule for trekking the chimpanzees after which you set off to search for them in the forest. The exercise takes half a day and along the way you will see other primates such as Grey cheeked Mangabeys, Phoestes, Red-Colobus and the Blue tailed and the Red-tailed monkeys swinging in the braches of this thick forest. Your guide will give you informative briefings on the lifestyles of the primates you will be coming across and on the plants as well as on the insects and butterflies in this forest to ensure that the trek is not only enjoyable but informative as well, Kibale Forest National Park, it boasts the highest number of primate species in the world, including the chimpanzees. Approximately 5,000 chimpanzees live in the wild in Uganda, which makes it a perfect place to spot them! An experienced ranger will take you chimp tracking in the morning. Once you locate the chimpanzees, you will have almost a full day with them learning their behaviors, after get back to your respective hotel for dinner and an overnight at :
+Accommodation –
+Mid-range – Kibale Forest Camp /Chimpanzee Forest Guest House.
+<br/><b>Day 7:  –  Transfer to Murchison falls National Park:</b><br/>
+After breakfast you will be transferred to Murchison Falls National Park which will take around 7/8 hours of drive, Head straight to tour the Top and bottom of majestic falls, where the Nile crashes through a 7 metres gorge to the falls 45 metres. Numerous scenic viewpoints are a photographers’ delight, The most impressive view of the foaming waters rushing into the gorge with a deafening roar, You will have dinner and overnight at :
+Accommodation –
+Mid-range – Fort Murchison Lodge/Murchison River Lodge.
+<br/><b>Day 8:  –  Game drive and Launch cruise in Murchison falls National Park: </b><br/>
+You will set off at 6:30 am cross to the northern bank of river Nile head for a sunrise game drive in the Nyamsika plateau to see the Cape buffaloes, Rothschild’s giraffes, Uganda kob, hartebeest and waterbucks. You may also spot oribi, bushbuck, Bohor reedbuck, shy sitatunga, bush duiker, warthog and bush pig plus large carnivores including lions, leopards and spotted hyenas. Chimpanzees and olive baboons head the list of six species of primates found in the park. Crocodiles and hippos will be seen along the banks of the Nile. Some of the more common birds that can be seen include goliath heron, Egyptian geese, pelican, bee- eaters, kingfishers, hornbill, cormorant, saddle-bill stork and the rare shoebill stork. You will return to your lodge for a late breakfast and some relaxation before setting off in the afternoon for a boat cruise on the placid Victoria Nile, upstream, to the base of the falls. En route you will see hippos, crocodiles, water buck and a wide variety of birds including the unusual shoebill stork. The boat stops just tens of meters from the “Devil’s Cauldron” for pictures to be taken of the photogenic and majestic Murchison Falls. You will return to your lodge for dinner and overnight at :
+Accommodation –
+Mid-range – Fort Murchison Lodge/Murchison River Lodge
+<br/><b>Day 9:  –  Rhino tracking in Ziwa Rhino Sanctuary and transfer to Entebbe/Kampala :</b><br/>
+After an early morning breakfast, depart with great memories of the moments spent at Murchison falls, You will be driven to the Ziwa Rhino Sanctuary, after a briefing from the ranger you trek the sanctuary for close to two hours. Transfer back to Kampala/Entebbe with lunch en-route.
+<br/><b>NOTE :</b>
+Flights are on Wednesday, Friday and Saturday. (timings vary depending on aircraft routing) <a href="{% url 'contact' %}">Enquiry Page</a>.
+Prices are subject to change based upon accommodation availability, your tour alterations and other parameters until time of full and final confirmation
+
+                          </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="container-fluid overflow-hidden py-5">
+            <div class="container py-5">
+                <div class="row g-5">
+                    <div class="col-xl-5" data-aos="fade-right" data-aos-delay="100">
+                        <div class="bg-light rounded">                           
+                            <img src="{% static 'images/peak.jpg' %}" class="img-fluid w-100 border-bottom border-5 border-primary" style="border-top-right-radius: 300px; border-top-left-radius: 300px;" alt="Image">
+                        </div>
+                    </div>                    
+                    <div class="col-xl-7" data-aos="fade-left" data-aos-delay="300">
+                        <h5 class="sub-title pe-3">7days trip from Entebbe back to Entebbe</h5>                      
+                        <p align="justify" class="mb-4">
+<b>Day 1</b><br/>
+Arrive at the airport, transfer to the hotel by our representative or guide, check in in any hotel of your preference around Entebbe. Option community walks around markets, hotel.
+<br/><b>Day 2</b><br/>
+Early morning, after breakfast transfer to Kibaale, 4-6 hours drive, lunch enroute Kibaale. Kibaale is a primary forest located in western Uganda, foot hills of mount RWENZORI consisting of 13 primate species. Option walks around the lodge.
+<br/><b>Day 3. </b><br/>
+Morning meeting with the park rangers then head for chimp trekking. Option afternoon swamp walk for more primate and bird watching. Hotel.
+<br/><b>Day 4</b><br/>
+Early morning breakfast then  head to Bwindi via equator in Queen Elizabeth national park, lunch enroute arrival in the afternoon depending the drive, check in, then hotel.
+<br/><b>Day 5</b><br/>
+Early in the morning breakfast, meet with the rangers for briefing before heading to the Gorilla trekking. rest of afternoon relaxation at the hotel, option Batwa community walk.
+<br/><b>Day 6</b><br/>
+Early morning after breakfast, start the drive to lake Bunyonyi spend time at the lake, relax, hotel.
+<br/><b>Day 7</b><br/>
+After breakfast start the journey back to Entebbe, lunch enroute at the equator crossing, some restaurants. Then proceed to Entebbe to catch flight.
+<br/>End of trip
+</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="container-fluid overflow-hidden py-5">
+            <div class="container py-5">
+                <div class="row g-5">
+                    <div class="col-xl-5" data-aos="fade-right" data-aos-delay="100">
+                        <div class="bg-light rounded">                           
+                            <img src="{% static 'images/child.jpg' %}" class="img-fluid w-100 border-bottom border-5 border-primary" style="border-top-right-radius: 300px; border-top-left-radius: 300px;" alt="Image">
+                        </div>
+                    </div>                    
+                    <div class="col-xl-7" data-aos="fade-left" data-aos-delay="300">
+                        <h5 class="sub-title pe-3">Four(4) days fly in primate safari</h5>                      
+                        <p align="justify" class="mb-4">
+<b>Day 1</b><br/>
+	Arrive at the airport, your acknowledgeable guide at the airport waiting to receive you, proceed to hotel in Entebbe for a night.  If time allows, visit the botanical garden option mabamba swamp. hotel
+<br/><b>Day 2</b><br/>	Embark to the airport for domestic flight to Kihihi or Kisoro where you will meet a safari guide to transfer you to the lodge. Bwindi.
+<br/><b>Day 3</b><br/>	Early morning after breakfast, head to the starting point for a briefing and then Gorilla trekking. Option, forest walks, and rural village walks. Hotel
+<br/><b>Day 4</b><br/>	 Morning breakfast, transfer back to the airstrip for the domestic flight to Entebbe to catch your international flight
+
+<br/>End of trip
+</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="container-fluid overflow-hidden py-5">
+            <div class="container py-5">
+                <div class="row g-5">
+                    <div class="col-xl-5" data-aos="fade-right" data-aos-delay="100">
+                        <div class="bg-light rounded">                           
+                            <img src="{% static 'images/img_4.jpg' %}" class="img-fluid w-100 border-bottom border-5 border-primary" style="border-top-right-radius: 300px; border-top-left-radius: 300px;" alt="Image">
+                        </div>
+                    </div>                    
+                    <div class="col-xl-7" data-aos="fade-left" data-aos-delay="300">
+                        <h5 class="sub-title pe-3">Ultimate 4-Day Golden Monkey Trekking in Volcanoes & Gorilla Trekking Adventure in Ruhija</h5>                      
+                        <p align="justify" class="mb-4">
+<b>Day 1: Arrival & Transfer to Volcanoes National Park (Rwanda)</b>
+<br/><b>Morning:</b>
+<br/><b>• Arrival at Kigali International Airport (KGL)</b><br/>
+Upon arrival at Kigali International Airport, you will be welcomed by your guide,
+who will assist with your transfer. If you’re already staying in Kigali, your guide will
+pick you up from your hotel.
+<br/><b>• Scenic Drive to Volcanoes National Park</b><br/>
+Begin your journey with a 2.5-3 hour drive through the picturesque Rwandan
+countryside to Volcanoes National Park, home of the endangered golden monkeys and
+mountain gorillas.
+<br/><b>• Lunch Stop</b><br/>
+A stop will be made for lunch along the way, allowing you to stretch your legs and
+enjoy some local cuisine. <a target=_blank href="4days golden mokeys and gorilla tracking.pdf">Read More</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+       
+
+        <footer class="site-footer">
+          <div class="container">
+            <div class="row">
+              <div class="col-lg-4">
+                <div class="mb-5">
+                  <h3 class="footer-heading mb-4">About Meddy tours</h3>
+                  <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Saepe pariatur reprehenderit vero atque, consequatur id ratione, et non dignissimos culpa? Ut veritatis, quos illum totam quis blanditiis, minima minus odio!</p>
+                </div>
+
+              </div>
+              <div class="col-lg-4 mb-5 mb-lg-0">
+                <div class="row mb-5">
+                  <div class="col-md-12">
+                    <h3 class="footer-heading mb-4">Navigations</h3>
+                  </div>
+                  <div class="col-md-6 col-lg-6">
+                    <ul class="list-unstyled">
+                      <li><a href="{% url 'index' %}">Home</a></li>
+                      <li><a href="{% url 'packages' %}">Packages</a></li>
+                      <li><a href="{% url 'services' %}">Services</a></li>
+                      <li><a href="{% url 'about' %}">About</a></li>
+                                    <li><a href="{% url 'accomodation' %}">Accomodation</a></li>
+                      </ul>
+                  </div>
+                  <div class="col-md-6 col-lg-6">
+                    <ul class="list-unstyled">
+                      <li><a href="{% url 'about' %}">About Us</a></li>
+                      <li><a href="#">Privacy Policy</a></li>
+                      <li><a href="{% url 'contact' %}">Contact Us</a></li>
+                      <li><a href="{% url 'discount' %}">Discounts</a></li>
+                                    <li><a href="{% url 'accomodation' %}">Accomodation</a></li>
+                      </ul>
+                  </div>
+                </div>
+              </div>
+
+              <div class="col-lg-4 mb-5 mb-lg-0">
+                <div class="mb-5">
+                  <h3 class="footer-heading mb-2">Subscribe Newsletter</h3>
+                  <p>Lorem ipsum dolor sit amet consectetur adipisicing elit minima minus odio.</p>
+
+                  <form action="#" method="post">
+                    <div class="input-group mb-3">
+                      <input type="text" class="form-control border-secondary text-white bg-transparent" placeholder="Enter Email" aria-label="Enter Email" aria-describedby="button-addon2">
+                      <div class="input-group-append">
+                        <button class="btn btn-primary text-white" type="button" id="button-addon2">Send</button>
+                      </div>
+                    </div>
+                  </form>
+
+                </div>
+              </div>
+              
+            </div>
+            <div class="row pt-5 mt-5 text-center">
+              <div class="col-md-12">
+                <div class="mb-5">
+                  <a href="#" class="pl-0 pr-3"><span class="icon-facebook"></span></a>
+                  <a href="#" class="pl-3 pr-3"><span class="icon-twitter"></span></a>
+                  <a href="#" class="pl-3 pr-3"><span class="icon-instagram"></span></a>
+                  <a href="#" class="pl-3 pr-3"><span class="icon-linkedin"></span></a>
+                </div>
+
+                <p>
+                Copyright &copy;<script>document.write(new Date().getFullYear());</script> All rights reserved | This template is made with <i class="icon-heart-o" aria-hidden="true"></i> by <a href="https://x.com/SladePhantom7?t=1JYpg5QBnk8i2AKyLJK-_g&s=09" target="_blank" >Slade</a>
+                </p>
+              </div>
+              
+            </div>
+          </div>
+        </footer>
+      </div>
+
+        <!-- Project JS (match index.html) -->
+        <script src="{% static 'js/jquery-3.3.1.min.js' %}"></script>
+        <script src="{% static 'js/jquery-migrate-3.0.1.min.js' %}"></script>
+        <script src="{% static 'js/jquery-ui.js' %}"></script>
+        <script src="{% static 'js/popper.min.js' %}"></script>
+        <script src="{% static 'js/bootstrap.min.js' %}"></script>
+        <script src="{% static 'js/owl.carousel.min.js' %}"></script>
+        <script src="{% static 'js/jquery.stellar.min.js' %}"></script>
+        <script src="{% static 'js/jquery.countdown.min.js' %}"></script>
+        <script src="{% static 'js/jquery.magnific-popup.min.js' %}"></script>
+        <script src="{% static 'js/bootstrap-datepicker.min.js' %}"></script>
+        <script src="{% static 'js/aos.js' %}"></script>
+        <script src="{% static 'js/main.js' %}?v=2"></script>
+        <script>
+            // Initialize AOS with specific settings
+            AOS.init({
+                duration: 800,
+                easing: 'slide',
+                once: false,
+                offset: 100,
+                delay: 100,
+                mirror: false,
+                anchorPlacement: 'top-bottom'
+            });
+        </script>
+    </body>
+
+</html>
+
+
+
+
+
+
+

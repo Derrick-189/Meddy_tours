@@ -1,0 +1,41 @@
+/* Theme override for Meddy Tours */
+:root {
+  --mt-primary: #0ea5a8;   /* teal */
+  --mt-secondary: #f2545b; /* coral */
+  --mt-accent: #0f172a;    /* dark slate */
+  --mt-muted: #4b5563;     /* gray */
+}
+
+/* General brand accents */
+.brand-primary, .text-primary { color: var(--mt-primary) !important; }
+.brand-accent { color: var(--mt-secondary) !important; }
+
+/* Buttons */
+.btn-primary { background-color: var(--mt-primary) !important; border-color: var(--mt-primary) !important; }
+.btn-primary:hover, .btn-primary:focus { background-color: #0b7f81 !important; border-color: #0b7f81 !important; }
+.btn-outline-primary { color: var(--mt-primary) !important; border-color: var(--mt-primary) !important; }
+.btn-outline-primary:hover { background-color: var(--mt-primary) !important; color: #fff !important; }
+
+/* Background helpers */
+.bg-primary { background-color: var(--mt-primary) !important; }
+.bg-secondary { background-color: var(--mt-secondary) !important; }
+
+/* Links */
+a { color: var(--mt-primary); }
+a:hover { color: #0b7f81; }
+
+/* Navbar active */
+.site-navbar .site-navigation .site-menu > li > a:hover,
+.site-navbar .site-navigation .site-menu > li.active > a { color: var(--mt-secondary) !important; }
+
+/* Section headings */
+.section-title .sub-title,
+.sub-style .sub-title { color: var(--mt-secondary) !important; }
+
+/* Footer icons */
+.site-footer a:hover { color: var(--mt-secondary) !important; }
+
+/* Owl nav arrows match theme */
+.owl-carousel .owl-nav button.owl-prev, .owl-carousel .owl-nav button.owl-next {
+  color: var(--mt-primary) !important;
+}
