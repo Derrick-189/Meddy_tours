@@ -2,8 +2,11 @@
 from django.core.exceptions import ValidationError
 from django.core.files.base import ContentFile
 from django.utils.text import slugify
+from django.core.validators import FileExtensionValidator
 import os
 import io
+import numpy as np
+import imageio.v3 as iio
 
 # Create your models here.
 # class Destination:
@@ -22,7 +25,7 @@ class Destination(models.Model):
     name = models.CharField(max_length=100)
     desc = models.TextField()
     price = models.IntegerField()
-    img = models.ImageField(upload_to='pics')
+    img = models.FileField(upload_to='pics', validators=[FileExtensionValidator(["jpg","jpeg","png","gif","webp"])])
     offer = models.BooleanField(default=False)
     
     def __str__(self):
@@ -32,7 +35,7 @@ class BlogPost(models.Model):
     title = models.CharField(max_length=200)
     content = models.TextField()
     author = models.ForeignKey(User, on_delete=models.CASCADE)
-    image = models.ImageField(upload_to='blog_images/')
+    image = models.FileField(upload_to='blog_images/', validators=[FileExtensionValidator(["jpg","jpeg","png","gif","webp"])])
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     
@@ -43,7 +46,7 @@ class TeamMember(models.Model):
     name = models.CharField(max_length=100)
     position = models.CharField(max_length=100)
     bio = models.TextField()
-    image = models.ImageField(upload_to='team_images/')
+    image = models.FileField(upload_to='team_images/', validators=[FileExtensionValidator(["jpg","jpeg","png","gif","webp"])])
     twitter = models.URLField(blank=True)
     facebook = models.URLField(blank=True)
     instagram = models.URLField(blank=True)
@@ -55,7 +58,7 @@ class Testimonial(models.Model):
     name = models.CharField(max_length=100)
     position = models.CharField(max_length=100)
     content = models.TextField()
-    image = models.ImageField(upload_to='testimonial_images/')
+    image = models.FileField(upload_to='testimonial_images/', validators=[FileExtensionValidator(["jpg","jpeg","png","gif","webp"])])
     
     def __str__(self):
         return self.name
@@ -64,7 +67,7 @@ class Video(models.Model):
     title = models.CharField(max_length=200)
     description = models.TextField(blank=True)
     video_file = models.FileField(upload_to='videos/')
-    thumbnail = models.ImageField(upload_to='video_thumbs/', blank=True)
+    thumbnail = models.FileField(upload_to='video_thumbs/', blank=True, validators=[FileExtensionValidator(["jpg","jpeg","png","gif","webp"])])
     created_at = models.DateTimeField(auto_now_add=True)
     
     def __str__(self):
@@ -90,36 +93,30 @@ class Video(models.Model):
                 frame = clip.get_frame(capture_time)
             finally:
                 clip.close()
-            # frame is a numpy array; convert to PIL
-            from PIL import Image
-            image = Image.fromarray(frame)
-            # Resize to reasonable size
-            image.thumbnail((640, 360))
+            # frame is a numpy array; write as PNG without Pillow
             buf = io.BytesIO()
-            image.save(buf, format='JPEG', quality=85)
+            try:
+                iio.imwrite(buf, frame, extension=".png")
+            except Exception:
+                # Ensure uint8 if needed
+                f8 = frame
+                if getattr(frame, 'dtype', None) != np.uint8:
+                    f8 = np.clip(frame, 0, 255).astype(np.uint8)
+                iio.imwrite(buf, f8, extension=".png")
             buf.seek(0)
-            filename = f"video_thumbs/{slugify(self.title) or 'video'}-{self.pk or 'new'}.jpg"
+            filename = f"video_thumbs/{slugify(self.title) or 'video'}-{self.pk or 'new'}.png"
             self.thumbnail.save(filename, ContentFile(buf.read()), save=False)
             return True
         except Exception:
             # Fallback: create a simple placeholder thumbnail with title text
             try:
-                from PIL import Image, ImageDraw, ImageFont
-                img = Image.new('RGB', (640, 360), color=(20, 20, 20))
-                draw = ImageDraw.Draw(img)
-                text = (self.title or 'Video')[:40]
-                # Attempt to load a truetype font; fallback to default
-                try:
-                    font = ImageFont.truetype("arial.ttf", 28)
-                except Exception:
-                    font = ImageFont.load_default()
-                # Center text
-                tw, th = draw.textsize(text, font=font)
-                draw.text(((640 - tw) / 2, (360 - th) / 2), text, fill=(230, 230, 230), font=font)
+                # Create a simple solid-color placeholder (no text) to avoid Pillow
+                placeholder = np.zeros((360, 640, 3), dtype=np.uint8)
+                placeholder[:, :] = (20, 20, 20)
                 buf = io.BytesIO()
-                img.save(buf, format='JPEG', quality=85)
+                iio.imwrite(buf, placeholder, extension=".png")
                 buf.seek(0)
-                filename = f"video_thumbs/{slugify(self.title) or 'video'}-{self.pk or 'new'}-ph.jpg"
+                filename = f"video_thumbs/{slugify(self.title) or 'video'}-{self.pk or 'new'}-ph.png"
                 self.thumbnail.save(filename, ContentFile(buf.read()), save=False)
                 return True
             except Exception:
@@ -139,7 +136,7 @@ class DiscountedTour(models.Model):
     description = models.TextField(blank=True)
     original_price = models.IntegerField()
     discounted_price = models.IntegerField()
-    image = models.ImageField(upload_to='discounted_tours/')
+    image = models.FileField(upload_to='discounted_tours/', validators=[FileExtensionValidator(["jpg","jpeg","png","gif","webp"])])
     is_active = models.BooleanField(default=True)
     created_at = models.DateTimeField(auto_now_add=True)
     

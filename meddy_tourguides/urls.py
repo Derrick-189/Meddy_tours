@@ -10,6 +10,16 @@ urlpatterns = [
     path('discount.html', views.discount, name='discount'),
     path('booking.html', views.booking, name='booking'),
     path('videos.html', views.videos, name='videos'),
+    path('packages/', views.packages, name='packages'),
+    path('packages.html', views.packages),
+    path('packages', views.packages),
+    # New routes for attached templates
+    path('service', views.services, name='services'),
+    path('service.html', views.services),
+    path('testimonial', views.testimonial, name='testimonial'),
+    path('testimonial.html', views.testimonial),
+    path('accomodation', views.accomodation, name='accomodation'),
+    path('accomodation.html', views.accomodation),
 ]
 # urlpatterns = [
 #     path('', views.index, name='index'),

@@ -5,6 +5,9 @@ name = "pypi"
 
 [packages]
 django = "*"
+numpy = "==2.3.3"
+imageio = "==2.37.0"
+moviepy = "==2.2.1"
 
 [dev-packages]
 

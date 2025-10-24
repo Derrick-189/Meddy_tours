@@ -1,7 +1,7 @@
 {% load static %}
 <!DOCTYPE html>
 <html lang="en">
-<head>
+ <head>
     <title>Meddy Tours &mdash; the best tour guides in the region</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -11,7 +11,6 @@
 
     <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}">
     <link rel="stylesheet" href="{% static 'css/magnific-popup.css' %}">
-    <link rel="stylesheet" href="{% static 'css/jquery-ui.css' %}">
     <link rel="stylesheet" href="{% static 'css/owl.carousel.min.css' %}">
     <link rel="stylesheet" href="{% static 'css/owl.theme.default.min.css' %}">
 
@@ -19,17 +18,21 @@
 
     <link rel="stylesheet" href="{% static 'fonts/flaticon/font/flaticon.css' %}">
 
-    <link rel="stylesheet" href="{% static 'https://cdn.jsdelivr.net/npm/mediaelement@4.2.7/build/mediaelementplayer.min.css' %}">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/mediaelement@4.2.7/build/mediaelementplayer.min.css">
+
+
 
 
     <link rel="stylesheet" href="{% static 'css/aos.css' %}">
 
     <link rel="stylesheet" href="{% static 'css/style.css' %}">
-    
-</head>
-<body>
 
-<div class="site-wrap">
+  </head>
+  <body>
+
+  <div class="site-wrap">
+
+    
 
     <div class="site-mobile-menu">
       <div class="site-mobile-menu-header">
@@ -45,10 +48,10 @@
       <div class="container">
         <div class="row align-items-center">
           
-          <div class="col-6 col-xl-2">
-            <h1 class="mb-0"><a href="index" class="text-black h2 mb-0">Meddy tours</a></h1>
+          <div class="col-8 col-xl-3">
+            <h1 class="mb-0 site-logo"><a href="{% url 'index' %}" class="h2 mb-0 d-flex align-items-center" aria-label="Meddy Tours"><img src="{% static 'images/logo.jpg' %}" class="img-fluid me-2" alt="Meddy Tours Logo" style="height: 40px; width: auto;"><span class="brand-accent">Meddy</span> <span class="brand-primary">Tours</span></a></h1>
           </div>
-          <div class="col-10 col-md-8 d-none d-xl-block">
+          <div class="col-12 col-xl-7 d-none d-xl-block">
             <nav class="site-navigation position-relative text-right text-lg-center" role="navigation">
 
               <ul class="site-menu js-clone-nav mx-auto d-none d-lg-block">
@@ -56,26 +59,26 @@
                   <a href="{% url 'index' %}">Home</a>
                 </li>
                 <li class="has-children">
-                  <a href="{% url 'destination' %}">Destinations</a>
+                  <a href="{% url 'packages' %}">Packages</a>
                   <ul class="dropdown">
-                    <li><a href="#">Bunyonyi</a></li>
-                    <li><a href="#">Bwindi</a></li>
-                    <li><a href="#">Mgahinga</a></li>
-                    <li><a href="#">Rwanda</a></li>
+                    <li><a href="{% url 'destination' %}">Destinations</a></li>
+                    <li><a href="{% url 'discount' %}">Discount</a></li>
+                    <li><a href="{% url 'testimonial' %}">Testimonial</a></li>
+                    <li><a href="{% url 'blog' %}">Blog</a></li>
+                    <li><a href="{% url 'videos' %}">Gallery</a></li>
+                    <li><a href="{% url 'accomodation' %}">Accomodation</a></li>
                   </ul>
                 </li>
                 
-                <li><a href="{% url 'discount' %}">Discount</a></li>
+                <li><a href="{% url 'services' %}">Services</a></li>
                 <li class="active"><a href="{% url 'about' %}">About</a></li>
-                <li><a href="{% url 'blog' %}">Blog</a></li>
-                
                 <li><a href="{% url 'contact' %}">Contact</a></li>
                 <!-- <li><a href="booking.html">Book Online</a></li> -->
               </ul>
             </nav>
           </div>
 
-          <div class="col-6 col-xl-2 text-right">
+          <div class="col-4 col-xl-2 text-right">
             <div class="d-none d-xl-inline-block">
               <ul class="site-menu js-clone-nav ml-auto list-unstyled d-flex text-right mb-0" data-class="social">
                 <li>
@@ -93,7 +96,6 @@
                 
               </ul>
             </div>
-
             <div class="d-inline-block d-xl-none ml-md-0 mr-auto py-3" style="position: relative; top: 3px;"><a href="#" class="site-menu-toggle js-menu-toggle text-black"><span class="icon-menu h3"></span></a></div>
 
           </div>

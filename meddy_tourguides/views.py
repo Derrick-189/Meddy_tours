@@ -49,6 +49,22 @@ def videos(request):
     videos = Video.objects.all().order_by('-created_at')
     return render(request, 'videos.html', { 'videos': videos })
 
+# New: Packages page using ported styling template
+def packages(request):
+    return render(request, 'packages.html')
+
+# New: Services page
+def services(request):
+    return render(request, 'services_site.html')
+
+# New: Testimonial page
+def testimonial(request):
+    return render(request, 'testimonial_site.html')
+
+# New: Accommodation page
+def accomodation(request):
+    return render(request, 'accomodation_site.html')
+
 
 # from django.shortcuts import render
 # from .models import Destination

@@ -1,13 +1,12 @@
- AOS.init({
- 	duration: 800,
- 	easing: 'slide',
- 	once: true
- });
+AOS.init({
+    duration: 850,
+    easing: 'ease-out-cubic',
+    once: false
+});
 
 jQuery(document).ready(function($) {
 
 	"use strict";
-
 	
 
 	var siteMenuClone = function() {
@@ -269,5 +268,80 @@ jQuery(document).ready(function($) {
 
 	};
 	siteDatePicker();
+	// Equalize heights for common image-card patterns per row
+	(function equalizeAllImageGroups(){
+	  function debounce(fn, wait){ var t; return function(){ clearTimeout(t); t = setTimeout(fn, wait); }; }
 
+	  // Supported patterns and grouping
+	  var PATTERNS = [
+    { card: '.unit-1',                img: '.unit-1 img',                    groupBy: function($el){ return $el.closest('.row'); } },
+    { card: '.country-item .rounded', img: '.country-item .rounded img',     groupBy: function($el){ return $el.closest('.row'); } }
+  ];
+
+	  function groups(){
+	    var set = [];
+	    PATTERNS.forEach(function(p){
+	      $(p.card).each(function(){
+	        var $el = $(this);
+	        var $group = p.groupBy ? p.groupBy($el) : $el.closest('.row');
+	        if ($group && $group.length && set.indexOf($group[0]) === -1) set.push($group[0]);
+	      });
+	    });
+	    return $(set);
+	  }
+
+	  function syncGroup($group){
+	    PATTERNS.forEach(function(p){
+	      var $cards = $group.find(p.card);
+	      var $imgs  = $group.find(p.img);
+	      if (!$cards.length || !$imgs.length) return;
+	      $cards.css('height','');
+	      $imgs.css('height','');
+	      var maxH = 0;
+	      $imgs.each(function(){ var h = this.clientHeight || $(this).height(); if (h > maxH) maxH = h; });
+	      if (maxH > 0) { $cards.css('height', maxH + 'px'); $imgs.css('height','100%'); }
+	    });
+	  }
+
+	  function syncAll(){ groups().each(function(){ syncGroup($(this)); }); }
+
+	  function initialize(){
+	    var $groups = groups();
+	    if (!$groups.length) return;
+	    var pending = 0;
+	    $groups.each(function(){
+	      var $grp = $(this);
+	      PATTERNS.forEach(function(p){ pending += $grp.find(p.img).length; });
+	    });
+	    if (!pending) { syncAll(); return; }
+	    $groups.each(function(){
+	      var $grp = $(this);
+	      PATTERNS.forEach(function(p){
+	        $grp.find(p.img).each(function(){
+	          if (this.complete) { if(--pending===0) syncAll(); }
+	          else { $(this).one('load error', function(){ if(--pending===0) syncAll(); }); }
+	        });
+	      });
+	    });
+	  }
+
+	  initialize();
+	  $(window).on('resize', debounce(syncAll, 150));
+	  $(window).on('load', syncAll);
+
+	  // Testimonials: equalize to the smallest image height
+	  (function equalizeTestimonials(){
+	    var $imgs = $('.nonloop-block-13 .item img.img-md-fluid');
+	    if (!$imgs.length) return;
+	    function run(){
+	      $imgs.css('height','');
+	      var minH = Infinity;
+	      $imgs.each(function(){ var h = this.clientHeight || $(this).height(); if (h && h < minH) minH = h; });
+	      if (isFinite(minH) && minH > 0) { $imgs.css('height', minH + 'px'); }
+	    }
+	    var pending = $imgs.length;
+	    $imgs.each(function(){ if (this.complete) { if(--pending===0) run(); } else { $(this).one('load error', function(){ if(--pending===0) run(); }); } });
+	    $(window).on('resize', debounce(run, 150));
+	  })();
+	})();
 });
