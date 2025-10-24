@@ -5,7 +5,8 @@ class BookingForm(forms.ModelForm):
     travel_date = forms.DateField(
         widget=forms.DateInput(attrs={'type': 'date', 'class': 'form-control'})
     )
-    
+    number_of_persons = forms.IntegerField(min_value=1, widget=forms.NumberInput(attrs={'class': 'form-control'}))
+
     class Meta:
         model = Booking
         fields = [
@@ -18,9 +19,8 @@ class BookingForm(forms.ModelForm):
             'last_name': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Last Name'}),
             'email': forms.EmailInput(attrs={'class': 'form-control', 'placeholder': 'Email'}),
             'phone': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Phone'}),
-            'tour_package': forms.Select(attrs={'class': 'form-control'}),
-            'accommodation': forms.Select(attrs={'class': 'form-control'}),
-            'number_of_persons': forms.NumberInput(attrs={'class': 'form-control'}),
+            'tour_package': forms.Select(attrs={'class': 'form-control', 'id': 'id_tour_package'}),
+            'accommodation': forms.Select(attrs={'class': 'form-control', 'id': 'id_accommodation'}),
             'special_requests': forms.Textarea(attrs={'class': 'form-control', 'rows': 4, 'placeholder': 'Any special requests or notes...'}),
         }
 

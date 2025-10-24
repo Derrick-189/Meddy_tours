@@ -8,7 +8,15 @@ urlpatterns = [
     path('destination.html', views.destination, name='destination'),  # Fixed function name
     path('contact', views.contact, name='contact'),
     path('discount.html', views.discount, name='discount'),
+    # Booking endpoints
     path('booking.html', views.booking, name='booking'),
+    path('booking/success/', views.booking_success, name='booking_success'),
+    # API endpoints used by booking JS
+    path('api/accommodations/', views.get_accommodations_by_type, name='get_accommodations'),
+    path('api/calculate-total/', views.calculate_booking_total, name='calculate_total'),
+    # Newsletter subscribe
+    path('subscribe/', views.subscribe_newsletter, name='subscribe_newsletter'),
+    # Other pages
     path('videos.html', views.videos, name='videos'),
     path('packages/', views.packages, name='packages'),
     path('packages.html', views.packages),

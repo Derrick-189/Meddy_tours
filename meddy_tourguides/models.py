@@ -156,7 +156,6 @@ class DiscountedTour(models.Model):
         ):
             raise ValidationError({"discounted_price": "Discounted price cannot exceed original price."})
     
-    @property
     def discount_percentage(self):
         """Calculate discount percentage"""
         # During admin "add", field values are None, so guard comparisons.
@@ -170,3 +169,157 @@ class DiscountedTour(models.Model):
             return 0
         # Clamp between 0 and 100 for safety
         return max(0, min(100, percentage))
+
+# === Booking domain models ===
+
+class TourPackage(models.Model):
+    PACKAGE_TYPES = [
+        ('luxury', 'Luxury'),
+        ('mid_range', 'Mid-Range'),
+        ('budget', 'Budget'),
+    ]
+
+    name = models.CharField(max_length=200)
+    description = models.TextField()
+    package_type = models.CharField(max_length=20, choices=PACKAGE_TYPES)
+    duration_days = models.PositiveIntegerField(default=1)
+    original_price = models.DecimalField(max_digits=10, decimal_places=2)
+    discounted_price = models.DecimalField(max_digits=10, decimal_places=2, null=True, blank=True)
+    image = models.FileField(upload_to='tour_packages/', validators=[FileExtensionValidator(["jpg","jpeg","png","gif","webp"])])
+    is_active = models.BooleanField(default=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return self.name
+
+class Accommodation(models.Model):
+    ACCOMMODATION_TYPES = [
+        ('luxury', 'Luxury'),
+        ('mid_range', 'Mid-Range'),
+        ('budget', 'Budget'),
+    ]
+
+    name = models.CharField(max_length=200)
+    accommodation_type = models.CharField(max_length=20, choices=ACCOMMODATION_TYPES)
+    description = models.TextField()
+    price_per_night = models.DecimalField(max_digits=10, decimal_places=2)
+    image = models.FileField(upload_to='accommodations/', validators=[FileExtensionValidator(["jpg","jpeg","png","gif","webp"])])
+    location = models.CharField(max_length=200)
+    amenities = models.TextField(help_text="Comma-separated list of amenities")
+    is_active = models.BooleanField(default=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f"{self.name} - {self.get_accommodation_type_display()}"
+
+class Booking(models.Model):
+    STATUS_CHOICES = [
+        ('pending', 'Pending'),
+        ('confirmed', 'Confirmed'),
+        ('cancelled', 'Cancelled'),
+        ('completed', 'Completed'),
+    ]
+
+    # Customer Information
+    first_name = models.CharField(max_length=100)
+    last_name = models.CharField(max_length=100)
+    email = models.EmailField()
+    phone = models.CharField(max_length=20, blank=True, null=True)
+
+    # Booking Details
+    tour_package = models.ForeignKey(TourPackage, on_delete=models.CASCADE)
+    accommodation = models.ForeignKey(Accommodation, on_delete=models.SET_NULL, null=True, blank=True)
+    travel_date = models.DateField()
+    number_of_persons = models.PositiveIntegerField(default=1)
+    special_requests = models.TextField(blank=True, null=True)
+
+    # Metadata
+    booking_reference = models.CharField(max_length=20, unique=True)
+    status = models.CharField(max_length=20, choices=STATUS_CHOICES, default='pending')
+    total_amount = models.DecimalField(max_digits=10, decimal_places=2, default=0)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+    confirmed_at = models.DateTimeField(null=True, blank=True)
+
+    def __str__(self):
+        return f"Booking #{self.booking_reference} - {self.first_name} {self.last_name}"
+
+    def save(self, *args, **kwargs):
+        # Compute reference & total
+        if not self.booking_reference:
+            self.booking_reference = self.generate_booking_reference()
+        tour_cost = (self.tour_package.discounted_price or self.tour_package.original_price) if self.tour_package else 0
+        acc_cost = self.accommodation.price_per_night if self.accommodation else 0
+        self.total_amount = (tour_cost + acc_cost) * self.number_of_persons
+
+        # Auto-set confirmed_at when status becomes confirmed
+        just_confirmed = False
+        try:
+            old_status = None
+            if self.pk:
+                old_status = Booking.objects.only('status').get(pk=self.pk).status
+            if self.status == 'confirmed' and not self.confirmed_at:
+                from django.utils import timezone
+                self.confirmed_at = timezone.now()
+                # treat as newly confirmed if previous status wasn't confirmed
+                if old_status != 'confirmed':
+                    just_confirmed = True
+            # If reverted from confirmed, keep confirmed_at (audit), so do not clear it
+        except Exception:
+            pass
+
+        super().save(*args, **kwargs)
+
+        # Send confirmation email only when newly confirmed
+        if just_confirmed:
+            try:
+                from django.core.mail import send_mail
+                from django.conf import settings
+                send_mail(
+                    subject=f"Your booking {self.booking_reference} is confirmed",
+                    message=(
+                        f"Hello {self.first_name},\n\n"
+                        f"Your booking has been confirmed.\n"
+                        f"Reference: {self.booking_reference}\n"
+                        f"Tour: {self.tour_package}\n"
+                        f"Travel date: {self.travel_date}\n"
+                        f"Persons: {self.number_of_persons}\n"
+                        f"Total: ${self.total_amount}\n\n"
+                        f"Thank you for choosing Meddy Tours!"
+                    ),
+                    from_email=getattr(settings, 'DEFAULT_FROM_EMAIL', None),
+                    recipient_list=[self.email],
+                    fail_silently=True,
+                )
+            except Exception:
+                pass
+
+    def generate_booking_reference(self):
+        import random, string
+        return 'BK' + ''.join(random.choices(string.digits, k=8))
+
+class ContactMessage(models.Model):
+    STATUS_CHOICES = [
+        ('new', 'New'),
+        ('read', 'Read'),
+        ('replied', 'Replied'),
+    ]
+
+    first_name = models.CharField(max_length=100)
+    last_name = models.CharField(max_length=100)
+    email = models.EmailField()
+    subject = models.CharField(max_length=200)
+    message = models.TextField()
+    status = models.CharField(max_length=20, choices=STATUS_CHOICES, default='new')
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f"{self.subject} - {self.first_name} {self.last_name}"
+
+class NewsletterSubscriber(models.Model):
+    email = models.EmailField(unique=True)
+    is_active = models.BooleanField(default=True)
+    subscribed_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return self.email

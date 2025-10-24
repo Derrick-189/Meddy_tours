@@ -20,7 +20,9 @@
                     <h4 class="alert-heading">Thank You for Your Booking!</h4>
                     <p>Your booking has been received successfully. We will contact you shortly to confirm the details.</p>
                     <hr>
+                    {% if booking %}
                     <p class="mb-0">Booking Reference: <strong>{{ booking.booking_reference }}</strong></p>
+                    {% endif %}
                 </div>
                 <a href="{% url 'index' %}" class="btn btn-primary">Return to Home</a>
             </div>
