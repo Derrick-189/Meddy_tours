@@ -7,7 +7,7 @@
 from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin
 from django.contrib.auth.models import User
-from .models import Destination, BlogPost, TeamMember, Testimonial, DiscountedTour, Video
+from .models import Destination, BlogPost, TeamMember, Testimonial, DiscountedTour, Video, TourPackage, Accommodation, Booking, ContactMessage, NewsletterSubscriber
 
 class DestinationAdmin(admin.ModelAdmin):
     list_display = ['name', 'price', 'offer']
@@ -58,6 +58,55 @@ admin.site.register(TeamMember, TeamMemberAdmin)
 admin.site.register(Testimonial, TestimonialAdmin)
 admin.site.register(DiscountedTour, DiscountedTourAdmin)
 admin.site.register(Video, VideoAdmin)
+
+# Booking domain registrations
+@admin.register(TourPackage)
+class TourPackageAdmin(admin.ModelAdmin):
+    list_display = ("name", "package_type", "duration_days", "original_price", "discounted_price", "is_active")
+    list_filter = ("package_type", "is_active", "created_at")
+    search_fields = ("name", "description")
+
+@admin.register(Accommodation)
+class AccommodationAdmin(admin.ModelAdmin):
+    list_display = ("name", "accommodation_type", "price_per_night", "location", "is_active")
+    list_filter = ("accommodation_type", "is_active", "created_at")
+    search_fields = ("name", "location", "description")
+
+@admin.register(Booking)
+class BookingAdmin(admin.ModelAdmin):
+    list_display = ("booking_reference", "first_name", "last_name", "tour_package", "travel_date", "number_of_persons", "formatted_total", "status", "confirmed_at")
+    list_filter = ("status", "travel_date", "created_at", "confirmed_at")
+    search_fields = ("first_name", "last_name", "email", "booking_reference")
+    readonly_fields = ("booking_reference", "created_at", "updated_at", "confirmed_at")
+    actions = ["mark_selected_as_confirmed"]
+
+    @admin.display(description="Total")
+    def formatted_total(self, obj):
+        try:
+            return f"${obj.total_amount:.2f}"
+        except Exception:
+            return obj.total_amount
+
+    def mark_selected_as_confirmed(self, request, queryset):
+        updated = 0
+        for booking in queryset:
+            if booking.status != 'confirmed':
+                booking.status = 'confirmed'
+                booking.save()
+                updated += 1
+        self.message_user(request, f"Marked {updated} booking(s) as confirmed.")
+    mark_selected_as_confirmed.short_description = "Mark selected as Confirmed"
+
+@admin.register(ContactMessage)
+class ContactMessageAdmin(admin.ModelAdmin):
+    list_display = ("subject", "first_name", "last_name", "email", "status", "created_at")
+    list_filter = ("status", "created_at")
+    search_fields = ("first_name", "last_name", "email", "subject")
+
+@admin.register(NewsletterSubscriber)
+class NewsletterSubscriberAdmin(admin.ModelAdmin):
+    list_display = ("email", "is_active", "subscribed_at")
+    list_filter = ("is_active", "subscribed_at")
 
 # Create custom admin site for content managers
 class ContentManagerAdminSite(admin.AdminSite):

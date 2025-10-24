@@ -1,5 +1,10 @@
-from django.shortcuts import render
-from .models import Destination, BlogPost, TeamMember, Testimonial, DiscountedTour, Video
+from django.shortcuts import render, redirect, get_object_or_404
+from django.http import JsonResponse
+from django.contrib import messages
+from django.core.mail import send_mail
+from django.conf import settings
+from .models import Destination, BlogPost, TeamMember, Testimonial, DiscountedTour, Video, Booking, Accommodation, TourPackage, NewsletterSubscriber
+from .forms import BookingForm, ContactForm
 
 def index(request):
     dests = Destination.objects.all()
@@ -36,14 +41,108 @@ def destination(request):
     return render(request, 'destination.html', {'destinations': destinations})
 
 def contact(request):
-    return render(request, 'contact.html')
+    if request.method == 'POST':
+        form = ContactForm(request.POST)
+        if form.is_valid():
+            msg = form.save()
+            # Send confirmation to user (console backend in dev)
+            try:
+                send_mail(
+                    subject='We received your message',
+                    message=(
+                        f"Hello {msg.first_name},\n\n"
+                        f"Thanks for contacting Meddy Tours. We received your message:\n\n"
+                        f"Subject: {msg.subject}\n"
+                        f"Message: {msg.message}\n\n"
+                        f"We will get back to you shortly."
+                    ),
+                    from_email=getattr(settings, 'DEFAULT_FROM_EMAIL', None),
+                    recipient_list=[msg.email],
+                    fail_silently=True,
+                )
+                # Optional admin notification
+                admin_email = getattr(settings, 'ADMIN_EMAIL', None)
+                if admin_email:
+                    send_mail(
+                        subject=f'New contact message: {msg.subject}',
+                        message=f'From: {msg.first_name} {msg.last_name} <{msg.email}>\n\n{msg.message}',
+                        from_email=getattr(settings, 'DEFAULT_FROM_EMAIL', None),
+                        recipient_list=[admin_email],
+                        fail_silently=True,
+                    )
+            except Exception:
+                pass
+            messages.success(request, 'Your message has been sent. We will get back to you shortly.')
+            return redirect('contact')
+    else:
+        form = ContactForm()
+    return render(request, 'contact.html', { 'form': form })
 
 def discount(request):
     discounted_tours = DiscountedTour.objects.filter(is_active=True).order_by('-created_at')
     return render(request, 'discount.html', {'discounted_tours': discounted_tours})
 
 def booking(request):
-    return render(request, 'booking.html')
+    if request.method == 'POST':
+        form = BookingForm(request.POST)
+        if form.is_valid():
+            booking = form.save()
+            return redirect(f"/booking/success/?ref={booking.booking_reference}")
+    else:
+        form = BookingForm()
+    return render(request, 'booking.html', { 'form': form })
+
+def booking_success(request):
+    ref = request.GET.get('ref')
+    booking = None
+    if ref:
+        booking = Booking.objects.filter(booking_reference=ref).first()
+    return render(request, 'booking_success.html', { 'booking': booking })
+
+# --- API endpoints used by the provided JS ---
+def get_accommodations_by_type(request):
+    acc_type = request.GET.get('type')
+    qs = Accommodation.objects.filter(is_active=True)
+    if acc_type:
+        qs = qs.filter(accommodation_type=acc_type)
+    data = [
+        {
+            'id': a.id,
+            'name': a.name,
+            'price_per_night': float(a.price_per_night),
+        } for a in qs
+    ]
+    return JsonResponse(data, safe=False)
+
+def calculate_booking_total(request):
+    try:
+        tour_id = request.GET.get('tour_package')
+        acc_id = request.GET.get('accommodation')
+        persons = int(request.GET.get('persons') or 1)
+        total = 0
+        if tour_id:
+            tour = TourPackage.objects.get(id=tour_id)
+            tour_cost = tour.discounted_price or tour.original_price
+            total += float(tour_cost)
+        if acc_id:
+            acc = Accommodation.objects.get(id=acc_id)
+            total += float(acc.price_per_night)
+        total *= max(1, persons)
+        return JsonResponse({'total_amount': round(total, 2)})
+    except Exception:
+        return JsonResponse({'total_amount': 0})
+
+def subscribe_newsletter(request):
+    if request.method == 'POST':
+        email = request.POST.get('email')
+        if not email:
+            return JsonResponse({'success': False, 'message': 'Email is required.'})
+        obj, created = NewsletterSubscriber.objects.get_or_create(email=email)
+        if not created:
+            obj.is_active = True
+            obj.save(update_fields=['is_active'])
+        return JsonResponse({'success': True, 'message': 'Subscribed successfully!'})
+    return JsonResponse({'success': False, 'message': 'Invalid request.'}, status=400)
 
 def videos(request):
     videos = Video.objects.all().order_by('-created_at')
