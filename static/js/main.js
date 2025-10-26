@@ -186,6 +186,32 @@ jQuery(document).ready(function($) {
 	      }
 	    }
 	  });
+
+	  // Gallery: open local MP4s in an inline modal
+	  $('.popup-video').magnificPopup({
+	    type: 'inline',
+	    midClick: true,
+	    closeBtnInside: true,
+	    closeOnBgClick: true,
+	    enableEscapeKey: true,
+	    callbacks: {
+	      open: function() {
+	        var $el = this.st.el;
+	        var src = $el.attr('href');
+	        var title = $el.data('title') || '';
+	        var markup = [
+	          '<div class="video-popup">',
+	            title ? ('<h3 class="mb-3">' + title + '</h3>') : '',
+	            '<video controls playsinline preload="metadata">',
+	              '<source src="' + src + '" type="video/mp4">',
+	              'Your browser does not support the video tag.',
+	            '</video>',
+	          '</div>'
+	        ].join('');
+	        this.content.html(markup);
+	      }
+	    }
+	  });
 	};
 	siteMagnificPopup();
 
@@ -343,5 +369,75 @@ jQuery(document).ready(function($) {
 	    $imgs.each(function(){ if (this.complete) { if(--pending===0) run(); } else { $(this).one('load error', function(){ if(--pending===0) run(); }); } });
 	    $(window).on('resize', debounce(run, 150));
 	  })();
+	})();
+
+	// Gallery: filters, search, pagination (videos.html)
+	(function galleryEnhancements(){
+	  var $grid = $('#gallery-grid');
+	  if (!$grid.length) return; // only on videos.html
+
+	  var $cards = $grid.children('.gallery-card');
+	  var $controls = $('.gallery-controls');
+	  var pageSize = parseInt($controls.data('page-size') || 9, 10);
+	  var state = { filter: '*', query: '', page: 1, pages: 1 };
+
+	  // Build category buttons from data-category
+	  var cats = {};
+	  $cards.each(function(){ var c = ($(this).data('category')||'Uncategorized').toString(); cats[c] = true; });
+	  var $filters = $('.gallery-filters');
+	  Object.keys(cats).sort().forEach(function(c){
+	    var btn = $('<button/>', { type:'button', class:'btn btn-outline-primary', text:c, 'data-filter': c });
+	    $filters.append(btn);
+	  });
+
+	  function apply(){
+	    // Filter by category and text
+	    var q = state.query.toLowerCase();
+	    var shown = [];
+	    $cards.each(function(){
+	      var $el = $(this);
+	      var matchCat = (state.filter === '*') || ($el.data('category')+'' === state.filter);
+	      var title = ($el.data('title')||'').toString().toLowerCase();
+	      var desc  = ($el.data('desc')||'').toString().toLowerCase();
+	      var matchText = !q || title.indexOf(q) !== -1 || desc.indexOf(q) !== -1;
+	      if (matchCat && matchText) { shown.push($el); $el.show(); } else { $el.hide(); }
+	    });
+	    // Pagination
+	    state.pages = Math.max(1, Math.ceil(shown.length / pageSize));
+	    if (state.page > state.pages) state.page = 1;
+	    // Show only current page items
+	    shown.forEach(function($el, idx){
+	      var pageIndex = Math.floor(idx / pageSize) + 1;
+	      if (pageIndex === state.page) $el.show(); else $el.hide();
+	    });
+	    renderPagination();
+	  }
+
+	  function renderPagination(){
+	    var $pager = $('.gallery-pagination');
+	    if (!$pager.length) return;
+	    $pager.empty();
+	    if (state.pages <= 1) return;
+	    var $ul = $('<div class="btn-group btn-group-sm" role="group"/>');
+	    for (var i=1;i<=state.pages;i++){
+	      var $b = $('<button/>', { class:'btn btn-outline-primary' + (i===state.page?' active':''), text:i });
+	      (function(page){ $b.on('click', function(){ state.page = page; apply(); window.scrollTo({top: $grid.offset().top - 120, behavior:'smooth'}); }); })(i);
+	      $ul.append($b);
+	    }
+	    $pager.append($ul);
+	  }
+
+	  // Events
+	  $filters.on('click', 'button', function(){
+	    $filters.find('button').removeClass('active');
+	    $(this).addClass('active');
+	    state.filter = $(this).data('filter');
+	    state.page = 1;
+	    apply();
+	  });
+	  $('#gallery-search').on('input', function(){ state.query = $(this).val(); state.page = 1; apply(); });
+
+	  // Initial
+	  apply();
 	})();
 });

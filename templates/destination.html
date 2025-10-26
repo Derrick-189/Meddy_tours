@@ -230,7 +230,8 @@
           <div class="col-lg-4">
             <div class="mb-5">
               <h3 class="footer-heading mb-4">About Meddy tours</h3>
-              <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Saepe pariatur reprehenderit vero atque, consequatur id ratione, et non dignissimos culpa? Ut veritatis, quos illum totam quis blanditiis, minima minus odio!</p>
+              <p>Meddy Tours Company Limited is a trusted and well-established tour and travel operator based in Uganda. We are dedicated to crafting unforgettable journeys that connect visitors from around the world with the true essence of East Africa. Our passionate team of local experts is committed to sharing the incredible natural beauty, vibrant cultures, and genuine hospitality found across Uganda, Rwanda, Kenya, and Tanzania.
+              </p>
             </div>
 
             
@@ -243,18 +244,18 @@
               </div>
               <div class="col-md-6 col-lg-6">
                 <ul class="list-unstyled">
-                  <li><a href="#">Home</a></li>
-                  <li><a href="#">Destination</a></li>
-                  <li><a href="#">Services</a></li>
-                  <li><a href="#">About</a></li>
+                  <li><a href="{% url 'index' %}">Home</a></li>
+                  <li><a href="{% url 'destination' %}">Destination</a></li>
+                  <li><a href="{% url 'services' %}">Services</a></li>
+                  <li><a href="{% url 'about' %}">About</a></li>
                 </ul>
               </div>
               <div class="col-md-6 col-lg-6">
                 <ul class="list-unstyled">
-                  <li><a href="#">About Us</a></li>
+                  <li><a href="{% url 'about' %}">About Us</a></li>
                   <li><a href="#">Privacy Policy</a></li>
-                  <li><a href="#">Contact Us</a></li>
-                  <li><a href="#">Discounts</a></li>
+                  <li><a href="{% url 'contact' %}">Contact Us</a></li>
+                  <li><a href="{% url 'discount' %}">Discounts</a></li>
                 </ul>
               </div>
             </div>
