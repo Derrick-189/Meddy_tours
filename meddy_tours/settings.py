@@ -138,8 +138,8 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media')  # Create this directory
 LOGIN_REDIRECT_URL = '/admin/'
 LOGOUT_REDIRECT_URL = '/'
 
-# --- Local development email backend ---
-# Sends emails to the console instead of a real SMTP server.
+# Email (local development)
+# Prints emails to the runserver console
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 DEFAULT_FROM_EMAIL = 'dev@localhost'
 SERVER_EMAIL = DEFAULT_FROM_EMAIL

@@ -1,10 +1,7 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.http import JsonResponse
-from django.contrib import messages
-from django.core.mail import send_mail
-from django.conf import settings
 from .models import Destination, BlogPost, TeamMember, Testimonial, DiscountedTour, Video, Booking, Accommodation, TourPackage, NewsletterSubscriber
-from .forms import BookingForm, ContactForm
+from .forms import BookingForm
 
 def index(request):
     dests = Destination.objects.all()
@@ -41,42 +38,7 @@ def destination(request):
     return render(request, 'destination.html', {'destinations': destinations})
 
 def contact(request):
-    if request.method == 'POST':
-        form = ContactForm(request.POST)
-        if form.is_valid():
-            msg = form.save()
-            # Send confirmation to user (console backend in dev)
-            try:
-                send_mail(
-                    subject='We received your message',
-                    message=(
-                        f"Hello {msg.first_name},\n\n"
-                        f"Thanks for contacting Meddy Tours. We received your message:\n\n"
-                        f"Subject: {msg.subject}\n"
-                        f"Message: {msg.message}\n\n"
-                        f"We will get back to you shortly."
-                    ),
-                    from_email=getattr(settings, 'DEFAULT_FROM_EMAIL', None),
-                    recipient_list=[msg.email],
-                    fail_silently=True,
-                )
-                # Optional admin notification
-                admin_email = getattr(settings, 'ADMIN_EMAIL', None)
-                if admin_email:
-                    send_mail(
-                        subject=f'New contact message: {msg.subject}',
-                        message=f'From: {msg.first_name} {msg.last_name} <{msg.email}>\n\n{msg.message}',
-                        from_email=getattr(settings, 'DEFAULT_FROM_EMAIL', None),
-                        recipient_list=[admin_email],
-                        fail_silently=True,
-                    )
-            except Exception:
-                pass
-            messages.success(request, 'Your message has been sent. We will get back to you shortly.')
-            return redirect('contact')
-    else:
-        form = ContactForm()
-    return render(request, 'contact.html', { 'form': form })
+    return render(request, 'contact.html')
 
 def discount(request):
     discounted_tours = DiscountedTour.objects.filter(is_active=True).order_by('-created_at')

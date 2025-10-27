@@ -239,60 +239,17 @@ class Booking(models.Model):
     total_amount = models.DecimalField(max_digits=10, decimal_places=2, default=0)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
-    confirmed_at = models.DateTimeField(null=True, blank=True)
 
     def __str__(self):
         return f"Booking #{self.booking_reference} - {self.first_name} {self.last_name}"
 
     def save(self, *args, **kwargs):
-        # Compute reference & total
         if not self.booking_reference:
             self.booking_reference = self.generate_booking_reference()
         tour_cost = (self.tour_package.discounted_price or self.tour_package.original_price) if self.tour_package else 0
         acc_cost = self.accommodation.price_per_night if self.accommodation else 0
         self.total_amount = (tour_cost + acc_cost) * self.number_of_persons
-
-        # Auto-set confirmed_at when status becomes confirmed
-        just_confirmed = False
-        try:
-            old_status = None
-            if self.pk:
-                old_status = Booking.objects.only('status').get(pk=self.pk).status
-            if self.status == 'confirmed' and not self.confirmed_at:
-                from django.utils import timezone
-                self.confirmed_at = timezone.now()
-                # treat as newly confirmed if previous status wasn't confirmed
-                if old_status != 'confirmed':
-                    just_confirmed = True
-            # If reverted from confirmed, keep confirmed_at (audit), so do not clear it
-        except Exception:
-            pass
-
         super().save(*args, **kwargs)
-
-        # Send confirmation email only when newly confirmed
-        if just_confirmed:
-            try:
-                from django.core.mail import send_mail
-                from django.conf import settings
-                send_mail(
-                    subject=f"Your booking {self.booking_reference} is confirmed",
-                    message=(
-                        f"Hello {self.first_name},\n\n"
-                        f"Your booking has been confirmed.\n"
-                        f"Reference: {self.booking_reference}\n"
-                        f"Tour: {self.tour_package}\n"
-                        f"Travel date: {self.travel_date}\n"
-                        f"Persons: {self.number_of_persons}\n"
-                        f"Total: ${self.total_amount}\n\n"
-                        f"Thank you for choosing Meddy Tours!"
-                    ),
-                    from_email=getattr(settings, 'DEFAULT_FROM_EMAIL', None),
-                    recipient_list=[self.email],
-                    fail_silently=True,
-                )
-            except Exception:
-                pass
 
     def generate_booking_reference(self):
         import random, string

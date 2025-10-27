@@ -74,28 +74,10 @@ class AccommodationAdmin(admin.ModelAdmin):
 
 @admin.register(Booking)
 class BookingAdmin(admin.ModelAdmin):
-    list_display = ("booking_reference", "first_name", "last_name", "tour_package", "travel_date", "number_of_persons", "formatted_total", "status", "confirmed_at")
-    list_filter = ("status", "travel_date", "created_at", "confirmed_at")
+    list_display = ("booking_reference", "first_name", "last_name", "tour_package", "travel_date", "number_of_persons", "total_amount", "status")
+    list_filter = ("status", "travel_date", "created_at")
     search_fields = ("first_name", "last_name", "email", "booking_reference")
-    readonly_fields = ("booking_reference", "created_at", "updated_at", "confirmed_at")
-    actions = ["mark_selected_as_confirmed"]
-
-    @admin.display(description="Total")
-    def formatted_total(self, obj):
-        try:
-            return f"${obj.total_amount:.2f}"
-        except Exception:
-            return obj.total_amount
-
-    def mark_selected_as_confirmed(self, request, queryset):
-        updated = 0
-        for booking in queryset:
-            if booking.status != 'confirmed':
-                booking.status = 'confirmed'
-                booking.save()
-                updated += 1
-        self.message_user(request, f"Marked {updated} booking(s) as confirmed.")
-    mark_selected_as_confirmed.short_description = "Mark selected as Confirmed"
+    readonly_fields = ("booking_reference", "created_at", "updated_at")
 
 @admin.register(ContactMessage)
 class ContactMessageAdmin(admin.ModelAdmin):
