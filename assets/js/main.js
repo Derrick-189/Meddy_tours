@@ -228,6 +228,7 @@ jQuery(document).ready(function($) {
 			stagePadding: 0,
 	    margin: 0,
 	    autoplay: true,
+<<<<<<< HEAD
 	    autoplayTimeout: 5000,
 	    autoplaySpeed: 800,
 	    pauseOnHover: true,
@@ -238,11 +239,17 @@ jQuery(document).ready(function($) {
 	    touchDrag: true,
 	    mouseDrag: true,
 	    rewindSpeed: 1000
+=======
+	    pauseOnHover: false,
+	    nav: true,
+	    navText: ['<span class="icon-keyboard_arrow_left">', '<span class="icon-keyboard_arrow_right">']
+>>>>>>> 6e674a3e4db70d9c170fa53eccbc7b2fa29be6db
 	  });
 	};
 	siteCarousel();
 
 	var siteStellar = function() {
+<<<<<<< HEAD
 		// Only enable parallax on larger screens for better mobile performance
 		if (window.innerWidth > 992) {
 			$(window).stellar({
@@ -254,6 +261,16 @@ jQuery(document).ready(function($) {
 		    scrollProperty: 'scroll'
 		  });
 		}
+=======
+		$(window).stellar({
+	    responsive: false,
+	    parallaxBackgrounds: true,
+	    parallaxElements: true,
+	    horizontalScrolling: false,
+	    hideDistantElements: false,
+	    scrollProperty: 'scroll'
+	  });
+>>>>>>> 6e674a3e4db70d9c170fa53eccbc7b2fa29be6db
 	};
 	siteStellar();
 

@@ -18,6 +18,7 @@ from django.contrib import admin
 from django.urls import path, include
 from django.conf import settings
 from django.conf.urls.static import static
+<<<<<<< HEAD
 from django.views.generic import RedirectView
 from meddy_tourguides.admin import content_manager_site
 
@@ -31,6 +32,16 @@ urlpatterns = [
 ]
 
 # Serve media files in development
+=======
+from meddy_tourguides.admin import content_manager_site
+
+urlpatterns = [
+    path('admin/', admin.site.urls),
+    path('content-manager/', content_manager_site.urls),
+    path('', include('meddy_tourguides.urls')),
+]
+
+>>>>>>> 6e674a3e4db70d9c170fa53eccbc7b2fa29be6db
 if settings.DEBUG:
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
     urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

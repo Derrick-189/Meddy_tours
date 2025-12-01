@@ -7,7 +7,11 @@
 from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin
 from django.contrib.auth.models import User
+<<<<<<< HEAD
 from .models import Destination, BlogPost, TeamMember, Testimonial, DiscountedTour, Video, Image, TourPackage, Accommodation, Booking, ContactMessage, NewsletterSubscriber
+=======
+from .models import Destination, BlogPost, TeamMember, Testimonial, DiscountedTour, Video, TourPackage, Accommodation, Booking, ContactMessage, NewsletterSubscriber
+>>>>>>> 6e674a3e4db70d9c170fa53eccbc7b2fa29be6db
 
 class DestinationAdmin(admin.ModelAdmin):
     list_display = ['name', 'price', 'offer']
@@ -57,6 +61,7 @@ admin.site.register(BlogPost, BlogPostAdmin)
 admin.site.register(TeamMember, TeamMemberAdmin)
 admin.site.register(Testimonial, TestimonialAdmin)
 admin.site.register(DiscountedTour, DiscountedTourAdmin)
+<<<<<<< HEAD
 class ImageAdmin(admin.ModelAdmin):
     list_display = ['title', 'category', 'created_at']
     list_filter = ['category', 'created_at']
@@ -64,6 +69,8 @@ class ImageAdmin(admin.ModelAdmin):
     date_hierarchy = 'created_at'
 
 admin.site.register(Image, ImageAdmin)
+=======
+>>>>>>> 6e674a3e4db70d9c170fa53eccbc7b2fa29be6db
 admin.site.register(Video, VideoAdmin)
 
 # Booking domain registrations

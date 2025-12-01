@@ -16,9 +16,14 @@ urlpatterns = [
     path('api/calculate-total/', views.calculate_booking_total, name='calculate_total'),
     # Newsletter subscribe
     path('subscribe/', views.subscribe_newsletter, name='subscribe_newsletter'),
+<<<<<<< HEAD
     # Videos page - handle both with and without .html extension
     path('videos.html/', views.videos, name='videos'),
     path('videos/', views.videos, name='videos'),
+=======
+    # Other pages
+    path('videos.html', views.videos, name='videos'),
+>>>>>>> 6e674a3e4db70d9c170fa53eccbc7b2fa29be6db
     path('packages/', views.packages, name='packages'),
     path('packages.html', views.packages),
     path('packages', views.packages),

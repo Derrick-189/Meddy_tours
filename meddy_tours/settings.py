@@ -44,7 +44,10 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'meddy_tourguides',
+<<<<<<< HEAD
     'django_extensions',
+=======
+>>>>>>> 6e674a3e4db70d9c170fa53eccbc7b2fa29be6db
 ]
 
 MIDDLEWARE = [
@@ -122,6 +125,7 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.2/howto/static-files/
 
+<<<<<<< HEAD
 STATIC_URL = '/static/'
 STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static')]
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
@@ -129,6 +133,11 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 # Ensure STATICFILES_DIRS is a list
 if isinstance(STATICFILES_DIRS, str):
     STATICFILES_DIRS = [STATICFILES_DIRS]
+=======
+STATIC_URL = 'static/'
+STATICFILES_DIRS = [BASE_DIR / "static"]
+STATIC_ROOT = BASE_DIR / 'assets'
+>>>>>>> 6e674a3e4db70d9c170fa53eccbc7b2fa29be6db
 
 
 # Default primary key field type

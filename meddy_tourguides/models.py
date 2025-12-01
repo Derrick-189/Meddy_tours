@@ -63,6 +63,7 @@ class Testimonial(models.Model):
     def __str__(self):
         return self.name
 
+<<<<<<< HEAD
 class Image(models.Model):
     title = models.CharField(max_length=200)
     description = models.TextField(blank=True)
@@ -77,12 +78,17 @@ class Image(models.Model):
         ordering = ['-created_at']
 
 
+=======
+>>>>>>> 6e674a3e4db70d9c170fa53eccbc7b2fa29be6db
 class Video(models.Model):
     title = models.CharField(max_length=200)
     description = models.TextField(blank=True)
     video_file = models.FileField(upload_to='videos/')
     thumbnail = models.FileField(upload_to='video_thumbs/', blank=True, validators=[FileExtensionValidator(["jpg","jpeg","png","gif","webp"])])
+<<<<<<< HEAD
     category = models.CharField(max_length=100, blank=True, null=True)
+=======
+>>>>>>> 6e674a3e4db70d9c170fa53eccbc7b2fa29be6db
     created_at = models.DateTimeField(auto_now_add=True)
     
     def __str__(self):

@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 /* Video Player and Popup Styles */
 .white-popup {
   position: fixed;
@@ -267,6 +268,23 @@ body.popup-active {
   z-index: 10001 !important;
 }
 
+=======
+/* Local video popup sizing */
+.video-popup {
+  max-width: 900px;
+  width: 90vw;
+  margin: 0 auto;
+}
+.video-popup video {
+  display: block;
+  width: 100%;
+  height: auto;
+  max-height: 80vh;
+}
+
+/* Improve overlay usability for Magnific Popup */
+.mfp-bg { cursor: pointer; }
+>>>>>>> 6e674a3e4db70d9c170fa53eccbc7b2fa29be6db
 /* Base */
 :root {
   /* Modern color system */
@@ -1533,6 +1551,7 @@ h1, h2, h3, h4, h5,
 
 /* Global: fixed aspect ratio for services grid */
 /* Uniform dimensions for services images (width 100% of column, fixed height) */
+<<<<<<< HEAD
 /* Service Item Styles */
 .service-item {
     background: #fff;
@@ -1835,6 +1854,20 @@ h1, h2, h3, h4, h5,
     .service-content {
         padding: 20px 15px;
     }
+=======
+.service-item .service-img {
+  width: 100% !important;
+  height: 240px !important; /* base height */
+  overflow: hidden;
+  display: block;
+  border-radius: 14px;
+}
+@media (min-width: 768px) {
+  .service-item .service-img { height: 260px !important; }
+}
+@media (min-width: 1200px) {
+  .service-item .service-img { height: 300px !important; }
+>>>>>>> 6e674a3e4db70d9c170fa53eccbc7b2fa29be6db
 }
   .unit-1 .unit-1-text {
     z-index: 2;

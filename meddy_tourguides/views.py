@@ -1,6 +1,10 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.http import JsonResponse
+<<<<<<< HEAD
 from .models import Destination, BlogPost, TeamMember, Testimonial, DiscountedTour, Video, Image, Booking, Accommodation, TourPackage, NewsletterSubscriber
+=======
+from .models import Destination, BlogPost, TeamMember, Testimonial, DiscountedTour, Video, Booking, Accommodation, TourPackage, NewsletterSubscriber
+>>>>>>> 6e674a3e4db70d9c170fa53eccbc7b2fa29be6db
 from .forms import BookingForm
 
 def index(request):
@@ -108,6 +112,7 @@ def subscribe_newsletter(request):
 
 def videos(request):
     videos = Video.objects.all().order_by('-created_at')
+<<<<<<< HEAD
     images = Image.objects.all().order_by('-created_at')
     
     # Get unique categories for filtering
@@ -123,6 +128,9 @@ def videos(request):
         'all_categories': all_categories,
     }
     return render(request, 'videos.html', context)
+=======
+    return render(request, 'videos.html', { 'videos': videos })
+>>>>>>> 6e674a3e4db70d9c170fa53eccbc7b2fa29be6db
 
 # New: Packages page using ported styling template
 def packages(request):
