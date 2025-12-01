@@ -1,0 +1,144 @@
+/* Lazy Loading & Progressive Enhancement Styles */
+
+/* Placeholder background for lazy-loaded images */
+.lazy-image {
+  background-color: #f0f0f0;
+  background-size: cover;
+  background-position: center;
+  transition: opacity 0.3s ease-in-out;
+}
+
+.lazy-image.loaded {
+  opacity: 1;
+}
+
+.lazy-image:not(.loaded) {
+  opacity: 0.8;
+}
+
+/* Native lazy loading enhancement */
+img[loading="lazy"] {
+  background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+  background-size: 200% 100%;
+  animation: loading 2s infinite;
+}
+
+img[loading="lazy"].loaded {
+  animation: none;
+  background: none;
+}
+
+@keyframes loading {
+  0% { background-position: 200% 0; }
+  100% { background-position: -200% 0; }
+}
+
+/* Critical image styles (above-the-fold) */
+.hero-cover {
+  background-attachment: fixed;
+  background-size: cover;
+  background-position: center;
+  position: relative;
+}
+
+/* Intersection Observer animation */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.image-fade-in {
+  animation: fadeIn 0.5s ease-in-out;
+}
+
+/* Responsive image container aspect ratio */
+.image-container {
+  position: relative;
+  overflow: hidden;
+}
+
+.image-container--16-9 {
+  aspect-ratio: 16 / 9;
+}
+
+.image-container--4-3 {
+  aspect-ratio: 4 / 3;
+}
+
+.image-container--1-1 {
+  aspect-ratio: 1 / 1;
+}
+
+.image-container img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+}
+
+/* Image loading skeleton effect */
+.image-skeleton {
+  display: block;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    90deg,
+    rgba(255, 255, 255, 0),
+    rgba(255, 255, 255, 0.2),
+    rgba(255, 255, 255, 0)
+  );
+  background-size: 200% 100%;
+  animation: shimmer 2s infinite;
+}
+
+@keyframes shimmer {
+  0% {
+    background-position: -200% 0;
+  }
+  100% {
+    background-position: calc(200% + 200px) 0;
+  }
+}
+
+/* Picture element fallback styles */
+picture {
+  display: block;
+}
+
+picture img {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+/* Performance: Disable animations on low-end devices */
+@media (prefers-reduced-motion: reduce) {
+  .lazy-image,
+  img[loading="lazy"],
+  .image-fade-in,
+  .image-skeleton {
+    animation: none !important;
+    transition: none !important;
+  }
+}
+
+/* Mobile optimization: Disable fixed backgrounds on mobile for better performance */
+@media (max-width: 768px) {
+  .hero-cover,
+  .site-blocks-cover {
+    background-attachment: scroll;
+  }
+}
+
+/* WebP image support detection */
+.image-webp-support picture source[type="image/webp"] {
+  display: block;
+}
+
+.image-no-webp-support picture source[type="image/webp"] {
+  display: none;
+}

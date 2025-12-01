@@ -1,0 +1,1369 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <title>Meddy Tours - Our Services</title>
+    <meta name="description" content="Explore our premium travel services at Meddy Tours. We offer customized travel experiences across Uganda and East Africa.">
+    <meta name="keywords" content="travel, tours, Uganda, safari, adventure, vacation, holiday, East Africa, wildlife, gorilla trekking, mountain climbing">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <!-- Favicon -->
+    <link rel="icon" href="{% static 'images/logo.jpg' %}">
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Bootstrap CSS -->
+    <link href="{% static 'css/bootstrap.min.css' %}" rel="stylesheet">
+    
+    <!-- AOS Animation -->
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    
+    <!-- Custom CSS -->
+    <style>
+        :root {
+            --primary-color: #4CAF50;
+            --secondary-color: #2E7D32;
+            --accent-color: #FFC107;
+            --dark-color: #1A237E;
+            --light-color: #F5F5F5;
+            --text-color: #333;
+            --text-light: #666;
+        }
+        
+        body {
+            font-family: 'Poppins', sans-serif;
+            color: var(--text-color);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+        
+        /* Hero Section */
+        .page-hero {
+            background: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), url('{% static 'images/hero-bg.jpg' %}');
+            background-size: cover;
+            background-position: center;
+            color: white;
+            padding: 120px 0 80px;
+            text-align: center;
+            position: relative;
+        }
+        
+        .page-hero h1 {
+            font-size: 3.5rem;
+            font-weight: 700;
+            margin-bottom: 20px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+        }
+        
+        .breadcrumb {
+            background: transparent;
+            justify-content: center;
+            margin-bottom: 0;
+        }
+        
+        .breadcrumb-item a {
+            color: var(--accent-color);
+            text-decoration: none;
+        }
+        
+        .breadcrumb-item.active {
+            color: white;
+        }
+        
+        /* Services Section */
+        .services-section {
+            padding: 80px 0;
+            background-color: var(--light-color);
+        }
+        
+        .section-title {
+            text-align: center;
+            margin-bottom: 60px;
+        }
+        
+        .section-title h2 {
+            font-size: 2.5rem;
+            color: var(--dark-color);
+            position: relative;
+            display: inline-block;
+            padding-bottom: 15px;
+        }
+        
+        .section-title h2:after {
+            content: '';
+            position: absolute;
+            width: 70px;
+            height: 3px;
+            background: var(--primary-color);
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+        
+        .service-card {
+            background: white;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+            margin-bottom: 30px;
+            height: 100%;
+        }
+        
+        .service-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.15);
+        }
+        
+        .service-inner {
+            position: relative;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            flex: 1;
+        }
+        
+        .service-title {
+            padding: 20px;
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            min-height: 200px; /* Ensure minimum height for content area */
+        }
+        
+        .service-title h4 {
+            margin-bottom: 15px;
+            font-size: 1.25rem;
+            color: var(--dark-color);
+        }
+        
+        .explore-btn {
+            margin-top: auto;
+            background: var(--primary-color);
+            color: white;
+            border: none;
+            padding: 8px 20px;
+            border-radius: 30px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            align-self: flex-start;
+        }
+        
+        .explore-btn:hover {
+            background: var(--secondary-color);
+            transform: translateY(-2px);
+        }
+        
+        .service-img {
+            position: relative;
+            overflow: hidden;
+            height: 200px; /* Fixed height for all service images */
+            width: 100%;
+        }
+        
+        .service-img img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s ease;
+        }
+        
+        .service-card:hover .service-img img {
+            transform: scale(1.1);
+        }
+        
+        .service-content {
+            padding: 25px;
+        }
+        
+        .service-content h3 {
+            font-size: 1.5rem;
+            margin-bottom: 15px;
+            color: var(--dark-color);
+        }
+        
+        .service-content p {
+            color: var(--text-light);
+            margin-bottom: 20px;
+        }
+        
+        .service-icon {
+            font-size: 2.5rem;
+            color: var(--primary-color);
+            margin-bottom: 15px;
+        }
+        
+        .btn-service {
+            background: var(--primary-color);
+            color: white;
+            border: none;
+            padding: 8px 25px;
+            border-radius: 50px;
+            text-transform: uppercase;
+            font-size: 0.85rem;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-block;
+        }
+        
+        .btn-service:hover {
+            background: var(--secondary-color);
+            color: white;
+            transform: translateY(-2px);
+        }
+        
+        /* Why Choose Us Section */
+        .why-choose-us {
+            padding: 80px 0;
+            background: white;
+        }
+        
+        .feature-box {
+            text-align: center;
+            padding: 30px 20px;
+            border-radius: 10px;
+            background: var(--light-color);
+            transition: all 0.3s ease;
+            height: 100%;
+        }
+        
+        .feature-box:hover {
+            background: var(--primary-color);
+            color: white;
+        }
+        
+        .feature-box:hover h3,
+        .feature-box:hover p,
+        .feature-box:hover .feature-icon {
+            color: white;
+        }
+        
+        .feature-icon {
+            font-size: 2.5rem;
+            color: var(--primary-color);
+            margin-bottom: 20px;
+        }
+        
+        .feature-box h3 {
+            font-size: 1.5rem;
+            margin-bottom: 15px;
+            color: var(--dark-color);
+        }
+        
+        /* CTA Section */
+        .cta-section {
+            background: linear-gradient(135deg, rgba(26, 35, 126, 0.95), rgba(13, 71, 161, 0.95)), url('{% static 'images/cta-bg.jpg' %}');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            color: white;
+            padding: 100px 0;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .cta-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.05'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+            opacity: 0.5;
+        }
+        
+        .cta-content {
+            position: relative;
+            z-index: 1;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        .cta-section h2 {
+            font-size: 2.75rem;
+            margin-bottom: 20px;
+            font-weight: 700;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.2);
+        }
+        
+        .cta-section p {
+            font-size: 1.2rem;
+            margin-bottom: 30px;
+            max-width: 700px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        
+        .btn-cta {
+            background: var(--accent-color);
+            color: var(--dark-color);
+            font-weight: 600;
+            padding: 12px 35px;
+            border-radius: 50px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-block;
+        }
+        
+        .btn-cta:hover {
+            background: white;
+            color: var(--dark-color);
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+        }
+        
+        /* Responsive Styles */
+        @media (max-width: 991.98px) {
+            .page-hero h1 {
+                font-size: 2.5rem;
+            }
+            
+            .section-title h2 {
+                font-size: 2rem;
+            }
+        }
+        
+        @media (max-width: 767.98px) {
+            .page-hero {
+                padding: 100px 0 60px;
+            }
+            
+            .page-hero h1 {
+                font-size: 2rem;
+            }
+            
+            .services-section, .why-choose-us {
+                padding: 60px 0;
+            }
+        }
+        
+        @media (max-width: 575.98px) {
+            .service-card {
+                max-width: 350px;
+                margin-left: auto;
+                margin-right: auto;
+            }
+        }
+        
+        .service-item {
+            position: relative;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
+            height: 400px; /* Fixed height for all cards */
+            display: flex;
+            flex-direction: column;
+            border-radius: 14px;
+            overflow: hidden;
+            background: #fff;
+        }
+        
+        .service-item:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 40px rgba(0,0,0,0.15);
+        }
+        
+        .service-item .service-img {
+            width: 100%;
+            height: 200px;
+            min-height: 200px;
+            overflow: hidden;
+            border-radius: 14px 14px 0 0;
+            flex-shrink: 0;
+        }
+        
+        .service-item .service-img img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s ease;
+        }
+        
+        .service-item:hover .service-img img {
+            transform: scale(1.05);
+        }
+        
+        .service-item .service-content {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(15, 72, 97, 0.95);
+            -webkit-backdrop-filter: blur(2px);
+                    backdrop-filter: blur(2px);
+            color: #fff;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            padding: 25px;
+            opacity: 0;
+            transform: translateY(10px);
+            transition: all 0.3s ease;
+            z-index: 2;
+            text-align: center;
+            border-radius: 14px;
+        }
+        
+        .service-item:hover .service-content {
+            opacity: 1;
+            transform: translateY(0);
+            pointer-events: auto;
+        }
+        
+        .service-item .service-content h4 {
+            color: #fff !important;
+            font-weight: 700;
+            text-shadow: 0 1px 2px rgba(0,0,0,.4);
+        }
+        
+        .service-item .service-content p {
+            color: #e8f3f7;
+            font-size: 0.98rem;
+            line-height: 1.65;
+            margin-bottom: 1rem;
+        }
+        
+        .service-item .service-content .btn {
+            background: var(--brand-pink, #ff2f6d);
+            border-color: var(--brand-pink, #ff2f6d);
+            color: #fff !important;
+        }
+        
+        .training-item {
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        }
+        
+        .training-item img {
+            width: 100%;
+            height: 200px; /* Matching height with service images */
+            object-fit: cover;
+            transition: all 0.3s ease;
+        }
+        
+        .team-item {
+            background: #fff;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .team-img {
+            position: relative;
+            padding-top: 100%; /* 1:1 Aspect Ratio */
+            overflow: hidden;
+            background: #f8f9fa;
+        }
+        
+        .team-img img {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 80%;
+            height: 80%;
+            object-fit: cover;
+            border-radius: 50%;
+            border: 5px solid #fff;
+            box-shadow: 0 0 15px rgba(0,0,0,0.1);
+        }
+        
+        .team-social {
+            position: absolute;
+            bottom: 20px;
+            left: 0;
+            right: 0;
+            display: flex;
+            justify-content: center;
+            opacity: 0;
+            transition: all 0.3s ease;
+        }
+        
+        .team-item:hover .team-social {
+            opacity: 1;
+        }
+        
+        .team-social .btn {
+            width: 35px;
+            height: 35px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 3px;
+            padding: 0;
+            background: #fff;
+        }
+        
+        .team-social .btn:hover {
+            background: #4CAF50;
+            color: #fff !important;
+        }
+        
+        .team-item .bg-light {
+            background-color: #fff !important;
+            padding: 1.5rem !important;
+            text-align: center;
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            border-top: none;
+        }
+        
+        .team-item h5 {
+            font-size: 1.1rem;
+            margin-bottom: 0.5rem;
+            color: #2c3e50;
+            font-weight: 600;
+        }
+        
+        .team-item .text-primary {
+            color: #4CAF50 !important;
+            font-size: 0.9rem;
+            margin: 0;
+        }
+        
+        .team-item:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+        }
+        </style>
+        <!-- Add required scripts at the end of the head -->
+        <script src="{% static 'js/jquery-3.3.1.min.js' %}"></script>
+        <script src="{% static 'js/popper.min.js' %}"></script>
+        <script src="{% static 'js/bootstrap.min.js' %}"></script>
+        <script src="{% static 'js/aos.js' %}"></script>
+        <script src="{% static 'js/main.js' %}"></script>
+        <!-- JavaScript Libraries -->
+        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+        <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+        
+        <!-- Initialize AOS -->
+        <script>
+            document.addEventListener('DOMContentLoaded', function() {
+                AOS.init({
+                    duration: 800,
+                    easing: 'ease-in-out',
+                    once: true
+                });
+                
+                // Service hover effect
+                document.querySelectorAll('.service-item').forEach(item => {
+                    item.addEventListener('mouseenter', function() {
+                        this.classList.add('hover');
+                    });
+                    item.addEventListener('mouseleave', function() {
+                        this.classList.remove('hover');
+                    });
+                });
+            });
+        </script>
+    </head>
+
+    <body oncontextmenu="return false;">
+
+        <!-- Spinner Start -->
+        <div id="spinner" class="show bg-white position-fixed translate-middle w-100 vh-100 top-50 start-50 d-flex align-items-center justify-content-center">
+            <div class="spinner-border text-secondary" style="width: 3rem; height: 3rem;" role="status">
+                <span class="sr-only">Loading...</span>
+            </div>
+        </div>
+        <!-- Spinner End -->
+
+
+        <!-- Topbar Start -->
+        <div class="container-fluid bg-primary px-5 d-none d-lg-block">
+            <div class="row gx-0 align-items-center">
+                <div class="col-lg-5 text-center text-lg-start mb-lg-0">
+                    <div class="d-flex">
+                        <a href="#" class="text-muted me-4"><i class="fas fa-envelope text-secondary me-2"></i>meddytours@gmail.com</a>
+                        <a href="#" class="text-muted me-0"><i class="fas fa-phone-alt text-secondary me-2"></i>+256779053493</a>
+                    </div>
+                </div>
+                <div class="col-lg-3 row-cols-1 text-center mb-2 mb-lg-0">
+                    <div class="d-inline-flex align-items-center" style="height: 45px;">
+                        <a class="btn btn-sm btn-outline-light btn-square rounded-circle me-2" href=""><i class="fab fa-twitter fw-normal text-secondary"></i></a>
+                        <a class="btn btn-sm btn-outline-light btn-square rounded-circle me-2" href=""><i class="fab fa-facebook-f fw-normal text-secondary"></i></a>
+                        <a class="btn btn-sm btn-outline-light btn-square rounded-circle me-2" href=""><i class="fab fa-linkedin-in fw-normal text-secondary"></i></a>
+                        <a class="btn btn-sm btn-outline-light btn-square rounded-circle me-2" href=""><i class="fab fa-instagram fw-normal text-secondary"></i></a>
+                        <a class="btn btn-sm btn-outline-light btn-square rounded-circle" href=""><i class="fab fa-youtube fw-normal text-secondary"></i></a>
+                    </div>
+                </div>
+                <div class="col-lg-4 text-center text-lg-end">
+                    <div class="d-inline-flex align-items-center" style="height: 45px;">
+                        <a href="{% url 'contact' %}" class="text-muted me-2"> Help</a><small> / </small>
+                        <a href="{% url 'contact' %}" class="text-muted mx-2"> Support</a><small> / </small>
+                        <a href="{% url 'contact' %}" class="text-muted ms-2"> Contact</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Topbar End -->
+
+        <!-- Navbar & Hero Start -->
+        <div class="container-fluid nav-bar p-0">
+            <nav class="navbar navbar-expand-lg navbar-light bg-white px-4 px-lg-5 py-3 py-lg-0">
+                <a href="" class="navbar-brand p-0">
+                    <h1 class="display-5 text-secondary m-0 d-flex align-items-center"><img src="{% static 'images/logo.jpg' %}" class="img-fluid me-2" alt="Meddy Tours Logo" style="height: 40px; width: auto;">Meddy Tours</h1>
+                    <!-- <img src="img/logo.png" alt="Logo"> -->
+                </a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse">
+                    <span class="fa fa-bars"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarCollapse">
+                    <div class="navbar-nav ms-auto py-0">
+                        <a href="{% url 'index' %}" class="nav-item nav-link">Home</a>
+                        <a href="{% url 'about' %}" class="nav-item nav-link">About</a>
+                        <a href="{% url 'services' %}" class="nav-item nav-link">Services</a>
+                        <div class="nav-item dropdown">
+                            <a href="{% url 'packages' %}" class="nav-link" data-bs-toggle="dropdown"><span class="dropdown-toggle">Packages</span></a>
+                            <div class="dropdown-menu m-0">
+                                 <a href="{% url 'discount' %}" class="dropdown-item">Discount</a>
+							     <a href="{% url 'packages' %}" class="dropdown-item">Packages</a>
+                                <a href="{% url 'blog' %}" class="dropdown-item">Blog/Tours</a>
+                                <a href="{% url 'videos' %}" class="dropdown-item">Gallery</a>
+                                <a href="{% url 'testimonial' %}" class="dropdown-item">Testimonial</a>
+                                <a href="{% url 'accomodation' %}" class="dropdown-item">Accomodation</a>
+								<a target=_blank href="https://mail.meddytours.com" class="dropdown-item">Webmails</a>
+                            </div>
+                        </div>
+                        <a href="{% url 'contact' %}" class="nav-item nav-link">Contact</a>
+                    </div>
+                    <button class="btn btn-primary btn-md-square border-secondary mb-3 mb-md-3 mb-lg-0 me-3" data-bs-toggle="modal" data-bs-target="#searchModal"><i class="fas fa-search"></i></button>
+                    <a href="{% url 'contact' %}" class="btn btn-primary border-secondary rounded-pill py-2 px-4 px-lg-3 mb-3 mb-md-3 mb-lg-0">Get A Quote</a>
+                </div>
+            </nav>
+        </div>
+		
+        <!-- Navbar & Hero End -->
+
+
+      
+        <!-- Modal Search Start -->
+        <div class="modal fade" id="searchModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-fullscreen">
+                <div class="modal-content rounded-0">
+                    <div class="modal-header">
+                        <h4 class="modal-title text-secondary mb-0" id="exampleModalLabel">Search by keyword</h4>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body d-flex align-items-center">
+                        <div class="input-group w-75 mx-auto d-flex">
+                            <input type="search" class="form-control p-3" placeholder="keywords" aria-describedby="search-icon-1">
+                            <span id="search-icon-1" class="input-group-text p-3"><i class="fa fa-search"></i></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Modal Search End -->
+
+        <!-- Header Start -->
+        <div class="container-fluid bg-breadcrumb">
+            <div class="container text-center py-5" style="max-width: 900px;">
+                <h3 class="text-white display-3 mb-4" data-aos="fade-down" data-aos-delay="100">Our Services</h1>
+                <ol class="breadcrumb justify-content-center text-white mb-0" data-aos="fade-down" data-aos-delay="300">
+                    <li class="breadcrumb-item"><a href="{% url 'index' %}" class="text-white">Home</a></li>
+                    <li class="breadcrumb-item"><a href="{% url 'about' %}" class="text-white">About</a></li>
+                    <li class="breadcrumb-item active text-secondary">Services</li>
+                </ol>    
+            </div>
+        </div>
+        <!-- Header End -->
+
+        <!-- Services Start -->
+        <div class="container-fluid service overflow-hidden pt-5">
+            <div class="container py-5">
+                <div class="section-title text-center mb-5 data-aos="fade-up"" data-aos-delay="100">
+                    <div class="sub-style">
+                        <h5 class="sub-title text-primary px-3">Service Categories</h5>
+                    </div>
+                    <h1 class="display-5 mb-4">Special Services For Meddy tours Clients</h1>
+                    <p class="mb-0">We offer tailored, high-quality tour packages that cater to diverse interests and preferences besides, ensuring exceptional customer service, exceeding client expectations and encouraging repeat business and referrals.</p>
+                </div>
+                <div class="row g-4 d-flex align-items-stretch">
+                    <div class="col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="100">
+                        <div class="service-item">
+                            <div class="service-inner">
+                                <div class="service-img">
+                                    <img src="{% static 'images/img_5.jpg' %}" alt="Hotel Booking" class="img-fluid">
+                                    <div class="service-overlay"></div>
+                                </div>
+                                <div class="service-title">
+                                    <h4>Hotel Booking</h4>
+                                    <button class="explore-btn">Explore More</button>
+                                    <div class="service-content">
+                                        <h4>Hotel Booking</h4>
+                                        <p>Managing bookings and reservations for flights, hotels, tours, activities, and transportation. Creating unique and tailored travel plans based on customer preferences, budgets, and interests.</p>
+                                        <a href="#" class="btn">Read More</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="200">
+                        <div class="service-item">
+                            <div class="service-inner">
+                                <div class="service-img">
+                                    <img src="{% static 'images/img_1.jpg' %}" alt="Accommodation" class="img-fluid">
+                                    <div class="service-overlay"></div>
+                                </div>
+                                <div class="service-title">
+                                    <h4>Accommodation</h4>
+                                    <button class="explore-btn">Explore More</button>
+                                    <div class="service-content">
+                                        <h4>Accommodation</h4>
+                                        <p>Sourcing and booking suitable lodging options, from budget-friendly hostels to luxury resorts, based on client needs.</p>
+                                        <a href="#" class="btn">Read More</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    </div>
+                    
+                    <!-- Service Item 3 -->
+                    <div class="col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="300">
+                        <div class="service-item">
+                            <div class="service-inner">
+                                <div class="service-img">
+                                    <img src="{% static 'images/img_2.jpg' %}" alt="Tour Guiding" class="img-fluid">
+                                    <div class="service-overlay"></div>
+                                </div>
+                                <div class="service-title">
+                                    <h4>Tour Guiding</h4>
+                                    <button class="explore-btn">Explore More</button>
+                                    <div class="service-content">
+                                        <h4>Tour Guiding</h4>
+                                        <p>Professional tour guides providing insights into local attractions, culture, and history for an unforgettable travel experience.</p>
+                                        <a href="#" class="btn">Read More</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Service Item 4 -->
+                    <div class="col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="400">
+                        <div class="service-item">
+                            <div class="service-inner">
+                                <div class="service-img">
+                                    <img src="{% static 'images/child.jpg' %}" alt="Transportation" class="img-fluid">
+                                    <div class="service-overlay"></div>
+                                </div>
+                                <div class="service-title">
+                                    <h4>Transportation</h4>
+                                    <button class="explore-btn">Explore More</button>
+                                    <div class="service-content">
+                                        <h4>Transportation</h4>
+                                        <p>Comfortable and reliable transportation services for all your travel needs, including airport transfers and local sightseeing.</p>
+                                        <a href="#" class="btn">Read More</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Services End -->
+
+        <!-- Tour Operators Start -->
+        <div class="container-fluid py-5">
+            <div class="container py-5">
+                <div class="text-center mb-5" data-aos="fade-up">
+                    <h5 class="text-primary text-uppercase" style="letter-spacing: 5px;">Our Team</h5>
+                    <h1 class="display-4">Professional Tour Operators</h1>
+                </div>
+                <div class="row g-4">
+                    <!-- Operator 1 -->
+                    <div class="col-lg-3 col-md-6 mb-4" data-aos="fade-up" data-aos-delay="100">
+                        <div class="team-item">
+                            <div class="team-img position-relative">
+                                <img class="img-fluid" src="{% static 'images/team-1.jpg' %}" alt="Team Member">
+                                <div class="team-social">
+                                    <a class="btn btn-outline-primary btn-square" href="#"><i class="fab fa-twitter"></i></a>
+                                    <a class="btn btn-outline-primary btn-square" href="#"><i class="fab fa-facebook-f"></i></a>
+                                    <a class="btn btn-outline-primary btn-square" href="#"><i class="fab fa-instagram"></i></a>
+                                    <a class="btn btn-outline-primary btn-square" href="#"><i class="fab fa-linkedin-in"></i></a>
+                                </div>
+                            </div>
+                            <div class="bg-light">
+                                <h5 class="mb-1">John Doe</h5>
+                                <p class="text-primary mb-0">Senior Tour Guide</p>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Operator 2 -->
+                    <div class="col-lg-3 col-md-6 mb-4" data-aos="fade-up" data-aos-delay="200">
+                        <div class="team-item">
+                            <div class="team-img position-relative">
+                                <img class="img-fluid" src="{% static 'images/team-2.jpg' %}" alt="Team Member">
+                                <div class="team-social">
+                                    <a class="btn btn-outline-primary btn-square" href="#"><i class="fab fa-twitter"></i></a>
+                                    <a class="btn btn-outline-primary btn-square" href="#"><i class="fab fa-facebook-f"></i></a>
+                                    <a class="btn btn-outline-primary btn-square" href="#"><i class="fab fa-instagram"></i></a>
+                                    <a class="btn btn-outline-primary btn-square" href="#"><i class="fab fa-linkedin-in"></i></a>
+                                </div>
+                            </div>
+                            <div class="bg-light">
+                                <h5 class="mb-1">Jane Smith</h5>
+                                <p class="text-primary mb-0">Adventure Specialist</p>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Operator 3 -->
+                    <div class="col-lg-3 col-md-6 mb-4" data-aos="fade-up" data-aos-delay="300">
+                        <div class="team-item">
+                            <div class="team-img position-relative">
+                                <img class="img-fluid" src="{% static 'images/team-3.jpg' %}" alt="Team Member">
+                                <div class="team-social">
+                                    <a class="btn btn-outline-primary btn-square" href="#"><i class="fab fa-twitter"></i></a>
+                                    <a class="btn btn-outline-primary btn-square" href="#"><i class="fab fa-facebook-f"></i></a>
+                                    <a class="btn btn-outline-primary btn-square" href="#"><i class="fab fa-instagram"></i></a>
+                                    <a class="btn btn-outline-primary btn-square" href="#"><i class="fab fa-linkedin-in"></i></a>
+                                </div>
+                            </div>
+                            <div class="bg-light">
+                                <h5 class="mb-1">Robert Johnson</h5>
+                                <p class="text-primary mb-0">Safari Expert</p>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Operator 4 -->
+                    <div class="col-lg-3 col-md-6 mb-4" data-aos="fade-up" data-aos-delay="400">
+                        <div class="team-item">
+                            <div class="team-img position-relative">
+                                <img class="img-fluid" src="{% static 'images/team-4.jpg' %}" alt="Team Member">
+                                <div class="team-social">
+                                    <a class="btn btn-outline-primary btn-square" href="#"><i class="fab fa-twitter"></i></a>
+                                    <a class="btn btn-outline-primary btn-square" href="#"><i class="fab fa-facebook-f"></i></a>
+                                    <a class="btn btn-outline-primary btn-square" href="#"><i class="fab fa-instagram"></i></a>
+                                    <a class="btn btn-outline-primary btn-square" href="#"><i class="fab fa-linkedin-in"></i></a>
+                                </div>
+                            </div>
+                            <div class="bg-light">
+                                <h5 class="mb-1">Sarah Williams</h5>
+                                <p class="text-primary mb-0">Cultural Guide</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Tour Operators End -->
+
+           <!-- Counter Facts Start -->
+        <div class="container-fluid counter-facts py-5">
+            <div class="container py-5">
+                <div class="row g-4">
+                    <div class="col-12 col-sm-6 col-md-6 col-xl-3 data-aos="fade-up"" data-aos-delay="100">
+                        <div class="counter">
+                            <div class="counter-icon">
+                                <i class="fas fa-passport"></i>
+                            </div>
+                            <div class="counter-content">
+                                <h3>Mountain Experiences</h3>
+                                <div class="d-flex align-items-center justify-content-center">
+                                    <span class="counter-value" data-toggle="counter-up">31</span>
+                                    <h4 class="text-secondary mb-0" style="font-weight: 600; font-size: 25px;">+</h4>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-12 col-sm-6 col-md-6 col-xl-3 data-aos="fade-up"" data-aos-delay="300">
+                        <div class="counter">
+                            <div class="counter-icon">
+                                <i class="fas fa-users"></i>
+                            </div>
+                            <div class="counter-content">
+                                <h3>Trips Organised</h3>
+                                <div class="d-flex align-items-center justify-content-center">
+                                    <span class="counter-value" data-toggle="counter-up">77</span>
+                                    <h4 class="text-secondary mb-0" style="font-weight: 600; font-size: 25px;">+</h4>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-12 col-sm-6 col-md-6 col-xl-3 data-aos="fade-up"" data-aos-delay="500">
+                        <div class="counter">
+                            <div class="counter-icon">
+                                <i class="fas fa-user-check"></i>
+                            </div>
+                            <div class="counter-content">
+                                <h3>Tour Guides</h3>
+                                <div class="d-flex align-items-center justify-content-center">
+                                    <span class="counter-value" data-toggle="counter-up">20</span>
+                                    <h4 class="text-secondary mb-0" style="font-weight: 600; font-size: 25px;">K</h4>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-12 col-sm-6 col-md-6 col-xl-3 data-aos="fade-up"" data-aos-delay="700">
+                        <div class="counter">
+                            <div class="counter-icon">
+                                <i class="fas fa-handshake"></i>
+                            </div>
+                            <div class="counter-content">
+                                <h3>Success Rates</h3>
+                                <div class="d-flex align-items-center justify-content-center">
+                                    <span class="counter-value" data-toggle="counter-up">91</span>
+                                    <h4 class="text-secondary mb-0" style="font-weight: 600; font-size: 25px;">%</h4>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Counter Facts End -->
+
+        <!-- Countries We Offer Start -->
+        <div class="container-fluid country overflow-hidden py-5">
+            <div class="container">
+                <div class="section-title text-center data-aos="fade-up"" data-aos-delay="100" style="margin-bottom: 70px;">
+                    <div class="sub-style">
+                        <h5 class="sub-title text-primary px-3">Our Trip Organisers </h5>
+                    </div>
+                    <h1 class="display-5 mb-4">Tour operators</h1>
+                    <p class="mb-0">They are responsible for meticulously planning, packaging, and executing journeys for individuals, families, or groups. Essentially, they take the stress out of travel planning, allowing you to focus on the experience itself.</p>
+                </div>
+                <div class="row g-4 text-center">
+                    <div class="col-lg-6 col-xl-3 mb-5 mb-xl-0 data-aos="fade-up"" data-aos-delay="100">
+                        <div class="country-item">
+                            <div class="rounded overflow-hidden">
+                                <img src="{% static 'images/img_1.jpg' %}" class="img-fluid w-100 rounded" alt="Image">
+                            </div>
+                            <div class="country-flag">
+                                <img src="{% static 'images/person_1.jpg' %}" class="img-fluid rounded-circle" alt="Image">
+                            </div>
+                            <div class="country-name">
+                                <a href="#" class="text-white fs-4">Meddy: Trip  Organiser</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-6 col-xl-3 mb-5 mb-xl-0 data-aos="fade-up"" data-aos-delay="300">
+                        <div class="country-item">
+                            <div class="rounded overflow-hidden">
+                                <img src="{% static 'images/img_2.jpg' %}" class="img-fluid w-100 rounded" alt="Image">
+                            </div>
+                            <div class="country-flag">
+                                <img src="{% static 'images/person_2.jpg' %}" class="img-fluid rounded-circle" alt="Image">
+                            </div>
+                            <div class="country-name">
+                                <a href="#" class="text-white fs-4">Okoth Martin: Trip Organiser</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-6 col-xl-3 mb-5 mb-xl-0 data-aos="fade-up"" data-aos-delay="500">
+                        <div class="country-item">
+                            <div class="rounded overflow-hidden">
+                                <img src="{% static 'images/img_4.jpg' %}" class="img-fluid w-100 rounded" alt="Image">
+                            </div>
+                            <div class="country-flag">
+                                <img src="{% static 'images/person_3.jpg' %}" class="img-fluid rounded-circle" alt="Image">
+                            </div>
+                            <div class="country-name">
+                                <a href="#" class="text-white fs-4">Thomson Bat: Trip Organiser</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-6 col-xl-3 mb-5 mb-xl-0 data-aos="fade-up"" data-aos-delay="700">
+                        <div class="country-item">
+                            <div class="rounded overflow-hidden">
+                                <img src="{% static 'images/img_5.jpg' %}" class="img-fluid w-100 rounded" alt="Image">
+                            </div>
+                            <div class="country-flag">
+                                <img src="{% static 'images/person_4.jpg' %}" class="img-fluid rounded-circle" alt="Image">
+                            </div>
+                            <div class="country-name">
+                                <a href="#" class="text-white fs-4">Byaruhanga Walter: Trip Organiser</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-12">
+                        <a class="btn btn-primary border-secondary rounded-pill py-3 px-5 data-aos="fade-up"" data-aos-delay="100" href="#">More Countries</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Countries We Offer End -->
+
+        <!-- Training Start -->
+        <style>
+  /* Card styling to match reference image */
+  .training-item {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    background: #fff;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+    transition: all 0.3s ease;
+    border: 1px solid #f0f0f0;
+    width: 100%;
+  }
+  
+  .training-item:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 25px rgba(0,0,0,0.12);
+  }
+  
+  .training-inner {
+    position: relative;
+    overflow: hidden;
+    height: 200px; /* Fixed height for images */
+    flex-shrink: 0;
+  }
+  
+  .training-inner img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.5s ease;
+  }
+  
+  .training-item:hover .training-inner img {
+    transform: scale(1.05);
+  }
+  
+  .training-content {
+    flex: 1 0 auto;
+    display: flex;
+    flex-direction: column;
+    padding: 1.5rem;
+    background: #fff;
+    text-align: center;
+    min-height: 200px; /* Ensure minimum height for content */
+  }
+  
+  .training-content h4 {
+    font-size: 1.25rem;
+    font-weight: 600;
+    margin: 0 0 1rem 0;
+    color: #2c3e50;
+  }
+  
+  .training-content p {
+    flex: 1 0 auto;
+    margin-bottom: 1.25rem;
+    color: #666;
+    line-height: 1.6;
+    font-size: 0.9rem;
+    padding: 0 0.5rem;
+  }
+  
+  .training-title-name {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    padding: 0.5rem;
+    z-index: 2;
+    background: rgba(0,0,0,0.6);
+  }
+  
+  .training-title-name h4 {
+    color: #fff;
+    margin: 0;
+    font-size: 1.1rem;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+  }
+  
+  /* Card grid and spacing */
+  .row {
+    display: flex;
+    flex-wrap: wrap;
+    margin: 0 -10px;
+  }
+  
+  .row > [class*='col-'] {
+    padding: 0 10px;
+    margin-bottom: 30px;
+    display: flex;
+    flex-direction: column;
+    min-height: 100%;
+  }
+  
+  .training-item {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+  }
+  
+  /* Link styling */
+  .read-more {
+    color: #e74c3c;
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 0.9rem;
+    transition: all 0.3s ease;
+  }
+  
+  .read-more:hover {
+    color: #c0392b;
+    text-decoration: underline;
+  }
+  
+  .read-more i {
+    margin-left: 5px;
+    transition: transform 0.3s ease;
+  }
+  
+  .read-more:hover i {
+    transform: translateX(3px);
+  }
+</style>
+
+<div class="container-fluid training overflow-hidden bg-light py-5">
+            <div class="container py-5">
+                <div class="section-title text-center mb-5 data-aos="fade-up"" data-aos-delay="100">
+                    <div class="sub-style">
+                        <h5 class="sub-title text-primary px-3">CHECK OUR GOALS</h5>
+                    </div>
+                    <h1 class="display-5 mb-4">Why choose Meddy Tours and Travel Company Limited</h1>
+                    <p class="mb-0">We can talk for a long time about advantages of selecting us as your best choice but you can read the following facts in order to make sure of all pluses of our company. Our team has extensive experience and knowledge of Uganda's Wildlife, We tailor our services to meet your unique needs and preferences, We prioritize environmentally, friendly and socially responsible practices and We offer competitive rates without compromising on quality or service. </p>
+                </div>
+                <div class="row g-4">
+                    <div class="col-12 col-sm-6 col-lg-6 col-xl-3" data-aos="fade-up" data-aos-delay="100">
+                        <div class="training-item">
+                            <div class="training-inner">
+                                <img src="{% static 'images/joy.jpg' %}" alt="Company Mission" class="img-fluid w-100">
+                                <div class="training-title-name">
+                                    <h4>Company Mission</h4>
+                                </div>
+                            </div>
+                            <div class="training-content">
+                                <p>To provide unique, memorable, and enriching experiences for our clients, while promoting sustainable tourism practices, supporting local communities, and preserving Uganda's natural and cultural resources.</p>
+                                <div class="mt-auto">
+                                    <a href="#" class="read-more">Read More <i class="fas fa-arrow-right"></i></a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-12 col-sm-6 col-lg-6 col-xl-3" data-aos="fade-up" data-aos-delay="300">
+                        <div class="training-item">
+                            <div class="training-inner">
+                                <img src="{% static 'images/peak.jpg' %}" alt="Company Vision" class="img-fluid w-100">
+                                <div class="training-title-name">
+                                    <h4>Company Vision</h4>
+                                </div>
+                            </div>
+                            <div class="training-content">
+                                <p>Becoming the leading tour operator in Uganda, renowned for delivering exceptional, personalized experiences that exceed our clients' expectations.</p>
+                                <div class="mt-auto">
+                                    <a href="#" class="read-more">Read More <i class="fas fa-arrow-right"></i></a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-12 col-sm-6 col-lg-6 col-xl-3" data-aos="fade-up" data-aos-delay="500">
+                        <div class="training-item">
+                            <div class="training-inner">
+                                <img src="{% static 'images/world.jpg' %}" alt="Main Objective" class="img-fluid w-100">
+                                <div class="training-title-name">
+                                    <h4>Main Objective</h4>
+                                </div>
+                            </div>
+                            <div class="training-content">
+                                <p>To offer tailored, high-quality tour packages that cater to diverse interests and preferences, ensuring exceptional customer service, exceeding client expectations, and encouraging repeat business and referrals.</p>
+                                <div class="mt-auto">
+                                    <a href="#" class="read-more">Read More <i class="fas fa-arrow-right"></i></a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-12 col-sm-6 col-lg-6 col-xl-3" data-aos="fade-up" data-aos-delay="700">
+                        <div class="training-item">
+                            <div class="training-inner">
+                                <img src="{% static 'images/child.jpg' %}" alt="Security" class="img-fluid w-100">
+                                <div class="training-title-name">
+                                    <h4>Security</h4>
+                                </div>
+                            </div>
+                            <div class="training-content">
+                                <p>We have the best security that protects our clients for the success of their tours. We provide safety insights about the destinations while enhancing the tourist experience, ensuring a secure and informative adventure for our clients.</p>
+                                <div class="mt-auto">
+                                    <a href="#" class="read-more">Read More <i class="fas fa-arrow-right"></i></a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-12 text-center mt-4">
+                        <a class="btn btn-primary rounded-pill py-2 px-4" data-aos="fade-up" data-aos-delay="100" href="#">View More</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Training End -->
+
+        <!-- Footer Start -->
+        <div class="footer-bleed">
+  <footer class="site-footer bg-black text-white py-5">
+      <div class="container">
+        <div class="row">
+          <div class="col-lg-3 col-md-6">
+            <div class="mb-4">
+              <h3 class="h5 mb-4 text-uppercase">About Us</h3>
+              <p class="text-muted small">We are dedicated to providing the best travel experiences with our carefully curated tours and exceptional service. Let us take you on a journey of a lifetime.</p>
+            </div>
+            <div class="d-flex py-2">
+              <a href="#" class="text-white me-4 px-2" aria-label="Facebook"><span class="icon-facebook h4"></span></a>
+              <a href="#" class="text-white me-4 px-2" aria-label="X">
+  <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+    <path d="M14.258 10.152L23.176 0h-2.113l-7.747 8.813L7.133 0H0l9.352 13.328L0 23.973h2.113l8.176-9.309 6.531 9.309h7.133zm-2.895 3.293l-.949-1.328L2.875 1.56h3.246l6.086 8.523.945 1.328 7.91 11.078h-3.246zm0 0"/>
+  </svg>
+</a>
+              <a href="#" class="text-white me-4 px-2" aria-label="Instagram"><span class="icon-instagram h4"></span></a>
+              <a href="#" class="text-white px-2" aria-label="TripAdvisor"><span class="icon-tripadvisor h4"></span></a>
+            </div>
+          </div>
+          
+          <div class="col-lg-3 col-md-6">
+            <h3 class="h5 mb-4 text-uppercase">Quick Links</h3>
+            <ul class="list-unstyled">
+              <li class="mb-2"><a href="{% url 'index' %}" class="text-muted text-decoration-none small">Home</a></li>
+              <li class="mb-2"><a href="{% url 'packages' %}" class="text-muted text-decoration-none small">Tour Packages</a></li>
+              <li class="mb-2"><a href="{% url 'services' %}" class="text-muted text-decoration-none small">Our Services</a></li>
+              <li class="mb-2"><a href="{% url 'testimonial' %}" class="text-muted text-decoration-none small">Testimonials</a></li>
+              <li class="mb-2"><a href="{% url 'about' %}" class="text-muted text-decoration-none small">About Us</a></li>
+              <li class="mb-2"><a href="{% url 'contact' %}" class="text-muted text-decoration-none small">Contact</a></li>
+            </ul>
+          </div>
+          
+          <div class="col-lg-3 col-md-6">
+            <h3 class="h5 mb-4 text-uppercase">Opening Hours</h3>
+            <ul class="list-unstyled text-muted small">
+              <li class="d-flex justify-content-between mb-2">
+                <span>Monday - Friday</span>
+                <span>9:00 AM - 6:00 PM</span>
+              </li>
+              <li class="d-flex justify-content-between mb-2">
+                <span>Saturday</span>
+                <span>10:00 AM - 4:00 PM</span>
+              </li>
+              <li class="d-flex justify-content-between">
+                <span>Sunday</span>
+                <span>Closed</span>
+              </li>
+            </ul>
+            <div class="mt-4">
+              <h4 class="h6 mb-3">Emergency Contact</h4>
+              <p class="small text-muted mb-1">24/7 Customer Support</p>
+              <a href="tel:+1234567890" class="text-white text-decoration-none">+1 (234) 567-890</a>
+            </div>
+          </div>
+          
+          <div class="col-lg-3 col-md-6">
+            <h3 class="h5 mb-4 text-uppercase">Newsletter</h3>
+            <p class="text-muted small mb-4">Subscribe to our newsletter for the latest updates and exclusive offers.</p>
+            <form action="#" method="post" class="mb-4">
+              <div class="input-group mb-3">
+                <input type="email" class="form-control bg-dark border-0 text-white" placeholder="Your email" aria-label="Your email" required>
+                <button class="btn btn-primary px-3" type="submit">
+                  <span class="icon-paper-plane"></span>
+                </button>
+              </div>
+            </form>
+            <p class="small text-muted mb-0">We respect your privacy. Unsubscribe at any time.</p>
+          </div>
+        </div>
+        
+        <!-- Copyright Section -->
+        <div class="border-top border-dark mt-5 pt-4">
+          <div class="row align-items-center">
+            <div class="col-md-6 text-center text-md-start mb-3 mb-md-0">
+              <p class="mb-0 small text-muted">
+                &copy; <script>document.write(new Date().getFullYear());</script> Meddy Tours. All rights reserved.
+                <a href="#" class="text-muted text-decoration-none ms-2">Privacy Policy</a>
+                <span class="mx-2">|</span>
+                <a href="#" class="text-muted text-decoration-none">Terms of Service</a>
+              </p>
+            </div>
+            <div class="col-md-6 text-center text-md-end">
+              <p class="mb-0 small text-muted">
+                Crafted with <i class="icon-heart text-danger"></i> by 
+                <a href="https://x.com/SladePhantom7?t=1JYpg5QBnk8i2AKyLJK-_g&s=09" target="_blank" class="text-white text-decoration-none">Slade</a>
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </footer>
+  </div>
+        <!-- Footer End -->
+
+        
+        <!-- Back to Top -->
+        <a href="#" class="btn btn-primary btn-lg-square back-to-top"><i class="fa fa-arrow-up"></i></a>   
+
+        
+    <!-- JavaScript Libraries -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="lib/easing/easing.min.js"></script>
+    <script src="lib/waypoints/waypoints.min.js"></script>
+    <script src="lib/counterup/counterup.min.js"></script>
+    <script src="lib/owlcarousel/owl.carousel.min.js"></script>
+    
+
+    <!-- Template Javascript -->
+    <script src="{% static 'js/main.js' %}?v=3"></script>
+    <script src="{% static 'js/aos.js' %}"></script>
+    <script>
+        AOS.init({
+            duration: 1000,
+            once: false
+        });
+    </script>
+    <script>
+      // Activate overlay over the image when interacting with the Explore More button
+      (function() {
+        function setupServiceOverlays(root) {
+          var items = root.querySelectorAll('.service-item');
+          items.forEach(function(item){
+            var btns = item.querySelectorAll('.service-title-name a.btn, .service-content a.btn');
+            btns.forEach(function(btn){
+              btn.addEventListener('mouseenter', function(){ item.classList.add('is-overlay-active'); });
+              btn.addEventListener('focus', function(){ item.classList.add('is-overlay-active'); });
+              btn.addEventListener('mouseleave', function(){ item.classList.remove('is-overlay-active'); });
+              btn.addEventListener('blur', function(){ item.classList.remove('is-overlay-active'); });
+            });
+            // Also close when leaving the whole card
+            item.addEventListener('mouseleave', function(){ item.classList.remove('is-overlay-active'); });
+          });
+        }
+        document.addEventListener('DOMContentLoaded', function(){
+          setupServiceOverlays(document);
+        });
+      })();
+    </script>
+    </body>
+
+</html>

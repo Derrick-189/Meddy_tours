@@ -1,0 +1,56 @@
+# Enable rewrite engine
+<IfModule mod_rewrite.c>
+    RewriteEngine On
+    
+    # Set proper MIME types for video files
+    <IfModule mod_mime.c>
+        # Video
+        AddType video/mp4                                   mp4 m4v
+        AddType video/webm                                  webm
+        AddType video/ogg                                   ogv ogg
+        
+        # HLS Streaming
+        AddType application/x-mpegURL                       m3u8
+        AddType vnd.apple.mpegURL                           m3u8
+        AddType video/MP2T                                  ts
+        
+        # DASH Streaming
+        AddType application/dash+xml                        mpd
+        
+        # Subtitles
+        AddType text/vtt                                    vtt
+        AddType application/ttml+xml                        ttml
+        
+        # Enable CORS for media files
+        <FilesMatch "\.(mp4|webm|ogv|m3u8|ts|mpd|vtt|ttml)$">
+            Header set Access-Control-Allow-Origin "*"
+            Header set Access-Control-Allow-Methods "GET, OPTIONS"
+            Header set Access-Control-Allow-Headers "Range"
+        </FilesMatch>
+    </IfModule>
+    
+    # Enable byte-range requests for video seeking
+    <IfModule mod_headers.c>
+        <FilesMatch "\.(mp4|webm|ogv)$">
+            Header set Accept-Ranges bytes
+        </FilesMatch>
+    </IfModule>
+    
+    # Set cache control for media files (1 year)
+    <FilesMatch "\.(mp4|webm|ogv|jpg|jpeg|png|gif|ico|svg)$">
+        Header set Cache-Control "max-age=31536000, public"
+    </FilesMatch>
+</IfModule>
+
+# Enable gzip compression for text-based files
+<IfModule mod_deflate.c>
+    AddOutputFilterByType DEFLATE text/plain
+    AddOutputFilterByType DEFLATE text/html
+    AddOutputFilterByType DEFLATE text/xml
+    AddOutputFilterByType DEFLATE text/css
+    AddOutputFilterByType DEFLATE application/xml
+    AddOutputFilterByType DEFLATE application/xhtml+xml
+    AddOutputFilterByType DEFLATE application/rss+xml
+    AddOutputFilterByType DEFLATE application/javascript
+    AddOutputFilterByType DEFLATE application/x-javascript
+</IfModule>

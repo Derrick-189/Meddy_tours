@@ -1,0 +1,81 @@
+{% extends 'base_site.html' %}
+{% load static %}
+{% block title %}Meddy Tours — Accommodation{% endblock %}
+
+{% block content %}
+  <style>
+    /* Equalize accommodation images on this page */
+    .bg-light.rounded{ overflow: hidden; }
+    .bg-light.rounded > img.border-bottom{
+      width: 100%;
+      height: 340px;           /* desktop */
+      object-fit: cover;
+      display: block;
+    }
+    @media (max-width: 1199.98px){ .bg-light.rounded > img.border-bottom{ height: 300px; } }
+    @media (max-width: 767.98px){  .bg-light.rounded > img.border-bottom{ height: 240px; } }
+  </style>
+  <!-- Header/Breadcrumb Start -->
+  <div class="container-fluid bg-breadcrumb">
+    <div class="container text-center py-5" style="max-width: 900px;">
+      <h3 class="text-white display-3 mb-4 wow fadeInDown" data-wow-delay="0.1s">Our Accommodation</h3>
+      <ol class="breadcrumb justify-content-center text-white mb-0 wow fadeInDown" data-wow-delay="0.3s">
+        <li class="breadcrumb-item"><a href="{% url 'index' %}" class="text-white">Home</a></li>
+        <li class="breadcrumb-item"><a href="{% url 'services' %}" class="text-white">Services</a></li>
+        <li class="breadcrumb-item active text-secondary">Accommodation</li>
+      </ol>
+    </div>
+  </div>
+  <!-- Header/Breadcrumb End -->
+
+  <!-- Section: Luxurious Accommodation -->
+  <div class="container-fluid overflow-hidden py-5">
+    <div class="container py-5">
+      <div class="row g-5">
+        <div class="col-xl-5 wow fadeInLeft" data-wow-delay="0.1s">
+          <div class="bg-light rounded">
+            <img src="{% static 'images/img_1.jpg' %}" class="img-fluid w-100 border-bottom border-5 border-primary" style="border-top-right-radius: 300px; border-top-left-radius: 300px;" alt="Image">
+          </div>
+        </div>
+        <div class="col-xl-7 wow fadeInRight" data-wow-delay="0.3s">
+          <h5 class="sub-title pe-3">Luxurious Accomodation</h5>
+          <p align="justify" class="mb-4">If you're craving an indulgent experience, our luxurious travel options will exceed all expectations. Think five-star resorts with breathtaking views, private villas with personalized butler services, and exclusive excursions that take you to the heart of the world’s most captivating destinations. Here, opulence is key: enjoy fine dining with Michelin-star chefs, unwind in world-class spas, or relax on private beaches. Whether you're savoring gourmet meals, enjoying the finest wines, or embarking on bespoke adventures, luxurious escapes ensure you’re treated to the highest level of comfort, exclusivity, and attention to detail, making every moment extraordinary.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Section: Mid-Range Accommodation -->
+  <div class="container-fluid overflow-hidden py-5">
+    <div class="container py-5">
+      <div class="row g-5">
+        <div class="col-xl-5 wow fadeInLeft" data-wow-delay="0.1s">
+          <div class="bg-light rounded">
+            <img src="{% static 'images/img_2.jpg' %}" class="img-fluid w-100 border-bottom border-5 border-primary" style="border-top-right-radius: 300px; border-top-left-radius: 300px;" alt="Image">
+          </div>
+        </div>
+        <div class="col-xl-7 wow fadeInRight" data-wow-delay="0.3s">
+          <h5 class="sub-title pe-3">Mid-Range Accommodation</h5>
+          <p align="justify" class="mb-4">For those looking for a balance of comfort and affordability, our mid-range options provide the perfect mix. These destinations offer accommodations that are both stylish and comfortable, without the steep prices of high-end luxury resorts. You'll find cozy hotels, boutique stays, or charming guesthouses, where thoughtful amenities, excellent service, and convenient locations come together to provide a memorable experience. Whether you're exploring local landmarks, sampling delicious cuisine, or engaging in outdoor adventures, these mid-range escapes offer excellent value for your money, allowing you to enjoy all the highlights of your destination without compromise.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Section: Budget Accommodation -->
+  <div class="container-fluid overflow-hidden py-5">
+    <div class="container py-5">
+      <div class="row g-5">
+        <div class="col-xl-5 wow fadeInLeft" data-wow-delay="0.1s">
+          <div class="bg-light rounded">
+            <img src="{% static 'images/child.jpg' %}" class="img-fluid w-100 border-bottom border-5 border-primary" style="border-top-right-radius: 300px; border-top-left-radius: 300px;" alt="Image">
+          </div>
+        </div>
+        <div class="col-xl-7 wow fadeInRight" data-wow-delay="0.3s">
+          <h5 class="sub-title pe-3">Budget Accommodation</h5>
+          <p align="justify" class="mb-4">For the savvy traveler seeking adventure without the hefty price tag, our budget-friendly options offer fantastic value while allowing you to explore the world on your terms. From affordable hostels to budget hotels and shared accommodations, these options let you spend your money where it counts: experiences, not luxury. You can immerse yourself in the local culture, try street food, and discover hidden gems off the beaten path. With flexible travel plans, you can stretch your budget further, making it possible to explore more destinations, take part in free or low-cost activities, and still create lasting memories, all while enjoying the thrill of discovery on a budget.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+{% endblock %}

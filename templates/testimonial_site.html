@@ -1,0 +1,197 @@
+{% extends 'base_site.html' %}
+{% load static %}
+{% block title %}Meddy Tours — Testimonial{% endblock %}
+
+{% block extra_js %}
+<script>
+  (function($){
+    $(document).ready(function(){
+      var $el = $('.testimonial-carousel');
+      if ($el.length && typeof $.fn.owlCarousel === 'function') {
+        $el.owlCarousel({
+          items: 3,
+          loop: true,
+          margin: 24,
+          nav: true,
+          dots: false,
+          autoplay: true,
+          autoplayTimeout: 5000,
+          autoplayHoverPause: true,
+          responsive: { 0:{items:1}, 768:{items:2}, 1200:{items:3} }
+        });
+      }
+      var $logos = $('.testimonial-logos');
+      if ($logos.length && typeof $.fn.owlCarousel === 'function') {
+        $logos.owlCarousel({
+          items: 5,
+          loop: true,
+          margin: 24,
+          nav: false,
+          dots: false,
+          autoplay: true,
+          autoplayTimeout: 2500,
+          autoplayHoverPause: true,
+          responsive: { 0:{items:2}, 576:{items:3}, 992:{items:5} }
+        });
+
+        // Equalize all logo image sizes to match joy.jpg's displayed size
+        function applyEqualLogoSize(){
+          var $wrap = $('.equal-logos');
+          if(!$wrap.length){ return; }
+          var $joy = $wrap.find('img[src*="joy.jpg"]').first();
+          var w = 0, h = 0;
+          if ($joy.length && $joy[0].naturalWidth > 0) {
+            // Get current displayed size inside carousel
+            w = Math.round($joy.outerWidth());
+            h = Math.round($joy.outerHeight());
+          } else {
+            // Fallback to first image's displayed size
+            var $first = $wrap.find('img').first();
+            if ($first.length) {
+              w = Math.round($first.outerWidth());
+              h = Math.round($first.outerHeight());
+            }
+          }
+          if (w && h) {
+            $wrap.get(0).style.setProperty('--eqw', w + 'px');
+            $wrap.get(0).style.setProperty('--eqh', h + 'px');
+          }
+        }
+
+        // Run after images load and after carousel renders
+        $logos.on('initialized.owl.carousel resized.owl.carousel refreshed.owl.carousel', function(){
+          // defer to ensure DOM sizes are final
+          setTimeout(applyEqualLogoSize, 0);
+        });
+
+        // Also run once images have loaded
+        $(window).on('load', applyEqualLogoSize);
+        // And on window resize
+        $(window).on('resize', function(){
+          // debounce minimal
+          clearTimeout(window.__eqLogoT);
+          window.__eqLogoT = setTimeout(applyEqualLogoSize, 100);
+        });
+      }
+    });
+  })(jQuery);
+  </script>
+{% endblock %}
+
+{% block content %}
+  <!-- Header/Breadcrumb Start -->
+  <div class="container-fluid bg-breadcrumb">
+    <div class="container text-center py-5" style="max-width: 900px;">
+      <h3 class="text-white display-3 mb-4 wow fadeInDown" data-wow-delay="0.1s">Our Testimonial</h3>
+      <ol class="breadcrumb justify-content-center text-white mb-0 wow fadeInDown" data-wow-delay="0.3s">
+        <li class="breadcrumb-item"><a href="{% url 'index' %}" class="text-white">Home</a></li>
+        <li class="breadcrumb-item"><a href="{% url 'services' %}" class="text-white">Services</a></li>
+        <li class="breadcrumb-item active text-secondary">Testimonial</li>
+      </ol>
+    </div>
+  </div>
+  <!-- Header/Breadcrumb End -->
+
+  <!-- Testimonial Start -->
+  <div class="container-fluid testimonial overflow-hidden pb-5">
+    <div class="container py-5">
+      <div class="section-title text-center mb-5 wow fadeInUp" data-wow-delay="0.1s">
+        <div class="sub-style">
+          <h5 class="sub-title text-primary px-3">OUR CLIENTS REVIEWS</h5>
+        </div>
+        <h1 class="display-5 mb-4">What Our Clients Say</h1>
+        <p class="mb-0">We have the best security that protects our clients for the success of their tours. Tours are led by security personnels, who provide safety insights about the destinations while enhancing the tourist experience. These ensure a secure, informative adventure for the clients!</p>
+      </div>
+      <div class="owl-carousel testimonial-carousel wow zoomInDown" data-wow-delay="0.2s">
+        <div class="testimonial-item">
+          <div class="testimonial-content p-4 mb-5">
+            <p class="fs-5 mb-0">The best tour Guides for instance Mandela Salim and others who are good listeners, tolerant and hospitable enough to make you feel very comfortable.</p>
+            <div class="d-flex justify-content-end">
+              <i class="fas fa-star text-secondary"></i>
+              <i class="fas fa-star text-secondary"></i>
+              <i class="fas fa-star text-secondary"></i>
+              <i class="fas fa-star text-secondary"></i>
+              <i class="fas fa-star text-secondary"></i>
+            </div>
+          </div>
+          <div class="d-flex">
+            <div class="rounded-circle me-4" style="width: 100px; height: 100px;">
+              <img class="img-fluid rounded-circle" src="{% static 'images/person_1.jpg' %}" alt="img">
+            </div>
+            <div class="my-auto">
+              <h5>Salima Ahmed</h5>
+              <p class="mb-0">Lawyer</p>
+            </div>
+          </div>
+        </div>
+        <div class="testimonial-item">
+          <div class="testimonial-content p-4 mb-5">
+            <p class="fs-5 mb-0">Perfectionists in field excellence of tourists as well as moulding tourists into all round visitors. Moulding tourists into all round visitors and helping them attain great tour success.</p>
+            <div class="d-flex justify-content-end">
+              <i class="fas fa-star text-secondary"></i>
+              <i class="fas fa-star text-secondary"></i>
+              <i class="fas fa-star text-secondary"></i>
+              <i class="fas fa-star text-secondary"></i>
+              <i class="fas fa-star text-secondary"></i>
+            </div>
+          </div>
+          <div class="d-flex">
+            <div class="rounded-circle me-4" style="width: 100px; height: 100px;">
+              <img class="img-fluid rounded-circle" src="{% static 'images/person_2.jpg' %}" alt="img">
+            </div>
+            <div class="my-auto">
+              <h5>Okot Kiwanuka</h5>
+              <p class="mb-0">Mountain Slayer</p>
+            </div>
+          </div>
+        </div>
+        <div class="testimonial-item">
+          <div class="testimonial-content p-4 mb-5">
+            <p class="fs-5 mb-0">They offer competitive rates without compromising on quality or service. This is a key selling point for travelers looking for cost-effective options that still deliver excellent experiences.</p>
+            <div class="d-flex justify-content-end">
+              <i class="fas fa-star text-secondary"></i>
+              <i class="fas fa-star text-secondary"></i>
+              <i class="fas fa-star text-secondary"></i>
+              <i class="fas fa-star text-secondary"></i>
+              <i class="fas fa-star text-secondary"></i>
+            </div>
+          </div>
+          <div class="d-flex">
+            <div class="rounded-circle me-4" style="width: 100px; height: 100px;">
+              <img class="img-fluid rounded-circle" src="{% static 'images/person_3.jpg' %}" alt="img">
+            </div>
+            <div class="my-auto">
+              <h5>Ayebare Prima</h5>
+              <p class="mb-0">AI expert</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- Testimonial End -->
+
+  <!-- Partners/Logos horizontal slideshow -->
+  <div class="container py-5">
+    <style>
+      /* Scope: equalize all images inside the logos carousel to match joy.jpg */
+      .equal-logos .owl-item { display: flex; justify-content: center; }
+      .equal-logos img {
+        width: var(--eqw, 200px) !important;
+        height: var(--eqh, 200px) !important;
+        object-fit: cover;
+        object-position: center;
+        border-radius: 12px;
+        display: block;
+      }
+    </style>
+    <div class="owl-carousel testimonial-logos equal-logos">
+      <img src="{% static 'images/img_1.jpg' %}" class="img-fluid" alt="logo1">
+      <img src="{% static 'images/img_2.jpg' %}" class="img-fluid" alt="logo2">
+      <img src="{% static 'images/joy.jpg' %}" class="img-fluid" alt="logo3">
+      <img src="{% static 'images/peak.jpg' %}" class="img-fluid" alt="logo4">
+      <img src="{% static 'images/world.jpg' %}" class="img-fluid" alt="logo5">
+      <img src="{% static 'images/child.jpg' %}" class="img-fluid" alt="logo6">
+    </div>
+  </div>
+{% endblock %}

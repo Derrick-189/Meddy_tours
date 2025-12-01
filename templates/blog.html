@@ -1,0 +1,257 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Meddy Tours &mdash; the best tour guides in the region</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Poppins:200,300,400,700,900|Display+Playfair:200,300,400,700"> 
+    <link rel="stylesheet" href="{% static 'fonts/icomoon/style.css' %}">
+
+    <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}">
+    <link rel="stylesheet" href="{% static 'css/magnific-popup.css' %}">
+    <link rel="stylesheet" href="{% static 'css/jquery-ui.css' %}">
+    <link rel="stylesheet" href="{% static 'css/owl.carousel.min.css' %}">
+    <link rel="stylesheet" href="{% static 'css/owl.theme.default.min.css' %}">
+
+    <link rel="stylesheet" href="{% static 'css/bootstrap-datepicker.css' %}">
+
+    <link rel="stylesheet" href="{% static 'fonts/flaticon/font/flaticon.css' %}">
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/mediaelement@4.2.7/build/mediaelementplayer.min.css">
+
+
+    <link rel="stylesheet" href="{% static 'css/aos.css' %}">
+
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    
+  </head>
+  <body>
+  
+  <div class="site-wrap">
+
+    <div class="site-mobile-menu">
+      <div class="site-mobile-menu-header">
+        <div class="site-mobile-menu-close mt-3">
+          <span class="icon-close2 js-menu-toggle"></span>
+        </div>
+      </div>
+      <div class="site-mobile-menu-body"></div>
+    </div>
+    
+    <header class="site-navbar py-1" role="banner">
+
+      <div class="container">
+        <div class="row align-items-center">
+          
+          <div class="col-8 col-xl-3">
+            <h1 class="mb-0 site-logo"><a href="{% url 'index' %}" class="h2 mb-0 d-flex align-items-center" aria-label="Meddy Tours"><img src="{% static 'images/logo.jpg' %}" class="img-fluid me-2" alt="Meddy Tours Logo" style="height: 40px; width: auto;"><span class="brand-accent">Meddy</span> <span class="brand-primary">Tours</span></a></h1>
+          </div>
+          <div class="col-12 col-xl-7 d-none d-xl-block">
+            <nav class="site-navigation position-relative text-right text-lg-center" role="navigation">
+
+              <ul class="site-menu js-clone-nav mx-auto d-none d-lg-block">
+                <li>
+                  <a href="{% url 'index' %}">Home</a>
+                </li>
+                <li class="has-children">
+                  <a href="{% url 'packages' %}">Packages</a>
+                  <ul class="dropdown">
+                    <li><a href="{% url 'discount' %}">Discount</a></li>
+                <li><a href="{% url 'testimonial' %}">Testimonial</a></li>
+                <li><a href="{% url 'blog' %}">Blog</a></li>
+                <li><a href="{% url 'videos' %}">Gallery</a></li>
+                <li><a href="{% url 'accomodation' %}">Accomodation</a></li>
+                  </ul>
+                </li>
+                
+                <li><a href="{% url 'services' %}">Services</a></li>
+                <li><a href="{% url 'about' %}">About</a></li>
+                <li class="active"><a href="{% url 'blog' %}">Blog</a></li>
+                <li><a href="{% url 'contact' %}">Contact</a></li>
+                <!-- <li><a href="booking.html">Book Online</a></li> -->
+              </ul>
+            </nav>
+          </div>
+
+          <div class="col-4 col-xl-2 text-right">
+            <div class="d-none d-xl-inline-block">
+              <ul class="site-menu js-clone-nav ml-auto list-unstyled d-flex text-right mb-0" data-class="social">
+                <li>
+                  <a href="#" class="pl-0 pr-3 text-black"><span class="icon-tripadvisor"></span></a>
+                </li>
+                <li>
+                  <a href="#" class="pl-3 pr-3 text-black"><span class="icon-twitter"></span></a>
+                </li>
+                <li>
+                  <a href="#" class="pl-3 pr-3 text-black"><span class="icon-facebook"></span></a>
+                </li>
+                <li>
+                  <a href="#" class="pl-3 pr-3 text-black"><span class="icon-instagram"></span></a>
+                </li>
+                
+              </ul>
+            </div>
+
+            <div class="d-inline-block d-xl-none ml-md-0 mr-auto py-3" style="position: relative; top: 3px;"><a href="#" class="site-menu-toggle js-menu-toggle text-black"><span class="icon-menu h3"></span></a></div>
+
+          </div>
+
+        </div>
+      </div>
+      
+    </header>
+
+  
+
+   
+
+    <div class="site-blocks-cover inner-page-cover" style="background-image: url({% static 'images/hero_bg_2.jpg' %});" data-aos="fade" data-stellar-background-ratio="0.5">
+        <div class="container">
+          <div class="row align-items-center justify-content-center text-center">
+
+            <div class="col-md-8" data-aos="fade-up" data-aos-delay="400">
+              <h1 class="text-white font-weight-light">Blog Posts</h1>
+              <div><a href="{% url 'index' %}">Home</a> <span class="mx-2 text-white">&bullet;</span> <span class="text-white">Blog</span></div>
+              
+            </div>
+          </div>
+        </div>
+      </div>  
+
+
+    
+    <div class="site-section">
+      <div class="container">
+        <div class="row mb-3 align-items-stretch">
+          {% for post in blog_posts %}
+          <div class="col-md-6 col-lg-6 mb-4 mb-lg-4">
+            <div class="h-entry">
+              <img src="{{ post.image.url }}" alt="Image" class="img-fluid">
+              <h2 class="font-size-regular"><a href="#">{{ post.title }}</a></h2>
+              <div class="meta mb-4">by {{ post.author.get_full_name|default:post.author.username }} <span class="mx-2">&bullet;</span> {{ post.created_at|date:"M d, Y" }} <span class="mx-2">&bullet;</span> <a href="#">News</a></div>
+              <p>{{ post.content|truncatewords:30 }}</p>
+            </div>
+          </div>
+          {% empty %}
+          <div class="col-12 text-center">
+            <p>No blog posts yet.</p>
+          </div>
+          {% endfor %}
+        </div>
+      </div>
+    </div>
+
+    
+  <div class="footer-bleed">
+  <footer class="site-footer bg-black text-white py-5">
+      <div class="container">
+        <div class="row">
+          <div class="col-lg-3 col-md-6">
+            <div class="mb-4">
+              <h3 class="h5 mb-4 text-uppercase">About Us</h3>
+              <p class="text-muted small">We are dedicated to providing the best travel experiences with our carefully curated tours and exceptional service. Let us take you on a journey of a lifetime.</p>
+            </div>
+            <div class="d-flex py-2">
+              <a href="#" class="text-white me-4 px-2" aria-label="Facebook"><span class="icon-facebook h4"></span></a>
+              <a href="#" class="text-white me-4 px-2" aria-label="X">
+  <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+    <path d="M14.258 10.152L23.176 0h-2.113l-7.747 8.813L7.133 0H0l9.352 13.328L0 23.973h2.113l8.176-9.309 6.531 9.309h7.133zm-2.895 3.293l-.949-1.328L2.875 1.56h3.246l6.086 8.523.945 1.328 7.91 11.078h-3.246zm0 0"/>
+  </svg>
+</a>
+              <a href="#" class="text-white me-4 px-2" aria-label="Instagram"><span class="icon-instagram h4"></span></a>
+              <a href="#" class="text-white px-2" aria-label="TripAdvisor"><span class="icon-tripadvisor h4"></span></a>
+            </div>
+          </div>
+          
+          <div class="col-lg-3 col-md-6">
+            <h3 class="h5 mb-4 text-uppercase">Quick Links</h3>
+            <ul class="list-unstyled">
+              <li class="mb-2"><a href="{% url 'index' %}" class="text-muted text-decoration-none small">Home</a></li>
+              <li class="mb-2"><a href="{% url 'packages' %}" class="text-muted text-decoration-none small">Tour Packages</a></li>
+              <li class="mb-2"><a href="{% url 'services' %}" class="text-muted text-decoration-none small">Our Services</a></li>
+              <li class="mb-2"><a href="{% url 'testimonial' %}" class="text-muted text-decoration-none small">Testimonials</a></li>
+              <li class="mb-2"><a href="{% url 'about' %}" class="text-muted text-decoration-none small">About Us</a></li>
+              <li class="mb-2"><a href="{% url 'contact' %}" class="text-muted text-decoration-none small">Contact</a></li>
+            </ul>
+          </div>
+          
+          <div class="col-lg-3 col-md-6">
+            <h3 class="h5 mb-4 text-uppercase">Opening Hours</h3>
+            <ul class="list-unstyled text-muted small">
+              <li class="d-flex justify-content-between mb-2">
+                <span>Monday - Friday</span>
+                <span>9:00 AM - 6:00 PM</span>
+              </li>
+              <li class="d-flex justify-content-between mb-2">
+                <span>Saturday</span>
+                <span>10:00 AM - 4:00 PM</span>
+              </li>
+              <li class="d-flex justify-content-between">
+                <span>Sunday</span>
+                <span>Closed</span>
+              </li>
+            </ul>
+            <div class="mt-4">
+              <h4 class="h6 mb-3">Emergency Contact</h4>
+              <p class="small text-muted mb-1">24/7 Customer Support</p>
+              <a href="tel:+1234567890" class="text-white text-decoration-none">+1 (234) 567-890</a>
+            </div>
+          </div>
+          
+          <div class="col-lg-3 col-md-6">
+            <h3 class="h5 mb-4 text-uppercase">Newsletter</h3>
+            <p class="text-muted small mb-4">Subscribe to our newsletter for the latest updates and exclusive offers.</p>
+            <form action="#" method="post" class="mb-4">
+              <div class="input-group mb-3">
+                <input type="email" class="form-control bg-dark border-0 text-white" placeholder="Your email" aria-label="Your email" required>
+                <button class="btn btn-primary px-3" type="submit">
+                  <span class="icon-paper-plane"></span>
+                </button>
+              </div>
+            </form>
+            <p class="small text-muted mb-0">We respect your privacy. Unsubscribe at any time.</p>
+          </div>
+        </div>
+        
+        <!-- Copyright Section -->
+        <div class="border-top border-dark mt-5 pt-4">
+          <div class="row align-items-center">
+            <div class="col-md-6 text-center text-md-start mb-3 mb-md-0">
+              <p class="mb-0 small text-muted">
+                &copy; <script>document.write(new Date().getFullYear());</script> Meddy Tours. All rights reserved.
+                <a href="#" class="text-muted text-decoration-none ms-2">Privacy Policy</a>
+                <span class="mx-2">|</span>
+                <a href="#" class="text-muted text-decoration-none">Terms of Service</a>
+              </p>
+            </div>
+            <div class="col-md-6 text-center text-md-end">
+              <p class="mb-0 small text-muted">
+                Crafted with <i class="icon-heart text-danger"></i> by 
+                <a href="https://x.com/SladePhantom7?t=1JYpg5QBnk8i2AKyLJK-_g&s=09" target="_blank" class="text-white text-decoration-none">Slade</a>
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </footer>
+  </div>
+  </div>
+
+  <script src="{% static 'js/jquery-3.3.1.min.js' %}"></script>
+  <script src="{% static 'js/jquery-migrate-3.0.1.min.js' %}"></script>
+  <script src="{% static 'js/jquery-ui.js' %}"></script>
+  <script src="{% static 'js/popper.min.js' %}"></script>
+  <script src="{% static 'js/bootstrap.min.js' %}"></script>
+  <script src="{% static 'js/owl.carousel.min.js' %}"></script>
+  <script src="{% static 'js/jquery.stellar.min.js' %}"></script>
+  <script src="{% static 'js/jquery.countdown.min.js' %}"></script>
+  <script src="{% static 'js/jquery.magnific-popup.min.js' %}"></script>
+  <script src="{% static 'js/bootstrap-datepicker.min.js' %}"></script>
+  <script src="{% static 'js/aos.js' %}"></script>
+
+  <script src="{% static 'js/main.js' %}"></script>
+    
+  </body>
+</html>
